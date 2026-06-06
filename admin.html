@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shree Solanki</title>
+<link rel="stylesheet" href="style.css">
+<style>
+#lock-screen {
+  position: fixed; inset: 0; background: var(--paper);
+  z-index: 9000; display: flex; align-items: center; justify-content: center;
+}
+#pw-box {
+  display: none; flex-direction: column; align-items: center; gap: 1.25rem;
+  animation: fadeUp 0.3s ease both;
+}
+#pw-box .orn { margin-bottom: 0.5rem; }
+#pw-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+#pw-input {
+  font-family: var(--mono); font-size: 0.9rem; letter-spacing: 0.18em;
+  border: none; border-bottom: 1px solid var(--faint); background: transparent;
+  color: var(--ink); padding: 0.5rem 0.75rem; width: 220px; text-align: center; outline: none;
+}
+#pw-input.pw-error { border-color: var(--red); animation: shake 0.3s ease; }
+#pw-hint { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faint); }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+#admin-panel { display: none; min-height: 100vh; padding-top: 52px; }
+
+/* NAV */
+.admin-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: 52px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; background: var(--ink); border-bottom: 1px solid #222;
+}
+.admin-nav-logo { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(246,241,232,0.5); }
+.admin-nav-logo span { color: var(--red); }
+.admin-nav-tabs { display: flex; gap: 0; }
+.tab-btn {
+  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(246,241,232,0.35); background: transparent; border: none;
+  padding: 0 1.25rem; height: 52px; cursor: pointer; border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn:hover { color: rgba(246,241,232,0.7); }
+.tab-btn.active { color: var(--paper); border-bottom-color: var(--red); }
+.admin-nav-right { display: flex; align-items: center; gap: 1.25rem; }
+.admin-nav-right a {
+  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(246,241,232,0.35); text-decoration: none; transition: color 0.2s;
+}
+.admin-nav-right a:hover { color: var(--paper); }
+
+/* PANELS */
+.admin-tab-panel { display: none; }
+.admin-tab-panel.active { display: block; }
+
+/* ─── WRITING TAB ─── */
+.editor-wrap { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 52px); }
+.editor-pane { display: flex; flex-direction: column; border-right: 1px solid var(--faint); }
+.pane-header {
+  padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--faint);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.pane-label { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.meta-fields {
+  padding: 1rem 1.5rem; border-bottom: 1px solid var(--faint);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; flex-shrink: 0;
+}
+.meta-field { display: flex; flex-direction: column; gap: 0.3rem; }
+.meta-field.full { grid-column: 1 / -1; }
+.meta-field label { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.meta-field input, .meta-field select, .meta-field textarea {
+  font-family: var(--serif); font-size: 0.95rem; color: var(--ink);
+  background: transparent; border: none; border-bottom: 1px solid var(--faint);
+  padding: 0.3rem 0; outline: none; width: 100%; transition: border-color 0.2s; resize: none;
+}
+.meta-field input:focus, .meta-field select:focus, .meta-field textarea:focus { border-color: var(--ink); }
+.md-toolbar {
+  padding: 0.5rem 1.5rem; border-top: 1px solid var(--faint);
+  display: flex; gap: 0.4rem; flex-wrap: wrap; flex-shrink: 0; border-bottom: 1px solid var(--faint);
+}
+.md-btn {
+  font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.28rem 0.6rem; border: 1px solid var(--faint); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s;
+}
+.md-btn:hover { border-color: var(--ink); color: var(--ink); }
+#md-input {
+  flex: 1; padding: 1.25rem 1.5rem; font-family: var(--mono); font-size: 0.8rem;
+  line-height: 1.85; color: var(--ink); background: var(--paper); border: none; resize: none; outline: none; overflow-y: auto;
+}
+.preview-pane { display: flex; flex-direction: column; overflow: hidden; }
+#preview-scroll { flex: 1; overflow-y: auto; padding: 2.5rem 3rem; background: var(--paper); }
+#preview-scroll .prev-tag { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 0.85rem; }
+#preview-scroll .prev-title { font-family: var(--serif); font-size: clamp(1.5rem,2.8vw,2.4rem); font-weight: 700; line-height: 1.05; margin-bottom: 0.65rem; }
+#preview-scroll .prev-subtitle { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 1rem; color: var(--muted); margin-bottom: 1.25rem; }
+#preview-scroll .prev-meta { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--faint); }
+#preview-scroll p { font-family: var(--serif); font-size: 1rem; font-weight: 300; line-height: 1.95; margin-bottom: 1.4rem; color: var(--ink); }
+#preview-scroll h2 { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; margin: 2.25rem 0 0.9rem; }
+#preview-scroll h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; margin: 1.75rem 0 0.7rem; }
+#preview-scroll blockquote { margin: 1.75rem 0; padding: 0 0 0 1.5rem; border-left: 3px solid var(--red); }
+#preview-scroll blockquote p { font-style: italic; font-size: 1.1rem; margin: 0; }
+#preview-scroll img { max-width: 100%; height: auto; display: block; margin: 1.75rem 0; }
+#preview-scroll hr { border: none; text-align: center; margin: 2.5rem 0; color: var(--faint); font-size: 1.4rem; letter-spacing: 0.5em; }
+#preview-scroll hr::after { content: '· · ·'; }
+
+/* ─── BOOKS TAB ─── */
+.section-admin { max-width: 760px; margin: 0 auto; padding: 4rem 2rem; }
+.section-admin-header { margin-bottom: 2.5rem; }
+.section-admin-header h2 { font-family: var(--serif); font-size: 2rem; font-weight: 700; margin-bottom: 0.35rem; }
+.section-admin-header p { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+.entry-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 2.5rem; border-top: 1px solid var(--faint); }
+.entry-item {
+  border-bottom: 1px solid var(--faint); padding: 1.25rem 0;
+  display: grid; align-items: center; gap: 1rem;
+}
+.entry-item-book    { grid-template-columns: 1fr 1fr auto auto; }
+.entry-item-project { grid-template-columns: 1fr 1fr auto; }
+
+.entry-field {
+  font-family: var(--serif); font-size: 0.95rem; color: var(--ink);
+  background: transparent; border: none; border-bottom: 1px solid transparent;
+  padding: 0.25rem 0; outline: none; width: 100%; transition: border-color 0.2s;
+}
+.entry-field:focus { border-bottom-color: var(--faint); }
+.entry-field.small { font-family: var(--mono); font-size: 0.7rem; }
+.entry-field.muted { color: var(--muted); font-style: italic; font-size: 0.9rem; }
+
+.entry-rating { display: flex; gap: 2px; }
+.star { font-size: 1rem; color: var(--faint); cursor: pointer; transition: color 0.1s; line-height: 1; }
+.star.on { color: var(--red); }
+
+.remove-btn {
+  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--faint); background: transparent; border: none; cursor: pointer; padding: 0.3rem;
+  transition: color 0.15s;
+}
+.remove-btn:hover { color: var(--red); }
+
+.add-entry-btn {
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); background: transparent; border: 1px solid var(--faint);
+  padding: 0.65rem 1.5rem; cursor: pointer; transition: all 0.15s;
+}
+.add-entry-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ─── PROJECTS TAB ─── */
+.project-entry {
+  border-bottom: 1px solid var(--faint); padding: 1.5rem 0;
+  display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;
+}
+.project-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+.project-fields .meta-field.full { grid-column: 1 / -1; }
+.project-fields .meta-field input, .project-fields .meta-field textarea {
+  font-family: var(--serif); font-size: 0.95rem;
+}
+
+/* ─── GENERATE MODAL ─── */
+#output-modal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,11,8,0.82); z-index: 800; align-items: center; justify-content: center; padding: 2rem;
+}
+#output-modal.open { display: flex; }
+.output-box {
+  background: var(--paper); width: 100%; max-width: 780px; max-height: 84vh;
+  display: flex; flex-direction: column; border: 1px solid var(--faint);
+}
+.output-header {
+  padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--faint);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.output-title-label { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.output-filename { font-family: var(--mono); font-size: 0.78rem; color: var(--red); margin-top: 0.2rem; }
+.output-header-actions { display: flex; gap: 0.65rem; }
+.output-btn {
+  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.5rem 1.1rem; border: 1px solid var(--faint); background: transparent; color: var(--ink); cursor: pointer; transition: all 0.15s;
+}
+.output-btn:hover { background: var(--ink); color: var(--paper); }
+.output-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.output-btn.primary:hover { background: var(--red); border-color: var(--red); }
+
+.output-instructions {
+  padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--faint); background: var(--cream); flex-shrink: 0;
+}
+.output-instructions ol { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--muted); padding-left: 1.25rem; line-height: 2.1; }
+.output-instructions li span { color: var(--red); }
+
+.output-tabs { display: flex; border-bottom: 1px solid var(--faint); flex-shrink: 0; }
+.output-tab {
+  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 0.7rem 1.25rem; border: none; background: transparent; color: var(--muted);
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s;
+}
+.output-tab.active { color: var(--ink); border-bottom-color: var(--red); }
+
+.output-section { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+.output-section.active { display: flex; }
+.output-section-label {
+  padding: 0.6rem 1.5rem; background: var(--cream); border-bottom: 1px solid var(--faint);
+  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  flex-shrink: 0;
+}
+.output-textarea {
+  flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem;
+  font-family: var(--mono); font-size: 0.7rem; line-height: 1.7; color: var(--ink);
+  background: var(--paper); border: none; resize: none; outline: none; white-space: pre;
+}
+
+#toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
+  background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.18em; text-transform: uppercase; padding: 0.65rem 1.75rem;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 1000;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 800px) {
+  .editor-wrap { grid-template-columns: 1fr; }
+  .preview-pane { display: none; }
+  .meta-fields { grid-template-columns: 1fr; }
+  .entry-item-book { grid-template-columns: 1fr 1fr; }
+  .entry-item-project { grid-template-columns: 1fr; }
+  .project-fields { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+  <div id="pw-box">
+    <div class="orn"><span class="orn-rule"></span><span class="orn-diamond"></span><span class="orn-rule"></span></div>
+    <p id="pw-label">Enter password</p>
+    <input type="password" id="pw-input" autocomplete="off" placeholder="········">
+    <p id="pw-hint">Press Shift Shift A to open &nbsp;·&nbsp; Enter to confirm</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel">
+
+  <nav class="admin-nav">
+    <span class="admin-nav-logo">Shree Solanki &nbsp;<span>/ Admin</span></span>
+    <div class="admin-nav-tabs">
+      <button class="tab-btn active" data-tab="writing">Writing</button>
+      <button class="tab-btn" data-tab="books">Book Reviews</button>
+      <button class="tab-btn" data-tab="projects">Projects</button>
+    </div>
+    <div class="admin-nav-right">
+      <a href="index.html" target="_blank">View site &#8599;</a>
+      <a href="#" id="generate-btn">Generate &rarr;</a>
+    </div>
+  </nav>
+
+  <!-- ══ TAB: WRITING ══ -->
+  <div class="admin-tab-panel active" id="tab-writing">
+    <div class="editor-wrap">
+      <div class="editor-pane">
+        <div class="pane-header">
+          <span class="pane-label">New essay</span>
+          <span class="pane-label" id="word-count">0 words</span>
+        </div>
+        <div class="meta-fields">
+          <div class="meta-field full">
+            <label>Title</label>
+            <input type="text" id="f-title" placeholder="Your essay title">
+          </div>
+          <div class="meta-field full">
+            <label>Subtitle / one-line description</label>
+            <input type="text" id="f-subtitle" placeholder="A brief framing of the piece">
+          </div>
+          <div class="meta-field">
+            <label>Tag</label>
+            <select id="f-tag">
+              <option>Essay</option><option>Opinion</option>
+              <option>Analysis</option><option>Reflection</option><option>Review</option>
+            </select>
+          </div>
+          <div class="meta-field">
+            <label>Date</label>
+            <input type="text" id="f-date" placeholder="June 2025">
+          </div>
+          <div class="meta-field full">
+            <label>Filename slug (no spaces, no .html)</label>
+            <input type="text" id="f-slug" placeholder="why-we-decide-the-way-we-do">
+          </div>
+        </div>
+        <div class="md-toolbar">
+          <button class="md-btn" data-wrap="**|**">Bold</button>
+          <button class="md-btn" data-wrap="_|_">Italic</button>
+          <button class="md-btn" data-prefix="## ">H2</button>
+          <button class="md-btn" data-prefix="### ">H3</button>
+          <button class="md-btn" data-prefix="> ">Quote</button>
+          <button class="md-btn" data-insert="---">Rule</button>
+          <button class="md-btn" data-insert="![Caption](image.jpg)">Image</button>
+        </div>
+        <textarea id="md-input" placeholder="Write in Markdown...
+
+**bold**, _italic_
+## Section heading
+> Pull quote blockquote
+![Alt](photo.jpg) for images
+--- for a section break"></textarea>
+      </div>
+      <div class="preview-pane">
+        <div class="pane-header">
+          <span class="pane-label">Live preview</span>
+          <span class="pane-label" id="read-time">— min read</span>
+        </div>
+        <div id="preview-scroll">
+          <p class="prev-tag" id="prev-tag">Essay</p>
+          <h1 class="prev-title" id="prev-title">Your title</h1>
+          <p class="prev-subtitle" id="prev-subtitle">Subtitle</p>
+          <p class="prev-meta" id="prev-meta">Shree Solanki · Date · — min read</p>
+          <div id="prev-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB: BOOKS ══ -->
+  <div class="admin-tab-panel" id="tab-books">
+    <div class="section-admin">
+      <div class="section-admin-header">
+        <h2>Book Reviews</h2>
+        <p>Saves to: index.html &nbsp;→&nbsp; #books section &nbsp;·&nbsp; These entries appear directly on your homepage</p>
+      </div>
+      <div class="entry-list" id="books-list"></div>
+      <button class="add-entry-btn" id="add-book-btn">+ Add book</button>
+    </div>
+  </div>
+
+  <!-- ══ TAB: PROJECTS ══ -->
+  <div class="admin-tab-panel" id="tab-projects">
+    <div class="section-admin">
+      <div class="section-admin-header">
+        <h2>Projects</h2>
+        <p>Saves to: index.html &nbsp;→&nbsp; #projects section &nbsp;·&nbsp; These entries appear directly on your homepage</p>
+      </div>
+      <div class="entry-list" id="projects-list"></div>
+      <button class="add-entry-btn" id="add-project-btn">+ Add project</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- OUTPUT MODAL -->
+<div id="output-modal">
+  <div class="output-box">
+    <div class="output-header">
+      <div>
+        <div class="output-title-label">Where does this go?</div>
+        <div class="output-filename" id="output-filename">essays/my-post.html</div>
+      </div>
+      <div class="output-header-actions">
+        <button class="output-btn" id="copy-btn">Copy</button>
+        <button class="output-btn primary" id="close-modal-btn">Done</button>
+      </div>
+    </div>
+    <div class="output-instructions">
+      <ol id="output-instructions-list"></ol>
+    </div>
+    <div class="output-tabs" id="output-tabs"></div>
+    <div id="output-sections"></div>
+  </div>
+</div>
+
+<div id="toast">Copied</div>
+
+<script>
+const PASSWORD = "shree2025"; // ← change this
+
+// ── Unlock ──
+let shiftCount = 0, shiftTimer = null;
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lock-screen').style.display === 'none') return;
+  if (e.key === 'Shift') {
+    shiftCount++;
+    clearTimeout(shiftTimer);
+    shiftTimer = setTimeout(() => shiftCount = 0, 800);
+    if (shiftCount >= 2) {
+      shiftCount = 0;
+      document.getElementById('pw-box').style.display = 'flex';
+      setTimeout(() => document.getElementById('pw-input').focus(), 50);
+    }
+  }
+});
+document.getElementById('pw-input').addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (e.target.value === PASSWORD) {
+    document.getElementById('lock-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadFromStorage();
+  } else {
+    e.target.value = '';
+    e.target.classList.add('pw-error');
+    setTimeout(() => e.target.classList.remove('pw-error'), 500);
+  }
+});
+
+// ── Tab switching ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.admin-tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    document.getElementById('generate-btn').dataset.tab = btn.dataset.tab;
+  });
+});
+document.getElementById('generate-btn').dataset.tab = 'writing';
+
+// ── Markdown parser ──
+function parseMd(md) {
+  let h = md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^# (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^&gt; (.+)$/gm,'<blockquote><p>$1</p></blockquote>')
+    .replace(/^---$/gm,'<hr>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/_(.+?)_/g,'<em>$1</em>')
+    .replace(/^!\[(.+?)\]\((.+?)\)$/gm,(_,a,s)=>`<figure><img src="${s}" alt="${a}"><figcaption>${a}</figcaption></figure>`)
+    .replace(/!\[(.+?)\]\((.+?)\)/g,'<img src="$2" alt="$1">')
+    .replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2">$1</a>');
+  return h.split(/\n{2,}/).map(b => {
+    b = b.trim(); if (!b) return '';
+    if (/^<(h[23]|blockquote|hr|figure|img)/.test(b)) return b;
+    return '<p>' + b.replace(/\n/g,' ') + '</p>';
+  }).join('\n');
+}
+
+// ── Writing preview ──
+function updatePreview() {
+  const words = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
+  const mins = Math.max(1, Math.round(words / 200));
+  document.getElementById('word-count').textContent = words + ' words';
+  document.getElementById('read-time').textContent = mins + ' min read';
+  document.getElementById('prev-tag').textContent = document.getElementById('f-tag').value;
+  document.getElementById('prev-title').textContent = document.getElementById('f-title').value || 'Your title';
+  document.getElementById('prev-subtitle').textContent = document.getElementById('f-subtitle').value || 'Subtitle';
+  document.getElementById('prev-meta').textContent = 'Shree Solanki · ' + (document.getElementById('f-date').value || 'Date') + ' · ' + mins + ' min read';
+  document.getElementById('prev-body').innerHTML = parseMd(document.getElementById('md-input').value);
+  saveToStorage();
+}
+['md-input','f-title','f-subtitle','f-tag','f-date'].forEach(id =>
+  document.getElementById(id).addEventListener('input', updatePreview));
+document.getElementById('f-title').addEventListener('input', () => {
+  const s = document.getElementById('f-slug');
+  if (!s.dataset.manual) {
+    s.value = document.getElementById('f-title').value.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
+  }
+  saveToStorage();
+});
+document.getElementById('f-slug').addEventListener('input', () => {
+  document.getElementById('f-slug').dataset.manual = '1';
+  saveToStorage();
+});
+
+// ── Toolbar ──
+document.querySelectorAll('.md-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const ta = document.getElementById('md-input');
+    const s = ta.selectionStart, e2 = ta.selectionEnd, sel = ta.value.substring(s,e2);
+    let t = '';
+    if (btn.dataset.wrap) { const [p,q]=btn.dataset.wrap.split('|'); t=p+(sel||'text')+q; }
+    else if (btn.dataset.prefix) t = btn.dataset.prefix+(sel||'text');
+    else if (btn.dataset.insert) t = '\n'+btn.dataset.insert+'\n';
+    ta.value = ta.value.substring(0,s)+t+ta.value.substring(e2);
+    ta.focus(); ta.selectionStart = ta.selectionEnd = s+t.length;
+    updatePreview();
+  });
+});
+
+// ── Books ──
+let books = [];
+function renderBooks() {
+  const list = document.getElementById('books-list');
+  list.innerHTML = '';
+  books.forEach((b, i) => {
+    const row = document.createElement('div');
+    row.className = 'entry-item entry-item-book';
+    row.innerHTML = `
+      <div class="meta-field" style="grid-column:1/-1">
+        <label>Title</label>
+        <input class="entry-field" placeholder="Book title" value="${esc(b.title)}" data-i="${i}" data-key="title">
+      </div>
+      <div class="meta-field">
+        <label>Author · Year</label>
+        <input class="entry-field small muted" placeholder="Author · Year" value="${esc(b.author)}" data-i="${i}" data-key="author">
+      </div>
+      <div class="meta-field">
+        <label>Rating</label>
+        <div class="entry-rating" data-i="${i}">
+          ${[1,2,3,4,5].map(n=>`<span class="star ${n<=b.rating?'on':''}" data-n="${n}">&#9733;</span>`).join('')}
+        </div>
+      </div>
+      <div class="meta-field" style="grid-column:1/-1">
+        <label>Your review (2–3 sentences)</label>
+        <textarea class="entry-field muted" rows="2" placeholder="Your honest take on the book..." data-i="${i}" data-key="review">${esc(b.review)}</textarea>
+      </div>
+      <div style="grid-column:1/-1;display:flex;justify-content:flex-end">
+        <button class="remove-btn" data-i="${i}">Remove</button>
+      </div>`;
+    list.appendChild(row);
+  });
+  list.querySelectorAll('.entry-field').forEach(el => el.addEventListener('input', e => {
+    books[e.target.dataset.i][e.target.dataset.key] = e.target.value; saveToStorage();
+  }));
+  list.querySelectorAll('.star').forEach(star => star.addEventListener('click', e => {
+    const i = +e.target.closest('.entry-rating').dataset.i;
+    books[i].rating = +e.target.dataset.n; saveToStorage(); renderBooks();
+  }));
+  list.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', e => {
+    books.splice(+e.target.dataset.i, 1); saveToStorage(); renderBooks();
+  }));
+}
+document.getElementById('add-book-btn').addEventListener('click', () => {
+  books.push({ title:'', author:'', rating:4, review:'' }); renderBooks();
+});
+
+// ── Projects ──
+let projects = [];
+function renderProjects() {
+  const list = document.getElementById('projects-list');
+  list.innerHTML = '';
+  projects.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'entry-item';
+    row.style.display = 'block';
+    row.innerHTML = `
+      <div class="project-fields" style="margin-bottom:0.75rem">
+        <div class="meta-field">
+          <label>Title</label>
+          <input class="entry-field" placeholder="Project title" value="${esc(p.title)}" data-i="${i}" data-key="title">
+        </div>
+        <div class="meta-field">
+          <label>Category (e.g. Strategy · Research)</label>
+          <input class="entry-field small muted" placeholder="Field · Subfield" value="${esc(p.category)}" data-i="${i}" data-key="category">
+        </div>
+        <div class="meta-field full">
+          <label>Description (2–3 lines)</label>
+          <textarea class="entry-field muted" rows="2" placeholder="What you did and what it proved..." data-i="${i}" data-key="desc">${esc(p.desc)}</textarea>
+        </div>
+        <div class="meta-field full">
+          <label>Tags (comma separated)</label>
+          <input class="entry-field small muted" placeholder="Excel, Primary Research, DCF Model" value="${esc(p.tags)}" data-i="${i}" data-key="tags">
+        </div>
+        <div class="meta-field full">
+          <label>Link URL (optional)</label>
+          <input class="entry-field small muted" placeholder="https://... or leave blank" value="${esc(p.link)}" data-i="${i}" data-key="link">
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end">
+        <button class="remove-btn" data-i="${i}">Remove</button>
+      </div>`;
+    list.appendChild(row);
+  });
+  list.querySelectorAll('.entry-field').forEach(el => el.addEventListener('input', e => {
+    projects[+e.target.dataset.i][e.target.dataset.key] = e.target.value; saveToStorage();
+  }));
+  list.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', e => {
+    projects.splice(+e.target.dataset.i, 1); saveToStorage(); renderProjects();
+  }));
+}
+document.getElementById('add-project-btn').addEventListener('click', () => {
+  projects.push({ title:'', category:'', desc:'', tags:'', link:'' }); renderProjects();
+});
+
+// ── localStorage persistence ──
+function saveToStorage() {
+  localStorage.setItem('shree_writing', JSON.stringify({
+    title: document.getElementById('f-title').value,
+    subtitle: document.getElementById('f-subtitle').value,
+    tag: document.getElementById('f-tag').value,
+    date: document.getElementById('f-date').value,
+    slug: document.getElementById('f-slug').value,
+    body: document.getElementById('md-input').value,
+  }));
+  localStorage.setItem('shree_books', JSON.stringify(books));
+  localStorage.setItem('shree_projects', JSON.stringify(projects));
+}
+function loadFromStorage() {
+  try {
+    const w = JSON.parse(localStorage.getItem('shree_writing') || '{}');
+    if (w.title)    document.getElementById('f-title').value   = w.title;
+    if (w.subtitle) document.getElementById('f-subtitle').value= w.subtitle;
+    if (w.tag)      document.getElementById('f-tag').value     = w.tag;
+    if (w.date)     document.getElementById('f-date').value    = w.date;
+    if (w.slug)     { document.getElementById('f-slug').value  = w.slug; document.getElementById('f-slug').dataset.manual='1'; }
+    if (w.body)     document.getElementById('md-input').value  = w.body;
+    books    = JSON.parse(localStorage.getItem('shree_books')    || '[]');
+    projects = JSON.parse(localStorage.getItem('shree_projects') || '[]');
+  } catch(e) {}
+  renderBooks(); renderProjects(); updatePreview();
+}
+
+// ── HTML builders ──
+function buildEssayHTML() {
+  const title   = document.getElementById('f-title').value || 'Untitled';
+  const sub     = document.getElementById('f-subtitle').value;
+  const tag     = document.getElementById('f-tag').value;
+  const date    = document.getElementById('f-date').value;
+  const words   = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
+  const mins    = Math.max(1, Math.round(words / 200));
+  const body    = parseMd(document.getElementById('md-input').value);
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title} — Shree Solanki</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.essay-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 3rem;height:52px;background:var(--paper);border-bottom:1px solid var(--faint);}
+.essay-nav-back{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .2s;}
+.essay-nav-back:hover{color:var(--red);}
+.essay-nav-title{font-family:var(--serif);font-style:italic;font-size:.95rem;font-weight:300;color:var(--muted);max-width:40ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.essay-header{padding-top:52px;text-align:center;max-width:720px;margin:0 auto;padding-left:2rem;padding-right:2rem;}
+.essay-header-inner{padding:6rem 0 5rem;border-bottom:1px solid var(--faint);}
+.essay-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:1.5rem;}
+.essay-title{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;line-height:1.05;letter-spacing:-.015em;margin-bottom:1.5rem;}
+.essay-subtitle{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.2rem;color:var(--muted);line-height:1.5;max-width:48ch;margin:0 auto 2.5rem;}
+.essay-meta{display:flex;justify-content:center;align-items:center;gap:1.5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.essay-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--faint);}
+.essay-body{max-width:640px;margin:0 auto;padding:5rem 2rem 7rem;}
+.essay-body p{font-family:var(--serif);font-size:1.125rem;font-weight:300;line-height:2;color:var(--ink);margin-bottom:1.75rem;}
+.essay-body h2{font-family:var(--serif);font-size:1.6rem;font-weight:700;line-height:1.2;margin:3.5rem 0 1.25rem;}
+.essay-body h3{font-family:var(--serif);font-size:1.2rem;font-weight:600;line-height:1.3;margin:2.5rem 0 1rem;}
+.essay-body blockquote{margin:3rem 0;padding:0 0 0 2rem;border-left:3px solid var(--red);}
+.essay-body blockquote p{font-style:italic;font-size:1.3rem;line-height:1.6;margin:0;}
+.essay-body img{width:100%;height:auto;display:block;margin:2.5rem 0;}
+.essay-body figure{margin:3rem 0;}
+.essay-body figure img{margin:0;}
+.essay-body figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.75rem;text-align:center;}
+.essay-body hr{border:none;text-align:center;margin:3.5rem auto;color:var(--faint);font-size:1.5rem;letter-spacing:.5em;}
+.essay-body hr::after{content:'· · ·';}
+.essay-end{display:flex;align-items:center;justify-content:center;gap:1rem;margin:4rem 0 3rem;}
+.essay-footer-nav{max-width:640px;margin:0 auto 4rem;padding:3rem 2rem 0;border-top:1px solid var(--faint);display:flex;justify-content:space-between;align-items:center;}
+.efn-back{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.efn-back:hover{color:var(--red);}
+.efn-label{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--muted);}
+</style>
+</head>
+<body>
+<nav class="essay-nav">
+  <a href="../index.html#writing" class="essay-nav-back">&#8592; Writing</a>
+  <span class="essay-nav-title">${title}</span>
+</nav>
+<header class="essay-header">
+  <div class="essay-header-inner">
+    <p class="essay-tag">${tag}</p>
+    <h1 class="essay-title">${title}</h1>
+    ${sub ? `<p class="essay-subtitle">${sub}</p>` : ''}
+    <div class="essay-meta">
+      <span>Shree Solanki</span><span class="essay-meta-dot"></span>
+      <span>${date}</span><span class="essay-meta-dot"></span>
+      <span>${mins} min read</span>
+    </div>
+  </div>
+</header>
+<article class="essay-body">
+${body}
+  <div class="essay-end orn">
+    <span class="orn-rule"></span><span class="orn-diamond"></span><span class="orn-rule"></span>
+  </div>
+</article>
+<div class="essay-footer-nav">
+  <a href="../index.html#writing" class="efn-back">&#8592; All writing</a>
+  <span class="efn-label">Shree Solanki</span>
+</div>
+<footer>
+  <div class="footer-orn"><span class="footer-rule"></span><span class="footer-diamond"></span><span class="footer-rule"></span></div>
+  <p>&copy; 2025 Shree Solanki</p>
+</footer>
+</body>
+</html>`;
+}
+
+function buildCardSnippet() {
+  const title = document.getElementById('f-title').value || 'Untitled';
+  const sub   = document.getElementById('f-subtitle').value || '';
+  const tag   = document.getElementById('f-tag').value;
+  const date  = document.getElementById('f-date').value;
+  const slug  = document.getElementById('f-slug').value || 'untitled';
+  const words = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
+  const mins  = Math.max(1, Math.round(words / 200));
+  return `<a href="essays/${slug}.html" class="writing-card">
+  <p class="writing-tag">${tag}</p>
+  <h3 class="writing-title">${title}</h3>
+  <p class="writing-excerpt">${sub}</p>
+  <p class="writing-meta">${date} &nbsp;&middot;&nbsp; ${mins} min read</p>
+</a>`;
+}
+
+function buildBooksSnippet() {
+  const nums = ['i','ii','iii','iv','v','vi','vii','viii','ix','x'];
+  return books.map((b, i) => `<div class="book-item">
+  <span class="book-num">${nums[i] || (i+1)}</span>
+  <div>
+    <h3 class="book-title">${esc(b.title) || 'Book Title'}</h3>
+    <p class="book-author">${esc(b.author) || 'Author · Year'}</p>
+    <p class="book-review">${esc(b.review) || 'Your review here.'}</p>
+  </div>
+  <div class="book-rating">${'&#9733;'.repeat(b.rating)}${'&#9734;'.repeat(5-b.rating)}</div>
+</div>`).join('\n');
+}
+
+function buildProjectsSnippet() {
+  return projects.map(p => {
+    const tags = (p.tags||'').split(',').map(t=>t.trim()).filter(Boolean)
+      .map(t=>`<span class="project-tag">${esc(t)}</span>`).join('\n        ');
+    const href = p.link ? p.link : '#';
+    return `<a href="${href}" class="project-card"${p.link?' target="_blank"':''}>
+  <span class="project-arrow">&#8599;</span>
+  <p class="project-category">${esc(p.category)}</p>
+  <h3 class="project-title">${esc(p.title) || 'Project Title'}</h3>
+  <p class="project-desc">${esc(p.desc)}</p>
+  <div class="project-tags">
+        ${tags}
+  </div>
+</a>`;
+  }).join('\n');
+}
+
+// ── Generate modal ──
+document.getElementById('generate-btn').addEventListener('click', e => {
+  e.preventDefault();
+  const tab = e.target.dataset.tab || 'writing';
+  const modal = document.getElementById('output-modal');
+  const tabsEl = document.getElementById('output-tabs');
+  const sectionsEl = document.getElementById('output-sections');
+  const instrEl = document.getElementById('output-instructions-list');
+  const filenameEl = document.getElementById('output-filename');
+
+  tabsEl.innerHTML = '';
+  sectionsEl.innerHTML = '';
+
+  if (tab === 'writing') {
+    const slug = document.getElementById('f-slug').value || 'untitled';
+    filenameEl.textContent = `essays/${slug}.html + index.html card`;
+    instrEl.innerHTML = `
+      <li>Copy the essay HTML → save as <span>essays/${slug}.html</span></li>
+      <li>Copy the card snippet → paste it into the <span>writing-grid</span> div in <span>index.html</span>, replacing a placeholder card</li>
+      <li>Deploy to Vercel</li>`;
+    addOutputTab(tabsEl, sectionsEl, 'Essay HTML', buildEssayHTML(), true);
+    addOutputTab(tabsEl, sectionsEl, 'Card for index.html', buildCardSnippet(), false);
+  } else if (tab === 'books') {
+    filenameEl.textContent = `index.html → #books section`;
+    instrEl.innerHTML = `
+      <li>Copy the snippet below</li>
+      <li>In <span>index.html</span>, find the <span>&lt;div class="books-list"&gt;</span> and replace its contents with this</li>
+      <li>Deploy to Vercel</li>`;
+    addOutputTab(tabsEl, sectionsEl, 'Books HTML for index.html', buildBooksSnippet(), true);
+  } else if (tab === 'projects') {
+    filenameEl.textContent = `index.html → #projects section`;
+    instrEl.innerHTML = `
+      <li>Copy the snippet below</li>
+      <li>In <span>index.html</span>, find the <span>&lt;div class="projects-grid"&gt;</span> and replace its contents with this</li>
+      <li>Deploy to Vercel</li>`;
+    addOutputTab(tabsEl, sectionsEl, 'Projects HTML for index.html', buildProjectsSnippet(), true);
+  }
+
+  modal.classList.add('open');
+});
+
+function addOutputTab(tabsEl, sectionsEl, label, content, active) {
+  const id = 'ot-' + Math.random().toString(36).slice(2);
+  const btn = document.createElement('button');
+  btn.className = 'output-tab' + (active ? ' active' : '');
+  btn.textContent = label;
+  btn.addEventListener('click', () => {
+    tabsEl.querySelectorAll('.output-tab').forEach(b => b.classList.remove('active'));
+    sectionsEl.querySelectorAll('.output-section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+    document.getElementById('copy-btn').dataset.target = id;
+  });
+  tabsEl.appendChild(btn);
+
+  const sec = document.createElement('div');
+  sec.className = 'output-section' + (active ? ' active' : '');
+  sec.id = id;
+  sec.innerHTML = `<textarea class="output-textarea" readonly></textarea>`;
+  sec.querySelector('textarea').value = content;
+  sectionsEl.appendChild(sec);
+
+  if (active) document.getElementById('copy-btn').dataset.target = id;
+}
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  const id = document.getElementById('copy-btn').dataset.target;
+  const ta = document.getElementById(id)?.querySelector('textarea');
+  if (ta) navigator.clipboard.writeText(ta.value).then(() => showToast('Copied'));
+});
+
+document.getElementById('close-modal-btn').addEventListener('click', () =>
+  document.getElementById('output-modal').classList.remove('open'));
+document.getElementById('output-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('output-modal'))
+    document.getElementById('output-modal').classList.remove('open');
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+</body>
+</html>

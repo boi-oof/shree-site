@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink:    #0a0805;
+  --dim:    #111009;
+  --paper:  #f4ede0;
+  --warm:   #1c1a16;
+  --red:    #b52a12;
+  --muted:  rgba(244,237,224,0.45);
+  --faint:  rgba(244,237,224,0.12);
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --disp:   'Bebas Neue', sans-serif;
+  --spine:  14px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  /* red spine running full height on the left */
+  border-left: var(--spine) solid var(--red);
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: var(--spine); right: 0;
+  z-index: 500;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  background: var(--ink);
+  border-bottom: 1px solid var(--faint);
+}
+
+.nav-logo {
+  font-family: var(--disp);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+.nav-links a {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--paper); }
+
+/* ── SECTION SHARED ── */
+section {
+  padding: 7rem 4rem;
+  border-top: 1px solid var(--faint);
+  position: relative;
+}
+
+.section-label {
+  font-family: var(--disp);
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  letter-spacing: 0.04em;
+  color: var(--paper);
+  line-height: 1;
+  margin-bottom: 0.15em;
+}
+
+.section-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin-bottom: 4rem;
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--paper);
+  padding: 0.65rem 2rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-primary:hover { background: var(--red); color: var(--paper); }
+
+.btn-ghost {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--muted);
+  background: transparent;
+  padding: 0.65rem 2rem;
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid var(--faint);
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--paper); color: var(--paper); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--faint);
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--muted);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  :root { --spine: 8px; }
+  nav { padding: 0 1.5rem; }
+  section { padding: 5rem 1.5rem; }
+  footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+@media (max-width: 500px) {
+  .nav-links { gap: 1.25rem; }
+}
