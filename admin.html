@@ -372,19 +372,19 @@
 <script>
 const PASSWORD = "shree2025"; // ← change this
 
-// ── Unlock ──
-let shiftCount = 0, shiftTimer = null;
+// ── Unlock — type the secret word anywhere on the blank page ──
+const SECRET_WORD = "opensesame"; // change this to whatever you want
+let typedBuffer = "";
 document.addEventListener('keydown', e => {
   if (document.getElementById('lock-screen').style.display === 'none') return;
-  if (e.key === 'Shift') {
-    shiftCount++;
-    clearTimeout(shiftTimer);
-    shiftTimer = setTimeout(() => shiftCount = 0, 800);
-    if (shiftCount >= 2) {
-      shiftCount = 0;
-      document.getElementById('pw-box').style.display = 'flex';
-      setTimeout(() => document.getElementById('pw-input').focus(), 50);
-    }
+  if (e.key.length > 1) return; // ignore Shift, Ctrl, etc
+  typedBuffer += e.key.toLowerCase();
+  if (typedBuffer.length > SECRET_WORD.length)
+    typedBuffer = typedBuffer.slice(-SECRET_WORD.length);
+  if (typedBuffer === SECRET_WORD) {
+    typedBuffer = "";
+    document.getElementById('pw-box').style.display = 'flex';
+    setTimeout(() => document.getElementById('pw-input').focus(), 50);
   }
 });
 document.getElementById('pw-input').addEventListener('keydown', e => {
