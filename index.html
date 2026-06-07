@@ -75,9 +75,31 @@
 
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  max-width: 1100px;
+  grid-template-columns: 280px 1fr 1fr;
+  gap: 4rem;
+  max-width: 1200px;
+  align-items: start;
+}
+
+.about-photo-wrap {
+  position: relative;
+}
+
+.about-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  filter: grayscale(20%);
+}
+
+.about-photo-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--red);
 }
 
 .about-pull {
@@ -390,7 +412,8 @@
 @media (max-width: 860px) {
   .hero { padding-left: 1.5rem; padding-right: 1.5rem; }
   .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; padding-bottom: 2.5rem; }
-  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about-photo { aspect-ratio: 4/3; }
   .writing-grid { grid-template-columns: 1fr; max-width: 100%; }
   .writing-card { border-right: none !important; }
   .book-item { grid-template-columns: 3rem 1fr; }
@@ -440,6 +463,9 @@
   <p class="section-label">About</p>
   <p class="section-sub">The person behind the page</p>
   <div class="about-grid">
+    <div class="about-photo-wrap">
+      <img src="photo.jpg" alt="Shree Solanki" class="about-photo">
+    </div>
     <div>
       <p class="about-pull">Someone who came to management through a curiosity about <strong>why people make the decisions they do.</strong></p>
       <div class="about-text">
@@ -622,7 +648,7 @@
 
 <script>
 document.addEventListener('keydown', e => {
-  if (e.ctrlKey && e.shiftKey && e.key === 'Q') {
+  if (e.ctrlKey && e.shiftKey && e.key === 'K') {
     window.location.href = 'admin.html';
   }
 });
