@@ -646,11 +646,16 @@
   <p>VGSOM &nbsp;&middot;&nbsp; IIT Kharagpur</p>
 </footer>
 
+<a href="admin.html" style="position:fixed;bottom:0;left:14px;width:20px;height:20px;opacity:0;z-index:9999;"></a>
+
 <script>
+const SECRET = "opensesame";
+let buf = "";
 document.addEventListener('keydown', e => {
-  if (e.ctrlKey && e.shiftKey && e.key === 'K') {
-    window.location.href = 'admin.html';
-  }
+  if (e.key.length > 1) return;
+  buf += e.key.toLowerCase();
+  if (buf.length > SECRET.length) buf = buf.slice(-SECRET.length);
+  if (buf === SECRET) { buf = ""; window.location.href = 'admin.html'; }
 });
 </script>
 
