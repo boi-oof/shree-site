@@ -29,27 +29,27 @@
 
 /* NAV */
 .admin-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  position: fixed; top: 0; left: var(--spine); right: 0; z-index: 500;
   height: 52px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2rem; background: var(--ink); border-bottom: 1px solid #222;
+  padding: 0 2rem; background: var(--paper); border-bottom: 1px solid var(--faint);
 }
-.admin-nav-logo { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(246,241,232,0.5); }
+.admin-nav-logo { font-family: var(--disp); font-size: 1rem; letter-spacing: 0.12em; color: var(--ink); }
 .admin-nav-logo span { color: var(--red); }
 .admin-nav-tabs { display: flex; gap: 0; }
 .tab-btn {
-  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: rgba(246,241,232,0.35); background: transparent; border: none;
+  font-family: var(--serif); font-size: 0.9rem; font-weight: 300;
+  color: var(--muted); background: transparent; border: none;
   padding: 0 1.25rem; height: 52px; cursor: pointer; border-bottom: 2px solid transparent;
   transition: color 0.15s, border-color 0.15s;
 }
-.tab-btn:hover { color: rgba(246,241,232,0.7); }
-.tab-btn.active { color: var(--paper); border-bottom-color: var(--red); }
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active { color: var(--ink); border-bottom-color: var(--red); }
 .admin-nav-right { display: flex; align-items: center; gap: 1.25rem; }
 .admin-nav-right a {
-  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(246,241,232,0.35); text-decoration: none; transition: color 0.2s;
+  font-family: var(--serif); font-size: 0.9rem; font-weight: 300;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
 }
-.admin-nav-right a:hover { color: var(--paper); }
+.admin-nav-right a:hover { color: var(--red); }
 
 /* PANELS */
 .admin-tab-panel { display: none; }
@@ -182,10 +182,10 @@
 .output-btn.primary:hover { background: var(--red); border-color: var(--red); }
 
 .output-instructions {
-  padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--faint); background: var(--cream); flex-shrink: 0;
+  padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--faint); background: var(--paper); flex-shrink: 0;
 }
-.output-instructions ol { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--muted); padding-left: 1.25rem; line-height: 2.1; }
-.output-instructions li span { color: var(--red); }
+.output-instructions ol { font-family: var(--serif); font-size: 0.9rem; font-weight: 300; color: var(--muted); padding-left: 1.25rem; line-height: 2.1; }
+.output-instructions li span { color: var(--red); font-weight: 600; }
 
 .output-tabs { display: flex; border-bottom: 1px solid var(--faint); flex-shrink: 0; }
 .output-tab {
@@ -198,8 +198,8 @@
 .output-section { display: none; flex-direction: column; flex: 1; overflow: hidden; }
 .output-section.active { display: flex; }
 .output-section-label {
-  padding: 0.6rem 1.5rem; background: var(--cream); border-bottom: 1px solid var(--faint);
-  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  padding: 0.6rem 1.5rem; background: var(--paper); border-bottom: 1px solid var(--faint);
+  font-family: var(--serif); font-size: 0.85rem; font-weight: 300; color: var(--muted);
   flex-shrink: 0;
 }
 .output-textarea {
@@ -234,7 +234,7 @@
     <div class="orn"><span class="orn-rule"></span><span class="orn-diamond"></span><span class="orn-rule"></span></div>
     <p id="pw-label">Enter password</p>
     <input type="password" id="pw-input" autocomplete="off" placeholder="········">
-    <p id="pw-hint">Press Shift Shift A to open &nbsp;·&nbsp; Enter to confirm</p>
+    <p id="pw-hint">Type opensesame to open &nbsp;·&nbsp; Enter to confirm</p>
   </div>
 </div>
 

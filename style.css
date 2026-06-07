@@ -3,13 +3,12 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --ink:    #0a0805;
-  --dim:    #111009;
+  --ink:    #1a1208;
   --paper:  #f4ede0;
-  --warm:   #1c1a16;
+  --cream:  #ede5d0;
   --red:    #b52a12;
-  --muted:  rgba(244,237,224,0.45);
-  --faint:  rgba(244,237,224,0.12);
+  --muted:  #8a7d6b;
+  --faint:  #d8cfc0;
   --serif:  'Cormorant Garamond', Georgia, serif;
   --disp:   'Bebas Neue', sans-serif;
   --spine:  14px;
@@ -18,13 +17,12 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--serif);
   font-size: 19px;
   line-height: 1.7;
   overflow-x: hidden;
-  /* red spine running full height on the left */
   border-left: var(--spine) solid var(--red);
   min-height: 100vh;
 }
@@ -39,7 +37,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 0 3rem;
-  background: var(--ink);
+  background: var(--paper);
   border-bottom: 1px solid var(--faint);
 }
 
@@ -47,7 +45,7 @@ nav {
   font-family: var(--disp);
   font-size: 1.1rem;
   letter-spacing: 0.12em;
-  color: var(--paper);
+  color: var(--ink);
   text-decoration: none;
 }
 
@@ -61,7 +59,7 @@ nav {
   text-decoration: none;
   transition: color 0.2s;
 }
-.nav-links a:hover { color: var(--paper); }
+.nav-links a:hover { color: var(--red); }
 
 /* ── SECTION SHARED ── */
 section {
@@ -74,7 +72,7 @@ section {
   font-family: var(--disp);
   font-size: clamp(3.5rem, 7vw, 6rem);
   letter-spacing: 0.04em;
-  color: var(--paper);
+  color: var(--ink);
   line-height: 1;
   margin-bottom: 0.15em;
 }
@@ -93,14 +91,14 @@ section {
   font-family: var(--serif);
   font-size: 0.95rem;
   font-weight: 400;
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--paper);
+  background: var(--ink);
   padding: 0.65rem 2rem;
   text-decoration: none;
   display: inline-block;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s;
 }
-.btn-primary:hover { background: var(--red); color: var(--paper); }
+.btn-primary:hover { background: var(--red); }
 
 .btn-ghost {
   font-family: var(--serif);
@@ -114,7 +112,7 @@ section {
   border: 1px solid var(--faint);
   transition: border-color 0.2s, color 0.2s;
 }
-.btn-ghost:hover { border-color: var(--paper); color: var(--paper); }
+.btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
 
 /* ── FOOTER ── */
 footer {
@@ -123,6 +121,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: var(--paper);
 }
 footer p {
   font-family: var(--serif);
