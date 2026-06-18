@@ -5,307 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shree Solanki</title>
 <link rel="stylesheet" href="style.css">
-<style>
-
-/* ══ HERO ══ */
-.hero {
-  min-height: 100vh;
-  padding-top: 52px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-left: 3rem;
-  padding-right: 3rem;
-  padding-bottom: 0;
-  position: relative;
-}
-
-.hero-top {
-  padding-top: 3.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--faint);
-  animation: fadeUp 0.6s 0.05s ease both;
-}
-
-.hero-kicker {
-  font-family: var(--serif);
-  font-size: 0.9rem;
-  font-weight: 300;
-  color: var(--muted);
-  letter-spacing: 0.01em;
-}
-
-.hero-name {
-  font-family: var(--disp);
-  font-size: clamp(6rem, 17vw, 18rem);
-  line-height: 0.88;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  margin-top: 1rem;
-  animation: fadeUp 0.7s 0.12s ease both;
-}
-
-.hero-bottom {
-  padding: 2rem 0 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  animation: fadeUp 0.6s 0.25s ease both;
-}
-
-.hero-tagline {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: 1.15rem;
-  color: var(--muted);
-  line-height: 1.65;
-  max-width: 34ch;
-}
-
-.hero-cta {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-/* ══ ABOUT ══ */
-#about { background: var(--cream); }
-
-.about-grid {
-  display: grid;
-  grid-template-columns: 280px 1fr 1fr;
-  gap: 4rem;
-  max-width: 1200px;
-  align-items: start;
-}
-
-.about-photo-wrap { position: relative; }
-
-.about-photo {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-  filter: grayscale(15%);
-}
-
-.about-photo-wrap::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--red);
-}
-
-.about-pull {
-  font-family: var(--serif);
-  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.5;
-  color: var(--ink);
-  margin-bottom: 2.5rem;
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid var(--faint);
-}
-.about-pull strong { font-style: normal; font-weight: 600; color: var(--red); }
-
-.about-text p {
-  font-size: 1rem;
-  font-weight: 300;
-  line-height: 1.95;
-  color: var(--ink);
-  margin-bottom: 1.25rem;
-}
-.about-text p strong { font-weight: 600; }
-
-.about-facts { display: flex; flex-direction: column; padding-top: 0.5rem; }
-
-.fact-row {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 1.5rem;
-  padding: 1.1rem 0;
-  border-bottom: 1px solid var(--faint);
-  align-items: baseline;
-}
-.fact-row:first-child { border-top: 1px solid var(--faint); }
-.fact-label { font-family: var(--serif); font-style: italic; font-size: 0.85rem; font-weight: 300; color: var(--red); }
-.fact-value { font-family: var(--serif); font-size: 0.98rem; font-weight: 300; color: var(--ink); line-height: 1.5; }
-
-/* ══ WRITING ══ */
-#writing { background: var(--paper); border-top: 1px solid var(--faint); }
-
-.writing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: 1px solid var(--faint);
-  max-width: 1100px;
-}
-
-.writing-card {
-  padding: 2.25rem 2rem;
-  border-right: 1px solid var(--faint);
-  border-bottom: 1px solid var(--faint);
-  text-decoration: none;
-  color: var(--ink);
-  display: flex;
-  flex-direction: column;
-  transition: background 0.2s;
-  position: relative;
-}
-.writing-card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 0;
-  background: var(--red);
-  transition: width 0.2s;
-}
-.writing-card:hover { background: var(--cream); }
-.writing-card:hover::before { width: 3px; }
-.writing-card:nth-child(3n) { border-right: none; }
-.writing-card:nth-last-child(-n+3) { border-bottom: none; }
-
-.writing-tag { font-family: var(--serif); font-style: italic; font-size: 0.88rem; font-weight: 300; color: var(--red); margin-bottom: 0.85rem; }
-.writing-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.85rem; flex: 1; color: var(--ink); }
-.writing-excerpt { font-family: var(--serif); font-style: italic; font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.75; margin-bottom: 1.5rem; }
-.writing-meta { font-family: var(--serif); font-style: italic; font-size: 0.8rem; font-weight: 300; color: var(--muted); margin-top: auto; opacity: 0.6; }
-
-/* ══ BOOKS ══ */
-#books { background: var(--cream); }
-
-.books-list { max-width: 900px; }
-
-.book-item {
-  display: grid;
-  grid-template-columns: 4rem 1fr auto;
-  gap: 2.5rem;
-  align-items: start;
-  padding: 2.5rem 0;
-  border-bottom: 1px solid var(--faint);
-}
-.book-item:first-child { border-top: 1px solid var(--faint); }
-
-.book-num { font-family: var(--disp); font-size: 3.5rem; line-height: 1; color: var(--faint); letter-spacing: 0.04em; }
-.book-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; margin-bottom: 0.2rem; line-height: 1.25; color: var(--ink); }
-.book-author { font-family: var(--serif); font-style: italic; font-size: 0.88rem; font-weight: 300; color: var(--muted); margin-bottom: 0.85rem; }
-.book-review { font-family: var(--serif); font-size: 0.98rem; font-weight: 300; line-height: 1.85; color: var(--ink); }
-.book-rating { font-size: 0.85rem; color: var(--red); white-space: nowrap; padding-top: 0.3rem; letter-spacing: 0.1em; }
-
-/* ══ PROJECTS ══ */
-#projects { background: var(--paper); }
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--faint);
-  border: 1px solid var(--faint);
-  max-width: 1100px;
-}
-
-.project-card {
-  background: var(--paper);
-  padding: 2.75rem 2.5rem;
-  text-decoration: none;
-  color: var(--ink);
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  transition: background 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-.project-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 0;
-  background: var(--red);
-  transition: height 0.2s;
-}
-.project-card:hover { background: var(--cream); }
-.project-card:hover::after { height: 3px; }
-.project-card:hover .project-arrow { opacity: 1; transform: translate(3px,-3px); }
-
-.project-num { font-family: var(--disp); font-size: 4rem; line-height: 1; color: var(--faint); letter-spacing: 0.04em; margin-bottom: -0.5rem; }
-.project-category { font-family: var(--serif); font-style: italic; font-size: 0.88rem; font-weight: 300; color: var(--muted); }
-.project-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; line-height: 1.2; color: var(--ink); }
-.project-desc { font-family: var(--serif); font-size: 0.95rem; font-weight: 300; color: var(--muted); line-height: 1.85; flex: 1; }
-.project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.25rem; }
-.project-tag { font-family: var(--serif); font-style: italic; font-size: 0.82rem; font-weight: 300; padding: 0.2rem 0.65rem; border: 1px solid var(--faint); color: var(--muted); }
-.project-arrow { position: absolute; top: 2rem; right: 2.25rem; font-size: 1.2rem; color: var(--red); opacity: 0; transition: opacity 0.2s, transform 0.2s; }
-
-/* ══ CONTACT ══ */
-#contact { background: var(--cream); }
-
-.contact-inner { max-width: 680px; }
-
-.contact-headline {
-  font-family: var(--disp);
-  font-size: clamp(3rem, 6vw, 6rem);
-  line-height: 0.92;
-  letter-spacing: 0.03em;
-  color: var(--ink);
-  margin-bottom: 1.5rem;
-}
-.contact-headline em {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: 0.65em;
-  display: block;
-  color: var(--muted);
-  letter-spacing: 0.01em;
-  margin-top: 0.15em;
-}
-
-.contact-links { display: flex; flex-direction: column; border-top: 1px solid var(--faint); margin-top: 3rem; }
-.contact-link {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.35rem 0;
-  border-bottom: 1px solid var(--faint);
-  text-decoration: none;
-  color: var(--ink);
-  transition: padding-left 0.2s;
-}
-.contact-link:hover { padding-left: 0.75rem; }
-.contact-link:hover .cl-label { color: var(--red); }
-
-.cl-label { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; transition: color 0.2s; }
-.cl-sub { font-family: var(--serif); font-style: italic; font-size: 0.88rem; font-weight: 300; color: var(--muted); margin-top: 0.1rem; }
-.cl-arrow { font-size: 1.1rem; color: var(--muted); flex-shrink: 0; }
-
-/* ══ RESPONSIVE ══ */
-@media (max-width: 860px) {
-  .hero { padding-left: 1.5rem; padding-right: 1.5rem; }
-  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; padding-bottom: 2.5rem; }
-  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .about-photo { aspect-ratio: 4/3; }
-  .writing-grid { grid-template-columns: 1fr; max-width: 100%; }
-  .writing-card { border-right: none !important; }
-  .book-item { grid-template-columns: 3rem 1fr; }
-  .book-rating { grid-column: 2; }
-  .projects-grid { grid-template-columns: 1fr; max-width: 100%; }
-}
-@media (max-width: 500px) {
-  .hero-name { font-size: clamp(4.5rem, 20vw, 7rem); }
-  .hero-cta { flex-direction: column; width: 100%; }
-  .btn-primary, .btn-ghost { text-align: center; }
-}
-</style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">SS</a>
+  <a href="#" class="nav-logo">Shree Solanki</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#writing">Writing</a></li>
@@ -317,82 +22,115 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-top">
-    <p class="hero-kicker">MBA Candidate &nbsp;&middot;&nbsp; VGSOM, IIT Kharagpur &nbsp;&middot;&nbsp; Vadodara, Gujarat</p>
+
+  <div class="hero-dateline">
+    <span>MBA Candidate &nbsp;&middot;&nbsp; VGSOM, IIT Kharagpur &nbsp;&middot;&nbsp; Vadodara, Gujarat</span>
+    <span class="issue-num">Est. 2025</span>
   </div>
 
-  <h1 class="hero-name">SHREE<br>SOLANKI</h1>
+  <div class="hero-body">
+    <div class="hero-left">
+      <div>
+        <p class="hero-kicker">Writer &nbsp;&middot;&nbsp; Thinker &nbsp;&middot;&nbsp; Strategist</p>
+        <h1 class="hero-name">SHREE<br>SOLANKI</h1>
+      </div>
+      <div class="hero-cta">
+        <a href="#writing" class="btn-primary">Read my work</a>
+        <a href="#contact" class="btn-ghost">Get in touch</a>
+      </div>
+    </div>
 
-  <div class="hero-bottom">
-    <p class="hero-tagline">Writer, thinker, and curious<br>observer of the world around me.</p>
-    <div class="hero-cta">
-      <a href="#writing" class="btn-primary">Read my work</a>
-      <a href="#contact" class="btn-ghost">Get in touch</a>
+    <div class="hero-col-divider"></div>
+
+    <div class="hero-right">
+      <p class="hero-descriptor">
+        Behavioral Economics<br>
+        Strategy &amp; Consulting<br>
+        Literary Criticism
+      </p>
+      <p class="hero-tagline">Someone who came to management through a curiosity about why people make the decisions they do.</p>
     </div>
   </div>
+
+  <div class="hero-footer-bar">
+    <a href="#writing">Latest Essay &rarr; A Good Life Is Deeply Inconvenient</a>
+    <a href="#books">Currently Reading &rarr; See book shelf</a>
+  </div>
+
 </div>
 
 <!-- ABOUT -->
 <section id="about">
-  <p class="section-label">About</p>
-  <p class="section-sub">The person behind the page</p>
+  <div class="section-header">
+    <p class="section-label">About</p>
+    <p class="section-sub">The person behind the page</p>
+  </div>
   <div class="about-grid">
     <div class="about-photo-wrap">
       <img src="20250524_132310.jpg" alt="Shree Solanki" class="about-photo">
+      <p class="about-photo-caption">Vadodara, Gujarat &nbsp;&middot;&nbsp; 2025</p>
     </div>
     <div>
-      <p class="about-pull">Someone who came to management through a curiosity about <strong>why people make the decisions they do.</strong></p>
+      <p class="about-pull">Someone who came to management through a curiosity about <em>why people make the decisions they do.</em></p>
       <div class="about-text">
         <p>Whether it&rsquo;s a consumer choosing a product, an investor backing a founder, or a country setting policy &mdash; the question of human judgment has always fascinated me.</p>
         <p>I write to think. Most of my essays start as questions I can&rsquo;t shake, and end as something I didn&rsquo;t expect. My book reviews are less summaries and more <strong>arguments with the author.</strong></p>
         <p>I&rsquo;m headed to <strong>VGSOM, IIT Kharagpur</strong> for my MBA, where I hope to bring these ideas into strategy, consulting, or wherever the most interesting problems live.</p>
       </div>
-    </div>
-    <div class="about-facts">
-      <div class="fact-row"><span class="fact-label">Currently</span><span class="fact-value">MBA Candidate, VGSOM &mdash; IIT Kharagpur</span></div>
-      <div class="fact-row"><span class="fact-label">Interests</span><span class="fact-value">Strategy, Behavioral Economics, Writing, Literature</span></div>
-      <div class="fact-row"><span class="fact-label">Reading</span><span class="fact-value">Something dense and something fun, always in parallel</span></div>
-      <div class="fact-row"><span class="fact-label">Based in</span><span class="fact-value">Vadodara, Gujarat</span></div>
+      <div class="about-facts">
+        <div class="fact-row"><span class="fact-label">Currently</span><span class="fact-value">MBA Candidate, VGSOM &mdash; IIT Kharagpur</span></div>
+        <div class="fact-row"><span class="fact-label">Interests</span><span class="fact-value">Strategy, Behavioral Economics, Writing, Literature</span></div>
+        <div class="fact-row"><span class="fact-label">Reading</span><span class="fact-value">Something dense and something fun, always in parallel</span></div>
+        <div class="fact-row"><span class="fact-label">Based in</span><span class="fact-value">Vadodara, Gujarat</span></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- WRITING -->
 <section id="writing">
-  <p class="section-label">Writing</p>
-  <p class="section-sub">Essays, opinions &amp; reflections</p>
+  <div class="section-header">
+    <p class="section-label">Writing</p>
+    <p class="section-sub">Essays, opinions &amp; reflections</p>
+  </div>
   <div class="writing-grid">
     <a href="essays/a-good-life-is-deeply-inconvenient.html" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
       <p class="writing-tag">Reflection</p>
       <h3 class="writing-title">A Good Life Is Deeply Inconvenient</h3>
       <p class="writing-excerpt">My Father Knew This. I Spent Years Proving Him Wrong. He Was Right.</p>
       <p class="writing-meta">12 June 2024 &nbsp;&middot;&nbsp; 8 min read</p>
     </a>
     <a href="#" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
       <p class="writing-tag">Opinion</p>
       <h3 class="writing-title">Another piece you&rsquo;ve written</h3>
       <p class="writing-excerpt">Add a line or two that captures the essence and makes someone want to read it.</p>
       <p class="writing-meta">Month 2025 &nbsp;&middot;&nbsp; 4 min read</p>
     </a>
     <a href="#" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
       <p class="writing-tag">Analysis</p>
       <h3 class="writing-title">A third writing piece here</h3>
       <p class="writing-excerpt">Keep excerpts honest and specific &mdash; vague descriptions are less compelling than a sharp sentence.</p>
       <p class="writing-meta">Month 2025 &nbsp;&middot;&nbsp; 6 min read</p>
     </a>
     <a href="#" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
       <p class="writing-tag">Reflection</p>
       <h3 class="writing-title">Fourth piece &mdash; your call</h3>
       <p class="writing-excerpt">Link these to Medium or Substack, or host them as separate HTML pages.</p>
       <p class="writing-meta">Month 2025 &nbsp;&middot;&nbsp; 3 min read</p>
     </a>
     <a href="#" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
       <p class="writing-tag">Essay</p>
       <h3 class="writing-title">Fifth writing piece</h3>
       <p class="writing-excerpt">Replace placeholder text with your actual titles and descriptions once live.</p>
       <p class="writing-meta">Month 2025 &nbsp;&middot;&nbsp; 7 min read</p>
     </a>
     <a href="#" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
       <p class="writing-tag">Essay</p>
       <h3 class="writing-title">Sixth writing piece</h3>
       <p class="writing-excerpt">Six cards fills this grid cleanly. Add more or remove some &mdash; it adjusts automatically.</p>
@@ -403,8 +141,10 @@
 
 <!-- BOOKS -->
 <section id="books">
-  <p class="section-label">Book Reviews</p>
-  <p class="section-sub">Arguments with authors I admire</p>
+  <div class="section-header">
+    <p class="section-label">Book Reviews</p>
+    <p class="section-sub">Arguments with authors I admire</p>
+  </div>
   <div class="books-list">
     <div class="book-item">
       <span class="book-num">01</span>
@@ -438,12 +178,13 @@
 
 <!-- PROJECTS -->
 <section id="projects">
-  <p class="section-label">Projects</p>
-  <p class="section-sub">Work worth showing</p>
+  <div class="section-header">
+    <p class="section-label">Projects</p>
+    <p class="section-sub">Work worth showing</p>
+  </div>
   <div class="projects-grid">
     <a href="#" class="project-card">
       <span class="project-arrow">&#8599;</span>
-      <p class="project-num">01</p>
       <p class="project-category">Strategy &nbsp;&middot;&nbsp; Market Research</p>
       <h3 class="project-title">Project Title One</h3>
       <p class="project-desc">Describe what you did, what problem you solved, and what you found. Keep it outcome-focused &mdash; what did this produce or prove?</p>
@@ -455,7 +196,6 @@
     </a>
     <a href="#" class="project-card">
       <span class="project-arrow">&#8599;</span>
-      <p class="project-num">02</p>
       <p class="project-category">Finance &nbsp;&middot;&nbsp; Valuation</p>
       <h3 class="project-title">Project Title Two</h3>
       <p class="project-desc">Great B-school projects show you can define a problem, gather data, and draw a defensible conclusion. Show that here in 2&ndash;3 lines.</p>
@@ -467,7 +207,6 @@
     </a>
     <a href="#" class="project-card">
       <span class="project-arrow">&#8599;</span>
-      <p class="project-num">03</p>
       <p class="project-category">Operations &nbsp;&middot;&nbsp; Case Study</p>
       <h3 class="project-title">Project Title Three</h3>
       <p class="project-desc">You can link these to PDFs or separate pages. Even an in-progress project is worth listing if the framing is strong.</p>
@@ -478,7 +217,6 @@
     </a>
     <a href="#" class="project-card">
       <span class="project-arrow">&#8599;</span>
-      <p class="project-num">04</p>
       <p class="project-category">Marketing &nbsp;&middot;&nbsp; Consumer Behaviour</p>
       <h3 class="project-title">Project Title Four</h3>
       <p class="project-desc">Think about projects that show range &mdash; one quant, one qual, one creative. That spread signals versatility.</p>
@@ -495,7 +233,7 @@
 <section id="contact">
   <div class="contact-inner">
     <h2 class="contact-headline">
-      LET&rsquo;S TALK
+      Let&rsquo;s Talk
       <em>about interesting things.</em>
     </h2>
     <div class="contact-links">
@@ -520,7 +258,7 @@
   <p>VGSOM &nbsp;&middot;&nbsp; IIT Kharagpur</p>
 </footer>
 
-<a href="admin.html" style="position:fixed;bottom:0;left:14px;width:20px;height:20px;opacity:0;z-index:9999;"></a>
+<a href="admin.html" style="position:fixed;bottom:0;left:0;width:20px;height:20px;opacity:0;z-index:9999;"></a>
 
 <script>
 const SECRET = "opensesame";
