@@ -3,73 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shree Solanki</title>
+<title>Admin — Shree Solanki</title>
 <link rel="stylesheet" href="style.css">
 <style>
+/* ── LOCK ── */
 #lock-screen {
   position: fixed; inset: 0; background: var(--paper);
   z-index: 9000; display: flex; align-items: center; justify-content: center;
 }
-#pw-box {
-  display: none; flex-direction: column; align-items: center; gap: 1.25rem;
-  animation: fadeUp 0.3s ease both;
-}
-#pw-box .orn { margin-bottom: 0.5rem; }
-#pw-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+#pw-box { display: none; flex-direction: column; align-items: center; gap: 1.25rem; animation: fadeUp 0.3s ease both; }
+#pw-label { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
 #pw-input {
-  font-family: var(--mono); font-size: 0.9rem; letter-spacing: 0.18em;
+  font-family: var(--sans); font-size: 0.9rem; letter-spacing: 0.18em;
   border: none; border-bottom: 1px solid var(--faint); background: transparent;
   color: var(--ink); padding: 0.5rem 0.75rem; width: 220px; text-align: center; outline: none;
 }
 #pw-input.pw-error { border-color: var(--red); animation: shake 0.3s ease; }
-#pw-hint { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faint); }
+#pw-hint { font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--faint); }
 @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
 
-#admin-panel { display: none; min-height: 100vh; padding-top: 52px; }
+/* ── ADMIN SHELL ── */
+#admin-panel { display: none; min-height: 100vh; padding-top: 48px; }
 
-/* NAV */
 .admin-nav {
-  position: fixed; top: 0; left: var(--spine); right: 0; z-index: 500;
-  height: 52px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2rem; background: var(--paper); border-bottom: 1px solid var(--faint);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: 48px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.admin-nav-logo { font-family: var(--disp); font-size: 1rem; letter-spacing: 0.12em; color: var(--ink); }
+.admin-nav-logo { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper); }
 .admin-nav-logo span { color: var(--red); }
 .admin-nav-tabs { display: flex; gap: 0; }
 .tab-btn {
-  font-family: var(--serif); font-size: 0.9rem; font-weight: 300;
-  color: var(--muted); background: transparent; border: none;
-  padding: 0 1.25rem; height: 52px; cursor: pointer; border-bottom: 2px solid transparent;
+  font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(247,243,236,0.4); background: transparent; border: none;
+  padding: 0 1.25rem; height: 48px; cursor: pointer; border-bottom: 2px solid transparent;
   transition: color 0.15s, border-color 0.15s;
 }
-.tab-btn:hover { color: var(--ink); }
-.tab-btn.active { color: var(--ink); border-bottom-color: var(--red); }
-.admin-nav-right { display: flex; align-items: center; gap: 1.25rem; }
-.admin-nav-right a {
-  font-family: var(--serif); font-size: 0.9rem; font-weight: 300;
-  color: var(--muted); text-decoration: none; transition: color 0.2s;
-}
-.admin-nav-right a:hover { color: var(--red); }
+.tab-btn:hover { color: var(--paper); }
+.tab-btn.active { color: var(--paper); border-bottom-color: var(--red); }
 
-/* PANELS */
+.admin-nav-right { display: flex; align-items: center; gap: 0.75rem; }
+.admin-nav-right a {
+  font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(247,243,236,0.4); text-decoration: none; transition: color 0.2s;
+}
+.admin-nav-right a:hover { color: var(--paper); }
+
+#deploy-btn {
+  font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  background: var(--red); color: var(--paper); border: none; padding: 0.5rem 1.4rem;
+  cursor: pointer; transition: background 0.2s; display: flex; align-items: center; gap: 0.5rem;
+}
+#deploy-btn:hover { background: #a02a0f; }
+#deploy-btn:disabled { background: var(--muted); cursor: not-allowed; }
+#deploy-btn .spin { display: none; width: 10px; height: 10px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; }
+#deploy-btn.loading .spin { display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── PANELS ── */
 .admin-tab-panel { display: none; }
 .admin-tab-panel.active { display: block; }
 
-/* ─── WRITING TAB ─── */
-.editor-wrap { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 52px); }
+/* ── WRITING TAB ── */
+.editor-wrap { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 48px); }
 .editor-pane { display: flex; flex-direction: column; border-right: 1px solid var(--faint); }
 .pane-header {
   padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--faint);
   display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
 }
-.pane-label { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.pane-label { font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
 .meta-fields {
   padding: 1rem 1.5rem; border-bottom: 1px solid var(--faint);
   display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; flex-shrink: 0;
 }
 .meta-field { display: flex; flex-direction: column; gap: 0.3rem; }
 .meta-field.full { grid-column: 1 / -1; }
-.meta-field label { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.meta-field label { font-family: var(--sans); font-size: 0.54rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
 .meta-field input, .meta-field select, .meta-field textarea {
   font-family: var(--serif); font-size: 0.95rem; color: var(--ink);
   background: transparent; border: none; border-bottom: 1px solid var(--faint);
@@ -77,140 +86,129 @@
 }
 .meta-field input:focus, .meta-field select:focus, .meta-field textarea:focus { border-color: var(--ink); }
 .md-toolbar {
-  padding: 0.5rem 1.5rem; border-top: 1px solid var(--faint);
-  display: flex; gap: 0.4rem; flex-wrap: wrap; flex-shrink: 0; border-bottom: 1px solid var(--faint);
+  padding: 0.5rem 1.5rem; border-bottom: 1px solid var(--faint);
+  display: flex; gap: 0.4rem; flex-wrap: wrap; flex-shrink: 0;
 }
 .md-btn {
-  font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--sans); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase;
   padding: 0.28rem 0.6rem; border: 1px solid var(--faint); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s;
 }
 .md-btn:hover { border-color: var(--ink); color: var(--ink); }
 #md-input {
-  flex: 1; padding: 1.25rem 1.5rem; font-family: var(--mono); font-size: 0.8rem;
+  flex: 1; padding: 1.25rem 1.5rem; font-family: var(--sans); font-size: 0.8rem;
   line-height: 1.85; color: var(--ink); background: var(--paper); border: none; resize: none; outline: none; overflow-y: auto;
 }
 .preview-pane { display: flex; flex-direction: column; overflow: hidden; }
 #preview-scroll { flex: 1; overflow-y: auto; padding: 2.5rem 3rem; background: var(--paper); }
-#preview-scroll .prev-tag { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 0.85rem; }
-#preview-scroll .prev-title { font-family: var(--serif); font-size: clamp(1.5rem,2.8vw,2.4rem); font-weight: 700; line-height: 1.05; margin-bottom: 0.65rem; }
+#preview-scroll .prev-tag { font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 0.85rem; }
+#preview-scroll .prev-title { font-family: var(--disp); font-size: clamp(1.5rem,2.8vw,2.4rem); font-weight: 700; line-height: 1.05; margin-bottom: 0.65rem; }
 #preview-scroll .prev-subtitle { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 1rem; color: var(--muted); margin-bottom: 1.25rem; }
-#preview-scroll .prev-meta { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--faint); }
+#preview-scroll .prev-meta { font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--faint); }
 #preview-scroll p { font-family: var(--serif); font-size: 1rem; font-weight: 300; line-height: 1.95; margin-bottom: 1.4rem; color: var(--ink); }
-#preview-scroll h2 { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; margin: 2.25rem 0 0.9rem; }
-#preview-scroll h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 600; margin: 1.75rem 0 0.7rem; }
+#preview-scroll h2 { font-family: var(--disp); font-size: 1.35rem; font-weight: 700; margin: 2.25rem 0 0.9rem; }
+#preview-scroll h3 { font-family: var(--disp); font-size: 1.1rem; font-weight: 700; margin: 1.75rem 0 0.7rem; }
 #preview-scroll blockquote { margin: 1.75rem 0; padding: 0 0 0 1.5rem; border-left: 3px solid var(--red); }
 #preview-scroll blockquote p { font-style: italic; font-size: 1.1rem; margin: 0; }
-#preview-scroll img { max-width: 100%; height: auto; display: block; margin: 1.75rem 0; }
-#preview-scroll hr { border: none; text-align: center; margin: 2.5rem 0; color: var(--faint); font-size: 1.4rem; letter-spacing: 0.5em; }
-#preview-scroll hr::after { content: '· · ·'; }
 
-/* ─── BOOKS TAB ─── */
+/* ── BOOKS & PROJECTS TABS ── */
 .section-admin { max-width: 760px; margin: 0 auto; padding: 4rem 2rem; }
 .section-admin-header { margin-bottom: 2.5rem; }
-.section-admin-header h2 { font-family: var(--serif); font-size: 2rem; font-weight: 700; margin-bottom: 0.35rem; }
-.section-admin-header p { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
-
+.section-admin-header h2 { font-family: var(--disp); font-size: 2rem; font-weight: 700; margin-bottom: 0.35rem; }
+.section-admin-header p { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); line-height: 1.8; }
 .entry-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 2.5rem; border-top: 1px solid var(--faint); }
-.entry-item {
-  border-bottom: 1px solid var(--faint); padding: 1.25rem 0;
-  display: grid; align-items: center; gap: 1rem;
-}
-.entry-item-book    { grid-template-columns: 1fr 1fr auto auto; }
-.entry-item-project { grid-template-columns: 1fr 1fr auto; }
-
+.entry-item { border-bottom: 1px solid var(--faint); padding: 1.5rem 0; }
+.entry-item-book { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
 .entry-field {
   font-family: var(--serif); font-size: 0.95rem; color: var(--ink);
   background: transparent; border: none; border-bottom: 1px solid transparent;
   padding: 0.25rem 0; outline: none; width: 100%; transition: border-color 0.2s;
 }
 .entry-field:focus { border-bottom-color: var(--faint); }
-.entry-field.small { font-family: var(--mono); font-size: 0.7rem; }
+.entry-field.small { font-family: var(--sans); font-size: 0.7rem; }
 .entry-field.muted { color: var(--muted); font-style: italic; font-size: 0.9rem; }
-
 .entry-rating { display: flex; gap: 2px; }
-.star { font-size: 1rem; color: var(--faint); cursor: pointer; transition: color 0.1s; line-height: 1; }
+.star { font-size: 1rem; color: var(--faint); cursor: pointer; transition: color 0.1s; }
 .star.on { color: var(--red); }
-
 .remove-btn {
-  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--faint); background: transparent; border: none; cursor: pointer; padding: 0.3rem;
   transition: color 0.15s;
 }
 .remove-btn:hover { color: var(--red); }
-
 .add-entry-btn {
-  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+  font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--muted); background: transparent; border: 1px solid var(--faint);
   padding: 0.65rem 1.5rem; cursor: pointer; transition: all 0.15s;
 }
 .add-entry-btn:hover { border-color: var(--ink); color: var(--ink); }
-
-/* ─── PROJECTS TAB ─── */
-.project-entry {
-  border-bottom: 1px solid var(--faint); padding: 1.5rem 0;
-  display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;
-}
-.project-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+.project-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 0.75rem; }
 .project-fields .meta-field.full { grid-column: 1 / -1; }
-.project-fields .meta-field input, .project-fields .meta-field textarea {
-  font-family: var(--serif); font-size: 0.95rem;
-}
 
-/* ─── GENERATE MODAL ─── */
-#output-modal {
+/* ── GITHUB SETTINGS PANEL ── */
+#gh-settings-bar {
+  background: var(--cream); border-bottom: 1px solid var(--faint);
+  padding: 0.75rem 2rem; display: none; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+}
+#gh-settings-bar.visible { display: flex; }
+#gh-settings-bar label { font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-right: 0.4rem; }
+#gh-settings-bar input {
+  font-family: var(--sans); font-size: 0.78rem; color: var(--ink);
+  background: transparent; border: none; border-bottom: 1px solid var(--faint);
+  padding: 0.2rem 0.4rem; outline: none; width: 220px; transition: border-color 0.2s;
+}
+#gh-settings-bar input:focus { border-bottom-color: var(--ink); }
+#save-gh-btn {
+  font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  background: var(--ink); color: var(--paper); border: none; padding: 0.45rem 1rem; cursor: pointer;
+}
+#gh-status { font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-left: auto; }
+#gh-status.ok { color: #4a9a4a; }
+#gh-status.err { color: var(--red); }
+
+/* ── DEPLOY LOG MODAL ── */
+#deploy-modal {
   display: none; position: fixed; inset: 0;
-  background: rgba(13,11,8,0.82); z-index: 800; align-items: center; justify-content: center; padding: 2rem;
+  background: rgba(14,11,7,0.88); z-index: 800; align-items: flex-end; justify-content: center; padding: 2rem;
 }
-#output-modal.open { display: flex; }
-.output-box {
-  background: var(--paper); width: 100%; max-width: 780px; max-height: 84vh;
-  display: flex; flex-direction: column; border: 1px solid var(--faint);
+#deploy-modal.open { display: flex; }
+.deploy-box {
+  background: var(--ink); color: var(--paper); width: 100%; max-width: 640px;
+  border: 1px solid rgba(255,255,255,0.1); padding: 0;
+  max-height: 70vh; display: flex; flex-direction: column;
 }
-.output-header {
-  padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--faint);
-  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+.deploy-box-header {
+  padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
 }
-.output-title-label { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
-.output-filename { font-family: var(--mono); font-size: 0.78rem; color: var(--red); margin-top: 0.2rem; }
-.output-header-actions { display: flex; gap: 0.65rem; }
-.output-btn {
-  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase;
-  padding: 0.5rem 1.1rem; border: 1px solid var(--faint); background: transparent; color: var(--ink); cursor: pointer; transition: all 0.15s;
+.deploy-box-title { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(247,243,236,0.5); }
+#deploy-close-btn {
+  font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(247,243,236,0.4); background: transparent; border: 1px solid rgba(247,243,236,0.15); padding: 0.35rem 0.8rem; cursor: pointer;
 }
-.output-btn:hover { background: var(--ink); color: var(--paper); }
-.output-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.output-btn.primary:hover { background: var(--red); border-color: var(--red); }
-
-.output-instructions {
-  padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--faint); background: var(--paper); flex-shrink: 0;
-}
-.output-instructions ol { font-family: var(--serif); font-size: 0.9rem; font-weight: 300; color: var(--muted); padding-left: 1.25rem; line-height: 2.1; }
-.output-instructions li span { color: var(--red); font-weight: 600; }
-
-.output-tabs { display: flex; border-bottom: 1px solid var(--faint); flex-shrink: 0; }
-.output-tab {
-  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase;
-  padding: 0.7rem 1.25rem; border: none; background: transparent; color: var(--muted);
-  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s;
-}
-.output-tab.active { color: var(--ink); border-bottom-color: var(--red); }
-
-.output-section { display: none; flex-direction: column; flex: 1; overflow: hidden; }
-.output-section.active { display: flex; }
-.output-section-label {
-  padding: 0.6rem 1.5rem; background: var(--paper); border-bottom: 1px solid var(--faint);
-  font-family: var(--serif); font-size: 0.85rem; font-weight: 300; color: var(--muted);
-  flex-shrink: 0;
-}
-.output-textarea {
+#deploy-log {
   flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem;
-  font-family: var(--mono); font-size: 0.7rem; line-height: 1.7; color: var(--ink);
-  background: var(--paper); border: none; resize: none; outline: none; white-space: pre;
+  font-family: var(--sans); font-size: 0.72rem; line-height: 1.9; color: rgba(247,243,236,0.7);
+  white-space: pre-wrap;
 }
+#deploy-log .log-ok   { color: #6fcf6f; }
+#deploy-log .log-err  { color: #e07070; }
+#deploy-log .log-info { color: rgba(247,243,236,0.4); }
+#deploy-log .log-head { color: var(--paper); font-weight: 600; }
+.deploy-box-footer {
+  padding: 0.85rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+}
+#deploy-done-btn {
+  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  background: var(--red); color: var(--paper); border: none; padding: 0.5rem 1.4rem; cursor: pointer;
+}
+#vercel-link { font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247,243,236,0.35); text-decoration: none; }
+#vercel-link:hover { color: var(--paper); }
 
+/* ── TOAST ── */
 #toast {
   position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
-  background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: 0.58rem;
+  background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 0.58rem;
   letter-spacing: 0.18em; text-transform: uppercase; padding: 0.65rem 1.75rem;
   opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 1000;
 }
@@ -220,41 +218,50 @@
   .editor-wrap { grid-template-columns: 1fr; }
   .preview-pane { display: none; }
   .meta-fields { grid-template-columns: 1fr; }
-  .entry-item-book { grid-template-columns: 1fr 1fr; }
-  .entry-item-project { grid-template-columns: 1fr; }
+  .entry-item-book { grid-template-columns: 1fr; }
   .project-fields { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
+<!-- LOCK -->
 <div id="lock-screen">
   <div id="pw-box">
-    <div class="orn"><span class="orn-rule"></span><span class="orn-diamond"></span><span class="orn-rule"></span></div>
     <p id="pw-label">Enter password</p>
     <input type="password" id="pw-input" autocomplete="off" placeholder="········">
-    <p id="pw-hint">Type opensesame to open &nbsp;·&nbsp; Enter to confirm</p>
+    <p id="pw-hint">type opensesame · then enter password</p>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- ADMIN -->
 <div id="admin-panel">
 
   <nav class="admin-nav">
-    <span class="admin-nav-logo">Shree Solanki &nbsp;<span>/ Admin</span></span>
+    <span class="admin-nav-logo">Shree Solanki <span>/ Admin</span></span>
     <div class="admin-nav-tabs">
       <button class="tab-btn active" data-tab="writing">Writing</button>
       <button class="tab-btn" data-tab="books">Book Reviews</button>
       <button class="tab-btn" data-tab="projects">Projects</button>
     </div>
     <div class="admin-nav-right">
-      <a href="index.html" target="_blank">View site &#8599;</a>
-      <a href="#" id="generate-btn">Generate &rarr;</a>
+      <a href="index.html" target="_blank">View site ↗</a>
+      <a href="#" id="gh-toggle-btn">GitHub ⚙</a>
+      <button id="deploy-btn"><span class="spin"></span><span class="btn-label">Push to GitHub</span></button>
     </div>
   </nav>
 
-  <!-- ══ TAB: WRITING ══ -->
+  <!-- GitHub settings bar -->
+  <div id="gh-settings-bar">
+    <label>Token</label>
+    <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+    <label>Branch</label>
+    <input type="text" id="gh-branch" value="main" style="width:80px">
+    <button id="save-gh-btn">Save</button>
+    <span id="gh-status"></span>
+  </div>
+
+  <!-- ══ WRITING ══ -->
   <div class="admin-tab-panel active" id="tab-writing">
     <div class="editor-wrap">
       <div class="editor-pane">
@@ -263,29 +270,14 @@
           <span class="pane-label" id="word-count">0 words</span>
         </div>
         <div class="meta-fields">
-          <div class="meta-field full">
-            <label>Title</label>
-            <input type="text" id="f-title" placeholder="Your essay title">
-          </div>
-          <div class="meta-field full">
-            <label>Subtitle / one-line description</label>
-            <input type="text" id="f-subtitle" placeholder="A brief framing of the piece">
-          </div>
+          <div class="meta-field full"><label>Title</label><input type="text" id="f-title" placeholder="Your essay title"></div>
+          <div class="meta-field full"><label>Subtitle / one-line description</label><input type="text" id="f-subtitle" placeholder="A brief framing of the piece"></div>
           <div class="meta-field">
             <label>Tag</label>
-            <select id="f-tag">
-              <option>Essay</option><option>Opinion</option>
-              <option>Analysis</option><option>Reflection</option><option>Review</option>
-            </select>
+            <select id="f-tag"><option>Essay</option><option>Opinion</option><option>Analysis</option><option>Reflection</option><option>Review</option></select>
           </div>
-          <div class="meta-field">
-            <label>Date</label>
-            <input type="text" id="f-date" placeholder="June 2025">
-          </div>
-          <div class="meta-field full">
-            <label>Filename slug (no spaces, no .html)</label>
-            <input type="text" id="f-slug" placeholder="why-we-decide-the-way-we-do">
-          </div>
+          <div class="meta-field"><label>Date</label><input type="text" id="f-date" placeholder="June 2025"></div>
+          <div class="meta-field full"><label>Slug (no spaces, no .html)</label><input type="text" id="f-slug" placeholder="why-we-decide-the-way-we-do"></div>
         </div>
         <div class="md-toolbar">
           <button class="md-btn" data-wrap="**|**">Bold</button>
@@ -296,13 +288,7 @@
           <button class="md-btn" data-insert="---">Rule</button>
           <button class="md-btn" data-insert="![Caption](image.jpg)">Image</button>
         </div>
-        <textarea id="md-input" placeholder="Write in Markdown...
-
-**bold**, _italic_
-## Section heading
-> Pull quote blockquote
-![Alt](photo.jpg) for images
---- for a section break"></textarea>
+        <textarea id="md-input" placeholder="Write in Markdown...&#10;&#10;**bold**, _italic_&#10;## Section heading&#10;&gt; Pull quote&#10;--- for section break"></textarea>
       </div>
       <div class="preview-pane">
         <div class="pane-header">
@@ -320,24 +306,24 @@
     </div>
   </div>
 
-  <!-- ══ TAB: BOOKS ══ -->
+  <!-- ══ BOOKS ══ -->
   <div class="admin-tab-panel" id="tab-books">
     <div class="section-admin">
       <div class="section-admin-header">
         <h2>Book Reviews</h2>
-        <p>Saves to: index.html &nbsp;→&nbsp; #books section &nbsp;·&nbsp; These entries appear directly on your homepage</p>
+        <p>Fill in the short review for the homepage. Add a full review body + slug to also generate a standalone review page at <span style="color:var(--red)">reviews/[slug].html</span></p>
       </div>
       <div class="entry-list" id="books-list"></div>
       <button class="add-entry-btn" id="add-book-btn">+ Add book</button>
     </div>
   </div>
 
-  <!-- ══ TAB: PROJECTS ══ -->
+  <!-- ══ PROJECTS ══ -->
   <div class="admin-tab-panel" id="tab-projects">
     <div class="section-admin">
       <div class="section-admin-header">
         <h2>Projects</h2>
-        <p>Saves to: index.html &nbsp;→&nbsp; #projects section &nbsp;·&nbsp; These entries appear directly on your homepage</p>
+        <p>These entries populate the Projects section on the homepage.</p>
       </div>
       <div class="entry-list" id="projects-list"></div>
       <button class="add-entry-btn" id="add-project-btn">+ Add project</button>
@@ -346,43 +332,43 @@
 
 </div>
 
-<!-- OUTPUT MODAL -->
-<div id="output-modal">
-  <div class="output-box">
-    <div class="output-header">
-      <div>
-        <div class="output-title-label">Where does this go?</div>
-        <div class="output-filename" id="output-filename">essays/my-post.html</div>
-      </div>
-      <div class="output-header-actions">
-        <button class="output-btn" id="copy-btn">Copy</button>
-        <button class="output-btn primary" id="close-modal-btn">Done</button>
-      </div>
+<!-- DEPLOY LOG MODAL -->
+<div id="deploy-modal">
+  <div class="deploy-box">
+    <div class="deploy-box-header">
+      <span class="deploy-box-title">Deploying to GitHub → Vercel</span>
+      <button id="deploy-close-btn">Close</button>
     </div>
-    <div class="output-instructions">
-      <ol id="output-instructions-list"></ol>
+    <div id="deploy-log"></div>
+    <div class="deploy-box-footer">
+      <a href="https://vercel.com/dashboard" target="_blank" id="vercel-link">Open Vercel Dashboard ↗</a>
+      <button id="deploy-done-btn">Done</button>
     </div>
-    <div class="output-tabs" id="output-tabs"></div>
-    <div id="output-sections"></div>
   </div>
 </div>
 
-<div id="toast">Copied</div>
+<div id="toast"></div>
 
 <script>
-const PASSWORD = "shree2025"; // ← change this
+// ─────────────────────────────────────────
+//  CONFIG
+// ─────────────────────────────────────────
+const REPO_OWNER = 'boi-oof';
+const REPO_NAME  = 'shree-site';
+const PASSWORD   = 'shree2025'; // ← change this
+const SECRET_WORD = 'opensesame';
 
-// ── Unlock — type the secret word anywhere on the blank page ──
-const SECRET_WORD = "opensesame"; // change this to whatever you want
-let typedBuffer = "";
+// ─────────────────────────────────────────
+//  LOCK SCREEN
+// ─────────────────────────────────────────
+let typedBuffer = '';
 document.addEventListener('keydown', e => {
   if (document.getElementById('lock-screen').style.display === 'none') return;
-  if (e.key.length > 1) return; // ignore Shift, Ctrl, etc
+  if (e.key.length > 1) return;
   typedBuffer += e.key.toLowerCase();
-  if (typedBuffer.length > SECRET_WORD.length)
-    typedBuffer = typedBuffer.slice(-SECRET_WORD.length);
+  if (typedBuffer.length > SECRET_WORD.length) typedBuffer = typedBuffer.slice(-SECRET_WORD.length);
   if (typedBuffer === SECRET_WORD) {
-    typedBuffer = "";
+    typedBuffer = '';
     document.getElementById('pw-box').style.display = 'flex';
     setTimeout(() => document.getElementById('pw-input').focus(), 50);
   }
@@ -400,19 +386,53 @@ document.getElementById('pw-input').addEventListener('keydown', e => {
   }
 });
 
-// ── Tab switching ──
+// ─────────────────────────────────────────
+//  TABS
+// ─────────────────────────────────────────
+let activeTab = 'writing';
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.admin-tab-panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-    document.getElementById('generate-btn').dataset.tab = btn.dataset.tab;
+    activeTab = btn.dataset.tab;
+    document.getElementById('tab-' + activeTab).classList.add('active');
   });
 });
-document.getElementById('generate-btn').dataset.tab = 'writing';
 
-// ── Markdown parser ──
+// ─────────────────────────────────────────
+//  GITHUB SETTINGS
+// ─────────────────────────────────────────
+document.getElementById('gh-toggle-btn').addEventListener('click', e => {
+  e.preventDefault();
+  document.getElementById('gh-settings-bar').classList.toggle('visible');
+});
+document.getElementById('save-gh-btn').addEventListener('click', () => {
+  const token  = document.getElementById('gh-token').value.trim();
+  const branch = document.getElementById('gh-branch').value.trim() || 'main';
+  if (!token) { showStatus('Token required', 'err'); return; }
+  localStorage.setItem('gh_token',  token);
+  localStorage.setItem('gh_branch', branch);
+  showStatus('Saved ✓', 'ok');
+  setTimeout(() => document.getElementById('gh-settings-bar').classList.remove('visible'), 800);
+});
+function loadGhSettings() {
+  const t = localStorage.getItem('gh_token');
+  const b = localStorage.getItem('gh_branch') || 'main';
+  if (t) document.getElementById('gh-token').value = t;
+  document.getElementById('gh-branch').value = b;
+}
+function showStatus(msg, cls) {
+  const el = document.getElementById('gh-status');
+  el.textContent = msg;
+  el.className = cls || '';
+}
+function getToken()  { return localStorage.getItem('gh_token')  || ''; }
+function getBranch() { return localStorage.getItem('gh_branch') || 'main'; }
+
+// ─────────────────────────────────────────
+//  MARKDOWN PARSER
+// ─────────────────────────────────────────
 function parseMd(md) {
   let h = md
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
@@ -433,7 +453,14 @@ function parseMd(md) {
   }).join('\n');
 }
 
-// ── Writing preview ──
+function slugify(s) {
+  return (s||'').toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
+}
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ─────────────────────────────────────────
+//  WRITING PREVIEW
+// ─────────────────────────────────────────
 function updatePreview() {
   const words = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
   const mins = Math.max(1, Math.round(words / 200));
@@ -450,24 +477,18 @@ function updatePreview() {
   document.getElementById(id).addEventListener('input', updatePreview));
 document.getElementById('f-title').addEventListener('input', () => {
   const s = document.getElementById('f-slug');
-  if (!s.dataset.manual) {
-    s.value = document.getElementById('f-title').value.toLowerCase()
-      .replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
-  }
+  if (!s.dataset.manual) s.value = slugify(document.getElementById('f-title').value);
   saveToStorage();
 });
 document.getElementById('f-slug').addEventListener('input', () => {
-  document.getElementById('f-slug').dataset.manual = '1';
-  saveToStorage();
+  document.getElementById('f-slug').dataset.manual = '1'; saveToStorage();
 });
-
-// ── Toolbar ──
 document.querySelectorAll('.md-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const ta = document.getElementById('md-input');
     const s = ta.selectionStart, e2 = ta.selectionEnd, sel = ta.value.substring(s,e2);
     let t = '';
-    if (btn.dataset.wrap) { const [p,q]=btn.dataset.wrap.split('|'); t=p+(sel||'text')+q; }
+    if (btn.dataset.wrap)   { const [p,q]=btn.dataset.wrap.split('|'); t=p+(sel||'text')+q; }
     else if (btn.dataset.prefix) t = btn.dataset.prefix+(sel||'text');
     else if (btn.dataset.insert) t = '\n'+btn.dataset.insert+'\n';
     ta.value = ta.value.substring(0,s)+t+ta.value.substring(e2);
@@ -476,7 +497,9 @@ document.querySelectorAll('.md-btn').forEach(btn => {
   });
 });
 
-// ── Books ──
+// ─────────────────────────────────────────
+//  BOOKS
+// ─────────────────────────────────────────
 let books = [];
 function renderBooks() {
   const list = document.getElementById('books-list');
@@ -496,20 +519,41 @@ function renderBooks() {
       <div class="meta-field">
         <label>Rating</label>
         <div class="entry-rating" data-i="${i}">
-          ${[1,2,3,4,5].map(n=>`<span class="star ${n<=b.rating?'on':''}" data-n="${n}">&#9733;</span>`).join('')}
+          ${[1,2,3,4,5].map(n=>`<span class="star ${n<=(b.rating||0)?'on':''}" data-n="${n}">★</span>`).join('')}
         </div>
       </div>
       <div class="meta-field" style="grid-column:1/-1">
-        <label>Your review (2–3 sentences)</label>
-        <textarea class="entry-field muted" rows="2" placeholder="Your honest take on the book..." data-i="${i}" data-key="review">${esc(b.review)}</textarea>
+        <label>Short review — shown on homepage</label>
+        <textarea class="entry-field muted" rows="2" placeholder="Your honest 2–3 sentence take..." data-i="${i}" data-key="review">${esc(b.review)}</textarea>
       </div>
-      <div style="grid-column:1/-1;display:flex;justify-content:flex-end">
+      <div class="meta-field" style="grid-column:1/-1">
+        <label>Full review body (Markdown) — leave blank to skip standalone page</label>
+        <textarea class="entry-field muted" rows="4" placeholder="Write your full review in Markdown here..." data-i="${i}" data-key="body">${esc(b.body||'')}</textarea>
+      </div>
+      <div class="meta-field">
+        <label>Slug (auto-generated from title)</label>
+        <input class="entry-field small muted" placeholder="thinking-fast-and-slow" value="${esc(b.slug||'')}" data-i="${i}" data-key="slug">
+      </div>
+      <div style="grid-column:1/-1;display:flex;justify-content:flex-end;padding-top:0.5rem">
         <button class="remove-btn" data-i="${i}">Remove</button>
       </div>`;
     list.appendChild(row);
   });
   list.querySelectorAll('.entry-field').forEach(el => el.addEventListener('input', e => {
-    books[e.target.dataset.i][e.target.dataset.key] = e.target.value; saveToStorage();
+    books[+e.target.dataset.i][e.target.dataset.key] = e.target.value; saveToStorage();
+  }));
+  // Auto-slug from title for books
+  list.querySelectorAll('input[data-key="title"]').forEach(el => el.addEventListener('input', e => {
+    const i = +e.target.dataset.i;
+    const slugEl = list.querySelectorAll('input[data-key="slug"]')[i];
+    if (slugEl && !slugEl.dataset.manual) {
+      slugEl.value = slugify(e.target.value);
+      books[i].slug = slugEl.value;
+      saveToStorage();
+    }
+  }));
+  list.querySelectorAll('input[data-key="slug"]').forEach(el => el.addEventListener('input', e => {
+    e.target.dataset.manual = '1';
   }));
   list.querySelectorAll('.star').forEach(star => star.addEventListener('click', e => {
     const i = +e.target.closest('.entry-rating').dataset.i;
@@ -520,10 +564,12 @@ function renderBooks() {
   }));
 }
 document.getElementById('add-book-btn').addEventListener('click', () => {
-  books.push({ title:'', author:'', rating:4, review:'' }); renderBooks();
+  books.push({ title:'', author:'', rating:4, review:'', body:'', slug:'' }); renderBooks();
 });
 
-// ── Projects ──
+// ─────────────────────────────────────────
+//  PROJECTS
+// ─────────────────────────────────────────
 let projects = [];
 function renderProjects() {
   const list = document.getElementById('projects-list');
@@ -533,31 +579,14 @@ function renderProjects() {
     row.className = 'entry-item';
     row.style.display = 'block';
     row.innerHTML = `
-      <div class="project-fields" style="margin-bottom:0.75rem">
-        <div class="meta-field">
-          <label>Title</label>
-          <input class="entry-field" placeholder="Project title" value="${esc(p.title)}" data-i="${i}" data-key="title">
-        </div>
-        <div class="meta-field">
-          <label>Category (e.g. Strategy · Research)</label>
-          <input class="entry-field small muted" placeholder="Field · Subfield" value="${esc(p.category)}" data-i="${i}" data-key="category">
-        </div>
-        <div class="meta-field full">
-          <label>Description (2–3 lines)</label>
-          <textarea class="entry-field muted" rows="2" placeholder="What you did and what it proved..." data-i="${i}" data-key="desc">${esc(p.desc)}</textarea>
-        </div>
-        <div class="meta-field full">
-          <label>Tags (comma separated)</label>
-          <input class="entry-field small muted" placeholder="Excel, Primary Research, DCF Model" value="${esc(p.tags)}" data-i="${i}" data-key="tags">
-        </div>
-        <div class="meta-field full">
-          <label>Link URL (optional)</label>
-          <input class="entry-field small muted" placeholder="https://... or leave blank" value="${esc(p.link)}" data-i="${i}" data-key="link">
-        </div>
+      <div class="project-fields">
+        <div class="meta-field"><label>Title</label><input class="entry-field" placeholder="Project title" value="${esc(p.title)}" data-i="${i}" data-key="title"></div>
+        <div class="meta-field"><label>Category (e.g. Strategy · Research)</label><input class="entry-field small muted" placeholder="Field · Subfield" value="${esc(p.category)}" data-i="${i}" data-key="category"></div>
+        <div class="meta-field full"><label>Description (2–3 lines)</label><textarea class="entry-field muted" rows="2" data-i="${i}" data-key="desc">${esc(p.desc)}</textarea></div>
+        <div class="meta-field full"><label>Tags (comma separated)</label><input class="entry-field small muted" placeholder="Excel, DCF Model" value="${esc(p.tags)}" data-i="${i}" data-key="tags"></div>
+        <div class="meta-field full"><label>Link URL (optional)</label><input class="entry-field small muted" placeholder="https://..." value="${esc(p.link)}" data-i="${i}" data-key="link"></div>
       </div>
-      <div style="display:flex;justify-content:flex-end">
-        <button class="remove-btn" data-i="${i}">Remove</button>
-      </div>`;
+      <div style="display:flex;justify-content:flex-end"><button class="remove-btn" data-i="${i}">Remove</button></div>`;
     list.appendChild(row);
   });
   list.querySelectorAll('.entry-field').forEach(el => el.addEventListener('input', e => {
@@ -571,84 +600,85 @@ document.getElementById('add-project-btn').addEventListener('click', () => {
   projects.push({ title:'', category:'', desc:'', tags:'', link:'' }); renderProjects();
 });
 
-// ── localStorage persistence ──
+// ─────────────────────────────────────────
+//  STORAGE
+// ─────────────────────────────────────────
 function saveToStorage() {
   localStorage.setItem('shree_writing', JSON.stringify({
-    title: document.getElementById('f-title').value,
+    title:    document.getElementById('f-title').value,
     subtitle: document.getElementById('f-subtitle').value,
-    tag: document.getElementById('f-tag').value,
-    date: document.getElementById('f-date').value,
-    slug: document.getElementById('f-slug').value,
-    body: document.getElementById('md-input').value,
+    tag:      document.getElementById('f-tag').value,
+    date:     document.getElementById('f-date').value,
+    slug:     document.getElementById('f-slug').value,
+    body:     document.getElementById('md-input').value,
   }));
-  localStorage.setItem('shree_books', JSON.stringify(books));
+  localStorage.setItem('shree_books',    JSON.stringify(books));
   localStorage.setItem('shree_projects', JSON.stringify(projects));
 }
 function loadFromStorage() {
   try {
     const w = JSON.parse(localStorage.getItem('shree_writing') || '{}');
-    if (w.title)    document.getElementById('f-title').value   = w.title;
-    if (w.subtitle) document.getElementById('f-subtitle').value= w.subtitle;
-    if (w.tag)      document.getElementById('f-tag').value     = w.tag;
-    if (w.date)     document.getElementById('f-date').value    = w.date;
-    if (w.slug)     { document.getElementById('f-slug').value  = w.slug; document.getElementById('f-slug').dataset.manual='1'; }
-    if (w.body)     document.getElementById('md-input').value  = w.body;
+    if (w.title)    document.getElementById('f-title').value    = w.title;
+    if (w.subtitle) document.getElementById('f-subtitle').value = w.subtitle;
+    if (w.tag)      document.getElementById('f-tag').value      = w.tag;
+    if (w.date)     document.getElementById('f-date').value     = w.date;
+    if (w.slug)     { document.getElementById('f-slug').value   = w.slug; document.getElementById('f-slug').dataset.manual='1'; }
+    if (w.body)     document.getElementById('md-input').value   = w.body;
     books    = JSON.parse(localStorage.getItem('shree_books')    || '[]');
     projects = JSON.parse(localStorage.getItem('shree_projects') || '[]');
   } catch(e) {}
+  loadGhSettings();
   renderBooks(); renderProjects(); updatePreview();
 }
 
-// ── HTML builders ──
+// ─────────────────────────────────────────
+//  HTML BUILDERS
+// ─────────────────────────────────────────
 function buildEssayHTML() {
-  const title   = document.getElementById('f-title').value || 'Untitled';
-  const sub     = document.getElementById('f-subtitle').value;
-  const tag     = document.getElementById('f-tag').value;
-  const date    = document.getElementById('f-date').value;
-  const words   = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
-  const mins    = Math.max(1, Math.round(words / 200));
-  const body    = parseMd(document.getElementById('md-input').value);
+  const title = document.getElementById('f-title').value || 'Untitled';
+  const sub   = document.getElementById('f-subtitle').value;
+  const tag   = document.getElementById('f-tag').value;
+  const date  = document.getElementById('f-date').value;
+  const words = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
+  const mins  = Math.max(1, Math.round(words / 200));
+  const body  = parseMd(document.getElementById('md-input').value);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title} — Shree Solanki</title>
 <link rel="stylesheet" href="../style.css">
 <style>
-.essay-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 3rem;height:52px;background:var(--paper);border-bottom:1px solid var(--faint);}
-.essay-nav-back{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .2s;}
-.essay-nav-back:hover{color:var(--red);}
-.essay-nav-title{font-family:var(--serif);font-style:italic;font-size:.95rem;font-weight:300;color:var(--muted);max-width:40ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.essay-header{padding-top:52px;text-align:center;max-width:720px;margin:0 auto;padding-left:2rem;padding-right:2rem;}
-.essay-header-inner{padding:6rem 0 5rem;border-bottom:1px solid var(--faint);}
-.essay-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:1.5rem;}
-.essay-title{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;line-height:1.05;letter-spacing:-.015em;margin-bottom:1.5rem;}
-.essay-subtitle{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.2rem;color:var(--muted);line-height:1.5;max-width:48ch;margin:0 auto 2.5rem;}
-.essay-meta{display:flex;justify-content:center;align-items:center;gap:1.5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
-.essay-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--faint);}
+.essay-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:48px;background:var(--ink);border-bottom:1px solid rgba(247,243,236,0.1);}
+.essay-nav-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,243,236,0.5);text-decoration:none;transition:color .2s;}
+.essay-nav-back:hover{color:var(--paper);}
+.essay-nav-title{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,243,236,0.3);max-width:40ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.essay-header{padding-top:48px;background:var(--ink);color:var(--paper);}
+.essay-header-inner{max-width:720px;margin:0 auto;padding:5rem 2rem 4rem;border-bottom:1px solid rgba(247,243,236,0.1);}
+.essay-tag{font-family:var(--sans);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:1.25rem;}
+.essay-title{font-family:var(--disp);font-weight:900;font-size:clamp(2rem,5vw,3.8rem);line-height:1;letter-spacing:-.01em;margin-bottom:.75rem;}
+.essay-subtitle{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.15rem;color:rgba(247,243,236,0.55);margin-bottom:2rem;}
+.essay-meta{font-family:var(--sans);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,243,236,0.35);}
 .essay-body{max-width:640px;margin:0 auto;padding:5rem 2rem 7rem;}
-.essay-body p{font-family:var(--serif);font-size:1.125rem;font-weight:300;line-height:2;color:var(--ink);margin-bottom:1.75rem;}
-.essay-body h2{font-family:var(--serif);font-size:1.6rem;font-weight:700;line-height:1.2;margin:3.5rem 0 1.25rem;}
-.essay-body h3{font-family:var(--serif);font-size:1.2rem;font-weight:600;line-height:1.3;margin:2.5rem 0 1rem;}
+.essay-body p{font-family:var(--serif);font-size:1.1rem;font-weight:300;line-height:2;color:var(--ink);margin-bottom:1.75rem;}
+.essay-body h2{font-family:var(--disp);font-size:1.6rem;font-weight:700;line-height:1.2;margin:3.5rem 0 1.25rem;}
+.essay-body h3{font-family:var(--disp);font-size:1.2rem;font-weight:700;line-height:1.3;margin:2.5rem 0 1rem;}
 .essay-body blockquote{margin:3rem 0;padding:0 0 0 2rem;border-left:3px solid var(--red);}
-.essay-body blockquote p{font-style:italic;font-size:1.3rem;line-height:1.6;margin:0;}
+.essay-body blockquote p{font-style:italic;font-size:1.2rem;line-height:1.6;margin:0;}
 .essay-body img{width:100%;height:auto;display:block;margin:2.5rem 0;}
-.essay-body figure{margin:3rem 0;}
-.essay-body figure img{margin:0;}
-.essay-body figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.75rem;text-align:center;}
+.essay-body figure{margin:3rem 0;}.essay-body figure img{margin:0;}
+.essay-body figcaption{font-family:var(--sans);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.75rem;text-align:center;}
 .essay-body hr{border:none;text-align:center;margin:3.5rem auto;color:var(--faint);font-size:1.5rem;letter-spacing:.5em;}
 .essay-body hr::after{content:'· · ·';}
-.essay-end{display:flex;align-items:center;justify-content:center;gap:1rem;margin:4rem 0 3rem;}
 .essay-footer-nav{max-width:640px;margin:0 auto 4rem;padding:3rem 2rem 0;border-top:1px solid var(--faint);display:flex;justify-content:space-between;align-items:center;}
-.efn-back{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.efn-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
 .efn-back:hover{color:var(--red);}
 .efn-label{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--muted);}
 </style>
 </head>
 <body>
 <nav class="essay-nav">
-  <a href="../index.html#writing" class="essay-nav-back">&#8592; Writing</a>
+  <a href="../index.html#writing" class="essay-nav-back">← Writing</a>
   <span class="essay-nav-title">${title}</span>
 </nav>
 <header class="essay-header">
@@ -656,32 +686,116 @@ function buildEssayHTML() {
     <p class="essay-tag">${tag}</p>
     <h1 class="essay-title">${title}</h1>
     ${sub ? `<p class="essay-subtitle">${sub}</p>` : ''}
-    <div class="essay-meta">
-      <span>Shree Solanki</span><span class="essay-meta-dot"></span>
-      <span>${date}</span><span class="essay-meta-dot"></span>
-      <span>${mins} min read</span>
-    </div>
+    <p class="essay-meta">Shree Solanki &nbsp;·&nbsp; ${date} &nbsp;·&nbsp; ${mins} min read</p>
   </div>
 </header>
 <article class="essay-body">
 ${body}
-  <div class="essay-end orn">
-    <span class="orn-rule"></span><span class="orn-diamond"></span><span class="orn-rule"></span>
-  </div>
 </article>
 <div class="essay-footer-nav">
-  <a href="../index.html#writing" class="efn-back">&#8592; All writing</a>
+  <a href="../index.html#writing" class="efn-back">← All writing</a>
   <span class="efn-label">Shree Solanki</span>
 </div>
-<footer>
-  <div class="footer-orn"><span class="footer-rule"></span><span class="footer-diamond"></span><span class="footer-rule"></span></div>
-  <p>&copy; 2025 Shree Solanki</p>
-</footer>
-</body>
-</html>`;
+<footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
+</body></html>`;
 }
 
-function buildCardSnippet() {
+function buildReviewHTML(b) {
+  const title  = b.title  || 'Untitled';
+  const author = b.author || '';
+  const body   = parseMd(b.body || '');
+  const stars  = '★'.repeat(b.rating||0) + '☆'.repeat(5-(b.rating||0));
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${title} — Shree Solanki</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+.review-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:48px;background:var(--ink);border-bottom:1px solid rgba(247,243,236,0.1);}
+.review-nav-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,243,236,0.5);text-decoration:none;transition:color .2s;}
+.review-nav-back:hover{color:var(--paper);}
+.review-nav-title{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,243,236,0.3);max-width:40ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.review-header{padding-top:48px;background:var(--ink);color:var(--paper);}
+.review-header-inner{max-width:720px;margin:0 auto;padding:5rem 2rem 4rem;border-bottom:1px solid rgba(247,243,236,0.1);}
+.review-tag{font-family:var(--sans);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:1.25rem;}
+.review-title{font-family:var(--disp);font-weight:900;font-size:clamp(2rem,5vw,3.5rem);line-height:1;letter-spacing:-.01em;margin-bottom:.75rem;color:var(--paper);}
+.review-author{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.15rem;color:rgba(247,243,236,0.5);margin-bottom:1.5rem;}
+.review-stars{font-size:1rem;color:var(--red);letter-spacing:.1em;}
+.review-body{max-width:640px;margin:0 auto;padding:5rem 2rem 7rem;}
+.review-body p{font-family:var(--serif);font-size:1.1rem;font-weight:300;line-height:2;color:var(--ink);margin-bottom:1.75rem;}
+.review-body h2{font-family:var(--disp);font-size:1.5rem;font-weight:700;margin:3rem 0 1rem;}
+.review-body h3{font-family:var(--disp);font-size:1.2rem;font-weight:700;margin:2rem 0 0.75rem;}
+.review-body blockquote{margin:3rem 0;padding:0 0 0 2rem;border-left:3px solid var(--red);}
+.review-body blockquote p{font-style:italic;font-size:1.2rem;line-height:1.6;margin:0;}
+.review-body hr{border:none;text-align:center;margin:3.5rem auto;color:var(--faint);font-size:1.5rem;letter-spacing:.5em;}
+.review-body hr::after{content:'· · ·';}
+.review-footer-nav{max-width:640px;margin:0 auto 4rem;padding:3rem 2rem 0;border-top:1px solid var(--faint);display:flex;justify-content:space-between;align-items:center;}
+.rfn-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.rfn-back:hover{color:var(--red);}
+.rfn-label{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--muted);}
+</style>
+</head>
+<body>
+<nav class="review-nav">
+  <a href="../index.html#books" class="review-nav-back">← Book Reviews</a>
+  <span class="review-nav-title">${title}</span>
+</nav>
+<header class="review-header">
+  <div class="review-header-inner">
+    <p class="review-tag">Book Review</p>
+    <h1 class="review-title">${title}</h1>
+    <p class="review-author">${author}</p>
+    <p class="review-stars">${stars}</p>
+  </div>
+</header>
+<article class="review-body">
+${body}
+</article>
+<div class="review-footer-nav">
+  <a href="../index.html#books" class="rfn-back">← All book reviews</a>
+  <span class="rfn-label">Shree Solanki</span>
+</div>
+<footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
+</body></html>`;
+}
+
+function buildBooksSection() {
+  const nums = ['01','02','03','04','05','06','07','08','09','10'];
+  return books.map((b, i) => {
+    const slug = b.slug || slugify(b.title);
+    const readMore = (b.body && b.body.trim() && slug)
+      ? `\n        <a href="reviews/${slug}.html" class="book-read-more">Full review &#8599;</a>` : '';
+    return `    <div class="book-item">
+      <span class="book-num">${nums[i] || (i+1)}</span>
+      <div>
+        <h3 class="book-title">${esc(b.title) || 'Book Title'}</h3>
+        <p class="book-author">${esc(b.author) || 'Author · Year'}</p>
+        <p class="book-review">${esc(b.review) || 'Your review here.'}</p>${readMore}
+      </div>
+      <div class="book-rating">${'&#9733;'.repeat(b.rating||0)}${'&#9734;'.repeat(5-(b.rating||0))}</div>
+    </div>`;
+  }).join('\n');
+}
+
+function buildProjectsSection() {
+  return projects.map(p => {
+    const tags = (p.tags||'').split(',').map(t=>t.trim()).filter(Boolean)
+      .map(t=>`        <span class="project-tag">${esc(t)}</span>`).join('\n');
+    const href = p.link || '#';
+    return `    <a href="${href}" class="project-card"${p.link?' target="_blank"':''}>
+      <span class="project-arrow">&#8599;</span>
+      <p class="project-category">${esc(p.category)}</p>
+      <h3 class="project-title">${esc(p.title) || 'Project Title'}</h3>
+      <p class="project-desc">${esc(p.desc)}</p>
+      <div class="project-tags">
+${tags}
+      </div>
+    </a>`;
+  }).join('\n');
+}
+
+function buildWritingCard() {
   const title = document.getElementById('f-title').value || 'Untitled';
   const sub   = document.getElementById('f-subtitle').value || '';
   const tag   = document.getElementById('f-tag').value;
@@ -689,130 +803,216 @@ function buildCardSnippet() {
   const slug  = document.getElementById('f-slug').value || 'untitled';
   const words = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
   const mins  = Math.max(1, Math.round(words / 200));
-  return `<a href="essays/${slug}.html" class="writing-card">
-  <p class="writing-tag">${tag}</p>
-  <h3 class="writing-title">${title}</h3>
-  <p class="writing-excerpt">${sub}</p>
-  <p class="writing-meta">${date} &nbsp;&middot;&nbsp; ${mins} min read</p>
-</a>`;
+  return `    <a href="essays/${slug}.html" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
+      <p class="writing-tag">${tag}</p>
+      <h3 class="writing-title">${title}</h3>
+      <p class="writing-excerpt">${sub}</p>
+      <p class="writing-meta">${date} &nbsp;&middot;&nbsp; ${mins} min read</p>
+    </a>`;
 }
 
-function buildBooksSnippet() {
-  const nums = ['i','ii','iii','iv','v','vi','vii','viii','ix','x'];
-  return books.map((b, i) => `<div class="book-item">
-  <span class="book-num">${nums[i] || (i+1)}</span>
-  <div>
-    <h3 class="book-title">${esc(b.title) || 'Book Title'}</h3>
-    <p class="book-author">${esc(b.author) || 'Author · Year'}</p>
-    <p class="book-review">${esc(b.review) || 'Your review here.'}</p>
-  </div>
-  <div class="book-rating">${'&#9733;'.repeat(b.rating)}${'&#9734;'.repeat(5-b.rating)}</div>
-</div>`).join('\n');
+// ─────────────────────────────────────────
+//  GITHUB API
+// ─────────────────────────────────────────
+async function ghRequest(path, method, body) {
+  const token = getToken();
+  if (!token) throw new Error('No GitHub token set. Click "GitHub ⚙" in the nav to add it.');
+  const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/${path}`, {
+    method,
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || `GitHub error ${res.status}`);
+  return data;
 }
 
-function buildProjectsSnippet() {
-  return projects.map(p => {
-    const tags = (p.tags||'').split(',').map(t=>t.trim()).filter(Boolean)
-      .map(t=>`<span class="project-tag">${esc(t)}</span>`).join('\n        ');
-    const href = p.link ? p.link : '#';
-    return `<a href="${href}" class="project-card"${p.link?' target="_blank"':''}>
-  <span class="project-arrow">&#8599;</span>
-  <p class="project-category">${esc(p.category)}</p>
-  <h3 class="project-title">${esc(p.title) || 'Project Title'}</h3>
-  <p class="project-desc">${esc(p.desc)}</p>
-  <div class="project-tags">
-        ${tags}
-  </div>
-</a>`;
-  }).join('\n');
+async function getFileSha(path) {
+  try {
+    const data = await ghRequest(`contents/${path}?ref=${getBranch()}`, 'GET');
+    return data.sha || null;
+  } catch (e) {
+    return null; // file doesn't exist yet
+  }
 }
 
-// ── Generate modal ──
-document.getElementById('generate-btn').addEventListener('click', e => {
-  e.preventDefault();
-  const tab = e.target.dataset.tab || 'writing';
-  const modal = document.getElementById('output-modal');
-  const tabsEl = document.getElementById('output-tabs');
-  const sectionsEl = document.getElementById('output-sections');
-  const instrEl = document.getElementById('output-instructions-list');
-  const filenameEl = document.getElementById('output-filename');
+async function pushFile(filePath, content, commitMsg) {
+  const sha = await getFileSha(filePath);
+  const encoded = btoa(unescape(encodeURIComponent(content)));
+  const payload = {
+    message: commitMsg,
+    content: encoded,
+    branch: getBranch(),
+  };
+  if (sha) payload.sha = sha;
+  await ghRequest(`contents/${filePath}`, 'PUT', payload);
+}
 
-  tabsEl.innerHTML = '';
-  sectionsEl.innerHTML = '';
+async function fetchIndexHTML() {
+  const data = await ghRequest(`contents/index.html?ref=${getBranch()}`, 'GET');
+  return decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+}
 
-  if (tab === 'writing') {
-    const slug = document.getElementById('f-slug').value || 'untitled';
-    filenameEl.textContent = `essays/${slug}.html + index.html card`;
-    instrEl.innerHTML = `
-      <li>Copy the essay HTML → save as <span>essays/${slug}.html</span></li>
-      <li>Copy the card snippet → paste it into the <span>writing-grid</span> div in <span>index.html</span>, replacing a placeholder card</li>
-      <li>Deploy to Vercel</li>`;
-    addOutputTab(tabsEl, sectionsEl, 'Essay HTML', buildEssayHTML(), true);
-    addOutputTab(tabsEl, sectionsEl, 'Card for index.html', buildCardSnippet(), false);
-  } else if (tab === 'books') {
-    filenameEl.textContent = `index.html → #books section`;
-    instrEl.innerHTML = `
-      <li>Copy the snippet below</li>
-      <li>In <span>index.html</span>, find the <span>&lt;div class="books-list"&gt;</span> and replace its contents with this</li>
-      <li>Deploy to Vercel</li>`;
-    addOutputTab(tabsEl, sectionsEl, 'Books HTML for index.html', buildBooksSnippet(), true);
-  } else if (tab === 'projects') {
-    filenameEl.textContent = `index.html → #projects section`;
-    instrEl.innerHTML = `
-      <li>Copy the snippet below</li>
-      <li>In <span>index.html</span>, find the <span>&lt;div class="projects-grid"&gt;</span> and replace its contents with this</li>
-      <li>Deploy to Vercel</li>`;
-    addOutputTab(tabsEl, sectionsEl, 'Projects HTML for index.html', buildProjectsSnippet(), true);
+function injectSection(html, startComment, endComment, newContent) {
+  const re = new RegExp(startComment + '[\\s\\S]*?' + endComment, 'g');
+  const replacement = startComment + '\n' + newContent + '\n  ' + endComment;
+  if (re.test(html)) return html.replace(re, replacement);
+  // fallback: couldn't find markers — return unchanged
+  console.warn('Could not find markers:', startComment);
+  return html;
+}
+
+// ─────────────────────────────────────────
+//  DEPLOY
+// ─────────────────────────────────────────
+const deployBtn  = document.getElementById('deploy-btn');
+const deployModal = document.getElementById('deploy-modal');
+const deployLog  = document.getElementById('deploy-log');
+
+function log(msg, cls) {
+  const span = document.createElement('span');
+  span.className = cls || '';
+  span.textContent = msg + '\n';
+  deployLog.appendChild(span);
+  deployLog.scrollTop = deployLog.scrollHeight;
+}
+
+deployBtn.addEventListener('click', async () => {
+  if (!getToken()) {
+    document.getElementById('gh-settings-bar').classList.add('visible');
+    document.getElementById('gh-token').focus();
+    showToast('Enter your GitHub token first');
+    return;
+  }
+  deployBtn.disabled = true;
+  deployBtn.classList.add('loading');
+  deployBtn.querySelector('.btn-label').textContent = 'Pushing…';
+  deployLog.innerHTML = '';
+  deployModal.classList.add('open');
+
+  try {
+    const tab = activeTab;
+    log(`▶ Starting deploy (tab: ${tab})`, 'log-head');
+
+    if (tab === 'writing') {
+      // 1. Push essay file
+      const slug = document.getElementById('f-slug').value || 'untitled';
+      const essayPath = `essays/${slug}.html`;
+      log(`  Fetching current index.html…`, 'log-info');
+      const indexHTML = await fetchIndexHTML();
+      log(`  ✓ Got index.html`, 'log-ok');
+
+      // 2. Inject writing card into writing-grid
+      const card = buildWritingCard();
+      // Replace first placeholder card or append before closing div
+      let newIndex = indexHTML;
+      // Try to replace an existing card with the same slug first
+      const slugCardRe = new RegExp(`<a href="essays/${slug}\\.html"[^>]*class="writing-card">[\\s\\S]*?</a>`, 'g');
+      if (slugCardRe.test(newIndex)) {
+        newIndex = newIndex.replace(slugCardRe, card.trim());
+        log(`  Updated existing card for "${slug}"`, 'log-info');
+      } else {
+        // Insert before the first placeholder card (href="#")
+        const placeholderRe = /(<a href="#" class="writing-card">)/;
+        if (placeholderRe.test(newIndex)) {
+          newIndex = newIndex.replace(placeholderRe, card.trim() + '\n    $1');
+          log(`  Injected new card (replaced first placeholder)`, 'log-info');
+        } else {
+          log(`  ⚠ Could not find placeholder card — card not injected into index.html`, 'log-err');
+        }
+      }
+
+      log(`  Pushing essays/${slug}.html…`, 'log-info');
+      await pushFile(essayPath, buildEssayHTML(), `Add essay: ${document.getElementById('f-title').value || slug}`);
+      log(`  ✓ essays/${slug}.html pushed`, 'log-ok');
+
+      log(`  Pushing index.html…`, 'log-info');
+      await pushFile('index.html', newIndex, `Update writing card: ${slug}`);
+      log(`  ✓ index.html updated`, 'log-ok');
+
+    } else if (tab === 'books') {
+      log(`  Fetching current index.html…`, 'log-info');
+      const indexHTML = await fetchIndexHTML();
+      log(`  ✓ Got index.html`, 'log-ok');
+
+      // Replace books-list contents
+      const booksContent = buildBooksSection();
+      const booksRe = new RegExp('(<div class="books-list">)[\\s\\S]*?(<\\/div>\\s*<\\/section>\\s*<!' + '-- PROJECTS --' + '>)');
+      const newIndex = indexHTML.replace(
+        booksRe,
+        '$1\n' + booksContent + '\n  </div>\n</section>\n\n<!' + '-- PROJECTS --' + '>'
+      );
+
+      log(`  Pushing index.html…`, 'log-info');
+      await pushFile('index.html', newIndex, 'Update book reviews');
+      log(`  ✓ index.html updated`, 'log-ok');
+
+      // Push individual review pages
+      for (const b of books) {
+        if (b.body && b.body.trim()) {
+          const slug = b.slug || slugify(b.title);
+          if (!slug) continue;
+          log(`  Pushing reviews/${slug}.html…`, 'log-info');
+          await pushFile(`reviews/${slug}.html`, buildReviewHTML(b), `Add book review: ${b.title}`);
+          log(`  ✓ reviews/${slug}.html pushed`, 'log-ok');
+        }
+      }
+
+    } else if (tab === 'projects') {
+      log(`  Fetching current index.html…`, 'log-info');
+      const indexHTML = await fetchIndexHTML();
+      log(`  ✓ Got index.html`, 'log-ok');
+
+      // Replace projects-grid contents
+      const projContent = buildProjectsSection();
+      const projRe = new RegExp('(<div class="projects-grid">)[\\s\\S]*?(<\\/div>\\s*<\\/section>\\s*<!' + '-- CONTACT --' + '>)');
+      const newIndex = indexHTML.replace(
+        projRe,
+        '$1\n' + projContent + '\n  </div>\n</section>\n\n<!' + '-- CONTACT --' + '>'
+      );
+
+      log(`  Pushing index.html…`, 'log-info');
+      await pushFile('index.html', newIndex, 'Update projects');
+      log(`  ✓ index.html updated`, 'log-ok');
+    }
+
+    log(`\n✓ Done! Vercel will deploy in ~30 seconds.`, 'log-ok');
+
+  } catch (err) {
+    log(`\n✗ Error: ${err.message}`, 'log-err');
+    log(`  Check your GitHub token has "repo" scope.`, 'log-info');
   }
 
-  modal.classList.add('open');
+  deployBtn.disabled = false;
+  deployBtn.classList.remove('loading');
+  deployBtn.querySelector('.btn-label').textContent = 'Push to GitHub';
 });
 
-function addOutputTab(tabsEl, sectionsEl, label, content, active) {
-  const id = 'ot-' + Math.random().toString(36).slice(2);
-  const btn = document.createElement('button');
-  btn.className = 'output-tab' + (active ? ' active' : '');
-  btn.textContent = label;
-  btn.addEventListener('click', () => {
-    tabsEl.querySelectorAll('.output-tab').forEach(b => b.classList.remove('active'));
-    sectionsEl.querySelectorAll('.output-section').forEach(s => s.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(id).classList.add('active');
-    document.getElementById('copy-btn').dataset.target = id;
-  });
-  tabsEl.appendChild(btn);
-
-  const sec = document.createElement('div');
-  sec.className = 'output-section' + (active ? ' active' : '');
-  sec.id = id;
-  sec.innerHTML = `<textarea class="output-textarea" readonly></textarea>`;
-  sec.querySelector('textarea').value = content;
-  sectionsEl.appendChild(sec);
-
-  if (active) document.getElementById('copy-btn').dataset.target = id;
-}
-
-document.getElementById('copy-btn').addEventListener('click', () => {
-  const id = document.getElementById('copy-btn').dataset.target;
-  const ta = document.getElementById(id)?.querySelector('textarea');
-  if (ta) navigator.clipboard.writeText(ta.value).then(() => showToast('Copied'));
+document.getElementById('deploy-close-btn').addEventListener('click', () => deployModal.classList.remove('open'));
+document.getElementById('deploy-done-btn').addEventListener('click', () => deployModal.classList.remove('open'));
+document.getElementById('deploy-modal').addEventListener('click', e => {
+  if (e.target === deployModal) deployModal.classList.remove('open');
 });
 
-document.getElementById('close-modal-btn').addEventListener('click', () =>
-  document.getElementById('output-modal').classList.remove('open'));
-document.getElementById('output-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('output-modal'))
-    document.getElementById('output-modal').classList.remove('open');
-});
-
+// ─────────────────────────────────────────
+//  TOAST
+// ─────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+// (loadFromStorage is called after unlock)
 </script>
 </body>
 </html>
