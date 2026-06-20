@@ -849,26 +849,47 @@ deployBtn.addEventListener('click', async () => {
     const tab = activeTab;
     log('▶ Starting deploy (tab: ' + tab + ')', 'log-head');
 
+    // ── helpers to fetch + parse archive data ──
+    async function getWritingArchive() {
+      try {
+        const wt = await ghRequest('contents/writing.html?ref=' + getBranch(), 'GET');
+        const html = decodeURIComponent(escape(atob(wt.content.replace(/\n/g,''))));
+        const m = html.match(/window\.ESSAYS\s*=\s*(\[[\s\S]*?\]);/);
+        return m ? JSON.parse(m[1]) : [];
+      } catch(e) { return []; }
+    }
+    async function getWritingTemplate() {
+      try {
+        const wt = await ghRequest('contents/writing.html?ref=' + getBranch(), 'GET');
+        return decodeURIComponent(escape(atob(wt.content.replace(/\n/g,''))));
+      } catch(e) { return null; }
+    }
+    async function getBooksTemplate() {
+      try {
+        const bt = await ghRequest('contents/books.html?ref=' + getBranch(), 'GET');
+        return decodeURIComponent(escape(atob(bt.content.replace(/\n/g,''))));
+      } catch(e) { return null; }
+    }
+
     if (tab === 'writing') {
-      const slug    = document.getElementById('f-slug').value || 'untitled';
-      const title   = document.getElementById('f-title').value || 'Untitled';
-      const sub     = document.getElementById('f-subtitle').value || '';
-      const tag     = document.getElementById('f-tag').value;
-      const date    = document.getElementById('f-date').value;
-      const words   = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
-      const mins    = Math.max(1, Math.round(words / 200));
+      const slug     = document.getElementById('f-slug').value || 'untitled';
+      const title    = document.getElementById('f-title').value || 'Untitled';
+      const sub      = document.getElementById('f-subtitle').value || '';
+      const tag      = document.getElementById('f-tag').value;
+      const date     = document.getElementById('f-date').value;
+      const words    = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
+      const mins     = Math.max(1, Math.round(words / 200));
       const featured = document.getElementById('f-featured').checked;
 
-      // Push essay file
+      // 1. Push essay file
       log('  Pushing essays/' + slug + '.html…', 'log-info');
       await pushFile('essays/' + slug + '.html', buildEssayHTML(), 'Add essay: ' + title);
       log('  ✓ essays/' + slug + '.html pushed', 'log-ok');
 
-      // Update index.html
+      // 2. Update index.html
       log('  Fetching index.html…', 'log-info');
       let indexHTML = await fetchIndexHTML();
       log('  ✓ Got index.html', 'log-ok');
-
       if (featured) {
         const card = buildWritingCard({ slug, title, subtitle: sub, tag, date, mins });
         const slugCardRe = new RegExp('<a href="essays/' + slug + '\\.html"[^>]*class="writing-card">[\\s\\S]*?<\\/a>');
@@ -881,70 +902,53 @@ deployBtn.addEventListener('click', async () => {
             indexHTML = indexHTML.replace(placeholderRe, card.trim() + '\n    $1');
             log('  Injected new homepage card', 'log-info');
           } else {
-            log('  ⚠ No placeholder card found — card not added to homepage', 'log-err');
+            log('  ⚠ No placeholder card — add essay to homepage manually', 'log-err');
           }
         }
       }
-
       log('  Pushing index.html…', 'log-info');
-      await pushFile('index.html', indexHTML, 'Update writing card: ' + slug);
+      await pushFile('index.html', indexHTML, 'Update writing: ' + slug);
       log('  ✓ index.html updated', 'log-ok');
 
-      // Update writing.html — fetch template, extract existing essay list from window.ESSAYS, update
-      log('  Updating writing.html archive…', 'log-info');
-      let writingTemplate = '';
-      let allEssays = [];
-      try {
-        const wt = await ghRequest('contents/writing.html?ref=' + getBranch(), 'GET');
-        writingTemplate = decodeURIComponent(escape(atob(wt.content.replace(/\n/g,''))));
-        // Extract existing ESSAYS array from the page
-        const existingMatch = writingTemplate.match(/window\.ESSAYS\s*=\s*(\[[\s\S]*?\]);/);
-        if (existingMatch) {
-          try { allEssays = JSON.parse(existingMatch[1]); } catch(e) {}
-        }
-      } catch(e) {
-        log('  ⚠ writing.html not found on GitHub — push writing.html first', 'log-err');
-      }
-      // Add/replace current essay
-      allEssays = allEssays.filter(e => e.slug !== slug);
-      allEssays.unshift({ slug, title, subtitle: sub, tag, date, mins });
-      if (writingTemplate) {
-        await pushFile('writing.html', buildWritingArchiveHTML(allEssays, writingTemplate), 'Update writing archive');
-        log('  ✓ writing.html updated', 'log-ok');
+      // 3. Update writing.html archive — always, regardless of featured toggle
+      log('  Updating writing.html…', 'log-info');
+      const writingTpl = await getWritingTemplate();
+      if (writingTpl) {
+        let allEssays = await getWritingArchive();
+        allEssays = allEssays.filter(e => e.slug !== slug);
+        allEssays.unshift({ slug, title, subtitle: sub, tag, date, mins });
+        await pushFile('writing.html', buildWritingArchiveHTML(allEssays, writingTpl), 'Update writing archive: ' + slug);
+        log('  ✓ writing.html updated (' + allEssays.length + ' essays)', 'log-ok');
+      } else {
+        log('  ⚠ writing.html not on GitHub yet — commit it first', 'log-err');
       }
 
     } else if (tab === 'books') {
+      // 1. Update index.html (featured only, max 6)
       log('  Fetching index.html…', 'log-info');
       let indexHTML = await fetchIndexHTML();
       log('  ✓ Got index.html', 'log-ok');
-
-      // Replace books-list contents on index (featured only, max 6)
-      const booksRe = new RegExp('(<div class="books-list">)[\\s\\S]*?(<\\/div>[\\s\\S]*?<a href="books\\.html"[^>]*>[\\s\\S]*?<\\/a>[\\s\\S]*?<\\/section>[\\s\\S]*?<!' + '-- PROJECTS --' + '>)');
       const booksContent = buildBooksIndexSection();
       const seeAll = '\n  <a href="books.html" class="section-see-all">All book reviews &rarr;</a>\n</section>\n\n<!' + '-- PROJECTS --' + '>';
-      // Try replacing existing block
       const booksRe2 = new RegExp('(<div class="books-list">)[\\s\\S]*?<!' + '-- PROJECTS --' + '>');
       if (booksRe2.test(indexHTML)) {
         indexHTML = indexHTML.replace(booksRe2, '$1\n' + booksContent + '\n  </div>' + seeAll);
       }
       log('  Pushing index.html…', 'log-info');
-      await pushFile('index.html', indexHTML, 'Update book reviews on index');
+      await pushFile('index.html', indexHTML, 'Update book reviews');
       log('  ✓ index.html updated', 'log-ok');
 
-      // Push books.html — fetch template from GitHub then inject data
-      log('  Fetching books.html template…', 'log-info');
-      let booksTemplate = '';
-      try {
-        const bt = await ghRequest('contents/books.html?ref=' + getBranch(), 'GET');
-        booksTemplate = decodeURIComponent(escape(atob(bt.content.replace(/\n/g,''))));
-      } catch(e) { log('  ⚠ books.html not found on GitHub — push books.html first', 'log-err'); }
-      if (booksTemplate) {
-        log('  Pushing books.html…', 'log-info');
-        await pushFile('books.html', buildBooksArchiveHTML(booksTemplate), 'Update books archive');
-        log('  ✓ books.html pushed', 'log-ok');
+      // 2. Update books.html archive — always push ALL books
+      log('  Updating books.html…', 'log-info');
+      const booksTpl = await getBooksTemplate();
+      if (booksTpl) {
+        await pushFile('books.html', buildBooksArchiveHTML(booksTpl), 'Update books archive');
+        log('  ✓ books.html updated (' + books.length + ' books)', 'log-ok');
+      } else {
+        log('  ⚠ books.html not on GitHub yet — commit it first', 'log-err');
       }
 
-      // Push individual full review pages
+      // 3. Push individual full review pages
       for (const b of books) {
         if (b.body && b.body.trim()) {
           const slug = b.slug || slugify(b.title);
@@ -959,7 +963,6 @@ deployBtn.addEventListener('click', async () => {
       log('  Fetching index.html…', 'log-info');
       let indexHTML = await fetchIndexHTML();
       log('  ✓ Got index.html', 'log-ok');
-
       const projRe = new RegExp('(<div class="projects-grid">)[\\s\\S]*?<!' + '-- CONTACT --' + '>');
       const projContent = buildProjectsSection();
       if (projRe.test(indexHTML)) {
