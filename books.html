@@ -7,139 +7,47 @@
 <link rel="stylesheet" href="style.css">
 <style>
 a { color: inherit; text-decoration: none; }
-
-.arc-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-  height: 48px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2.5rem; background: var(--ink);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.arc-nav-back {
-  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: rgba(247,243,236,0.5);
-  text-decoration: none; transition: color 0.2s;
-}
+.arc-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.arc-nav-back { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(247,243,236,0.5); text-decoration: none; transition: color 0.2s; }
 .arc-nav-back:hover { color: var(--paper); }
-.arc-nav-logo {
-  font-family: var(--sans); font-size: 0.7rem; font-weight: 500;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--paper);
-  text-decoration: none;
-}
-
+.arc-nav-logo { font-family: var(--sans); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--paper); text-decoration: none; }
 .arc-header { padding-top: 48px; background: var(--ink); color: var(--paper); }
-.arc-header-inner {
-  max-width: 1100px; margin: 0 auto; padding: 5rem 2.5rem 3.5rem;
-  border-bottom: 1px solid rgba(247,243,236,0.1);
-  display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
-}
-.arc-kicker {
-  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--red); margin-bottom: 1rem;
-}
-.arc-title {
-  font-family: var(--disp); font-weight: 900;
-  font-size: clamp(3.5rem, 8vw, 7rem); line-height: 0.88;
-  letter-spacing: -0.02em; color: var(--paper);
-}
+.arc-header-inner { max-width: 1100px; margin: 0 auto; padding: 5rem 2.5rem 3.5rem; border-bottom: 1px solid rgba(247,243,236,0.1); display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; }
+.arc-kicker { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; }
+.arc-title { font-family: var(--disp); font-weight: 900; font-size: clamp(3.5rem, 8vw, 7rem); line-height: 0.88; letter-spacing: -0.02em; color: var(--paper); }
 .arc-title em { font-style: italic; color: rgba(247,243,236,0.35); display: block; }
-.arc-count {
-  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.14em;
-  text-transform: uppercase; color: rgba(247,243,236,0.3);
-  white-space: nowrap; padding-bottom: 0.5rem;
-}
-
-/* ── FILTER BAR ── */
-.filter-bar {
-  background: var(--ink); border-bottom: 1px solid rgba(247,243,236,0.08);
-  padding: 0 2.5rem; display: flex; align-items: center; gap: 0;
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-}
+.arc-count { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(247,243,236,0.3); white-space: nowrap; padding-bottom: 0.5rem; }
+.filter-bar { background: var(--ink); border-bottom: 1px solid rgba(247,243,236,0.08); padding: 0 2.5rem; display: flex; align-items: center; gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .filter-bar::-webkit-scrollbar { display: none; }
-.filter-btn {
-  font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: rgba(247,243,236,0.35);
-  background: transparent; border: none; border-bottom: 2px solid transparent;
-  padding: 0.9rem 1.1rem; cursor: pointer; white-space: nowrap;
-  transition: color 0.15s, border-color 0.15s;
-}
+.filter-btn { font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(247,243,236,0.35); background: transparent; border: none; border-bottom: 2px solid transparent; padding: 0.9rem 1.1rem; cursor: pointer; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
 .filter-btn:hover { color: rgba(247,243,236,0.7); }
 .filter-btn.active { color: var(--paper); border-bottom-color: var(--red); }
 .filter-divider { width: 1px; height: 18px; background: rgba(247,243,236,0.1); margin: 0 0.5rem; flex-shrink: 0; }
-.sort-btn {
-  font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: rgba(247,243,236,0.35);
-  background: transparent; border: none; padding: 0.9rem 1.1rem; cursor: pointer;
-  white-space: nowrap; transition: color 0.15s; display: flex; align-items: center; gap: 0.4rem;
-  margin-left: auto;
-}
+.sort-btn { font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(247,243,236,0.35); background: transparent; border: none; padding: 0.9rem 1.1rem; cursor: pointer; white-space: nowrap; transition: color 0.15s; display: flex; align-items: center; gap: 0.4rem; margin-left: auto; }
 .sort-btn:hover, .sort-btn.active { color: var(--paper); }
-.sort-arrow { font-size: 0.7rem; transition: transform 0.2s; }
-
-/* ── BOOK LIST ── */
+.sort-arrow { font-size: 0.7rem; }
 .arc-body { max-width: 900px; margin: 0 auto; padding: 3rem 2.5rem 7rem; }
-
 .books-list { border-top: 1px solid rgba(14,11,7,0.12); }
-
-.book-item {
-  display: grid; grid-template-columns: 3.5rem 1fr auto;
-  gap: 2rem; align-items: start;
-  padding: 2.25rem 0; border-bottom: 1px solid rgba(14,11,7,0.08);
-  transition: background 0.15s; cursor: default;
-}
-.book-num {
-  font-family: var(--disp); font-size: 2.5rem; line-height: 1;
-  color: var(--faint); font-weight: 900;
-}
-.book-title {
-  font-family: var(--disp); font-size: 1.15rem; font-weight: 700;
-  margin-bottom: 0.2rem; line-height: 1.2; color: var(--ink);
-}
+.book-item { display: grid; grid-template-columns: 3.5rem 1fr auto; gap: 2rem; align-items: start; padding: 2.25rem 0; border-bottom: 1px solid rgba(14,11,7,0.08); }
+.book-num { font-family: var(--disp); font-size: 2.5rem; line-height: 1; color: var(--faint); font-weight: 900; }
+.book-title { font-family: var(--disp); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.2rem; line-height: 1.2; color: var(--ink); }
 .book-title a { transition: color 0.2s; }
 .book-title a:hover { color: var(--red); }
-.book-author {
-  font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--muted); margin-bottom: 0.85rem;
-}
-.book-review {
-  font-family: var(--serif); font-size: 0.95rem; font-weight: 300;
-  line-height: 1.85; color: var(--ink);
-}
-.book-read-more {
-  display: inline-block; margin-top: 0.85rem;
-  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s;
-}
+.book-author { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.85rem; }
+.book-review { font-family: var(--serif); font-size: 0.95rem; font-weight: 300; line-height: 1.85; color: var(--ink); }
+.book-read-more { display: inline-block; margin-top: 0.85rem; font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
 .book-read-more:hover { color: var(--red); }
 .book-rating { font-size: 0.85rem; color: var(--red); white-space: nowrap; padding-top: 0.25rem; letter-spacing: 0.05em; }
-
-/* genre tag on books */
-.book-genre {
-  display: inline-block; margin-bottom: 0.6rem;
-  font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--red); border: 1px solid var(--faint); padding: 0.15rem 0.5rem;
-}
-
-.arc-empty {
-  padding: 5rem 0; text-align: center;
-  font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 1.1rem;
-}
-
-@media (max-width: 860px) {
-  .arc-header-inner { flex-direction: column; align-items: flex-start; padding: 3rem 1.5rem 2rem; }
-  .filter-bar { padding: 0 1.5rem; }
-  .arc-body { padding: 2rem 1.5rem 5rem; }
-  .book-item { grid-template-columns: 2.5rem 1fr; }
-  .book-rating { grid-column: 2; }
-}
+.book-genre { display: inline-block; margin-bottom: 0.6rem; font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); border: 1px solid var(--faint); padding: 0.15rem 0.5rem; }
+.arc-empty { padding: 5rem 0; text-align: center; font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 1.1rem; }
+@media (max-width: 860px) { .arc-header-inner { flex-direction: column; align-items: flex-start; padding: 3rem 1.5rem 2rem; } .filter-bar { padding: 0 1.5rem; } .arc-body { padding: 2rem 1.5rem 5rem; } .book-item { grid-template-columns: 2.5rem 1fr; } .book-rating { grid-column: 2; } }
 </style>
 </head>
 <body>
-
 <nav class="arc-nav">
   <a href="index.html" class="arc-nav-back">← Home</a>
   <a href="index.html" class="arc-nav-logo">Shree Solanki</a>
 </nav>
-
 <header class="arc-header">
   <div class="arc-header-inner">
     <div>
@@ -149,7 +57,6 @@ a { color: inherit; text-decoration: none; }
     <span class="arc-count" id="book-count">0 books</span>
   </div>
 </header>
-
 <div class="filter-bar">
   <button class="filter-btn active" data-filter="all">All</button>
   <button class="filter-btn" data-filter="Fiction">Fiction</button>
@@ -159,89 +66,51 @@ a { color: inherit; text-decoration: none; }
   <button class="filter-btn" data-filter="History">History</button>
   <button class="filter-btn" data-filter="Science">Science</button>
   <div class="filter-divider"></div>
-  <button class="sort-btn" id="sort-rating-btn" data-active="false">
-    By rating <span class="sort-arrow">↓</span>
-  </button>
+  <button class="sort-btn" id="sort-rating-btn">By rating <span class="sort-arrow">↓</span></button>
 </div>
-
 <div class="arc-body">
-  <div class="books-list" id="book-list">
-    <p class="arc-empty">No books yet.</p>
-  </div>
+  <div class="books-list" id="book-list"><p class="arc-empty">Loading...</p></div>
 </div>
-
 <footer style="border-top:3px solid var(--ink);padding:1.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:var(--ink);">
   <p style="font-family:var(--sans);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(247,243,236,0.3);">&copy; 2025 Shree Solanki</p>
   <p style="font-family:var(--sans);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(247,243,236,0.3);">VGSOM &nbsp;&middot;&nbsp; IIT Kharagpur</p>
 </footer>
-
+<!-- BOOKS_DATA_START -->
+<script>window.BOOKS = [{"title": "How the World Ran Out of Everything: Inside the Global Supply Chain", "author": "Peter S. Goodman \u00b7 2024", "rating": 4, "review": "For a book about container ships and inventory models, it has no business being this good. Read it, especially if that sentence just made you hesitate.", "slug": "How-the-World-Ran-Out-of-Everything", "genre": "", "hasReview": true}, {"title": "Stories of Your Life and Others", "author": "Ted Chiang \u00b7 2002", "rating": 5, "review": "Pure brilliance. A philosopher who loves science has written fiction for the masses. I am always honoured to read and re-read.", "slug": "stories-of-your-life-and-others", "genre": "", "hasReview": true}, {"title": "Demon Copperhead", "author": "Barbara Kingsolver \u00b7 2022", "rating": 5, "review": "After being bullied by fellow internet bookworms for not having read it, I finally caved in. And I now vow to read the hyped up books. This book is so deliciously good. Love it.", "slug": "demon-copperhead", "genre": "", "hasReview": true}, {"title": "Why I Am a Hindu", "author": "Shashi Tharoor \u00b7 2018", "rating": 3, "review": "", "slug": "why-i-am-a-hindu", "genre": "", "hasReview": true}];</script>
+<!-- BOOKS_DATA_END -->
 <script>
-// window.BOOKS is injected by the admin panel
-// FORMAT: [{title, author, rating, review, slug, genre, body (bool)}, ...]
-const books = window.BOOKS || [];
-
-let activeFilter = 'all';
-let sortByRating = false;
-
-function stars(n) {
-  return '★'.repeat(n||0) + '☆'.repeat(5-(n||0));
-}
-
+var books = window.BOOKS || [];
+var activeFilter = 'all';
+var sortByRating = false;
+function stars(n) { return '★'.repeat(n||0) + '☆'.repeat(5-(n||0)); }
 function render() {
-  const list = document.getElementById('book-list');
-  let filtered = books.filter(b => activeFilter === 'all' || b.genre === activeFilter);
-
-  if (sortByRating) {
-    filtered = [...filtered].sort((a,b) => (b.rating||0) - (a.rating||0));
-  }
-
-  document.getElementById('book-count').textContent =
-    filtered.length + ' book' + (filtered.length !== 1 ? 's' : '');
-
-  if (!filtered.length) {
-    list.innerHTML = '<p class="arc-empty">No books in this category yet.</p>';
-    return;
-  }
-
-  list.innerHTML = filtered.map((b, i) => {
-    const num = String(i+1).padStart(2, '0');
-    const hasReview = b.hasReview && b.slug;
-    const titleEl = hasReview
-      ? `<a href="reviews/${b.slug}.html">${b.title || 'Book Title'}</a>`
-      : (b.title || 'Book Title');
-    const readMore = hasReview
-      ? `<a href="reviews/${b.slug}.html" class="book-read-more">Full review &#8599;</a>` : '';
-    const genreTag = b.genre ? `<span class="book-genre">${b.genre}</span><br>` : '';
-    return `<div class="book-item">
-      <span class="book-num">${num}</span>
-      <div>
-        ${genreTag}
-        <h3 class="book-title">${titleEl}</h3>
-        <p class="book-author">${b.author || ''}</p>
-        <p class="book-review">${b.review || ''}</p>
-        ${readMore}
-      </div>
-      <div class="book-rating">${stars(b.rating)}</div>
-    </div>`;
+  var list = document.getElementById('book-list');
+  var filtered = books.filter(function(b) { return activeFilter === 'all' || b.genre === activeFilter; });
+  if (sortByRating) { filtered = filtered.slice().sort(function(a,b) { return (b.rating||0)-(a.rating||0); }); }
+  document.getElementById('book-count').textContent = filtered.length + ' book' + (filtered.length !== 1 ? 's' : '');
+  if (!filtered.length) { list.innerHTML = '<p class="arc-empty">No books in this category yet.</p>'; return; }
+  list.innerHTML = filtered.map(function(b, i) {
+    var num = String(i+1).padStart(2,'0');
+    var hasReview = b.hasReview && b.slug;
+    var titleEl = hasReview ? '<a href="reviews/'+b.slug+'.html">'+b.title+'</a>' : (b.title||'Book Title');
+    var readMore = hasReview ? '<a href="reviews/'+b.slug+'.html" class="book-read-more">Full review &#8599;</a>' : '';
+    var genreTag = b.genre ? '<span class="book-genre">'+b.genre+'</span><br>' : '';
+    return '<div class="book-item"><span class="book-num">'+num+'</span><div>'+genreTag+'<h3 class="book-title">'+titleEl+'</h3><p class="book-author">'+(b.author||'')+'</p><p class="book-review">'+(b.review||'')+'</p>'+readMore+'</div><div class="book-rating">'+stars(b.rating)+'</div></div>';
   }).join('');
 }
-
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
     activeFilter = btn.dataset.filter;
     render();
   });
 });
-
-document.getElementById('sort-rating-btn').addEventListener('click', () => {
+document.getElementById('sort-rating-btn').addEventListener('click', function() {
   sortByRating = !sortByRating;
-  const btn = document.getElementById('sort-rating-btn');
-  btn.classList.toggle('active', sortByRating);
+  document.getElementById('sort-rating-btn').classList.toggle('active', sortByRating);
   render();
 });
-
 render();
 </script>
 </body>
