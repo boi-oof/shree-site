@@ -734,13 +734,14 @@ function buildBooksArchiveHTML(booksHtmlTemplate) {
   }));
   const dataScript = '<script>window.BOOKS = ' + JSON.stringify(data) + ';<\/script>';
   // Inject before closing </body>
-  return booksHtmlTemplate.replace('</body>', dataScript + '\n</body>');
+  // Inject data BEFORE the render script, not after
+  return booksHtmlTemplate.replace('<script>\n// window.BOOKS', dataScript + '\n<script>\n// window.BOOKS');
 }
 
 // Inject essays data into writing.html template
 function buildWritingArchiveHTML(allEssays, writingHtmlTemplate) {
   const dataScript = '<script>window.ESSAYS = ' + JSON.stringify(allEssays) + ';<\/script>';
-  return writingHtmlTemplate.replace('</body>', dataScript + '\n</body>');
+  return writingHtmlTemplate.replace('<script>\n// Essays are injected', dataScript + '\n<script>\n// Essays are injected');
 }
 
 function buildBooksIndexSection() {
