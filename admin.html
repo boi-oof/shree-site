@@ -477,6 +477,12 @@ function renderBooks() {
         <label>Slug (auto from title)</label>
         <input class="entry-field small muted b-field b-slug" placeholder="thinking-fast-and-slow" value="${esc(b.slug||'')}" data-i="${i}" data-key="slug">
       </div>
+      <div class="meta-field">
+        <label>Genre (for filter on books page)</label>
+        <select class="entry-field small b-field" data-i="${i}" data-key="genre">
+          ${['','Fiction','Non-Fiction','Management','Economics','History','Science'].map(g=>'<option '+(b.genre===g?'selected':'')+'>'+g+'</option>').join('')}
+        </select>
+      </div>
       <div style="grid-column:1/-1;display:flex;justify-content:flex-end;padding-top:0.5rem">
         <button class="remove-btn" data-i="${i}">Remove</button>
       </div>`;
@@ -503,7 +509,7 @@ function renderBooks() {
   }));
 }
 document.getElementById('add-book-btn').addEventListener('click', () => {
-  books.push({ title:'', author:'', rating:4, review:'', body:'', slug:'', featured:true }); renderBooks();
+  books.push({ title:'', author:'', rating:4, review:'', body:'', slug:'', featured:true, genre:'' }); renderBooks();
 });
 
 // ── PROJECTS ──
@@ -715,97 +721,26 @@ a{color:inherit;}
 </body></html>`;
 }
 
-// archive page for ALL books
-function buildBooksArchiveHTML() {
-  const nums = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20'];
-  const items = books.map((b, i) => {
-    const slug = b.slug || slugify(b.title);
-    const hasReview = b.body && b.body.trim() && slug;
-    const titleEl = hasReview
-      ? `<a href="reviews/${slug}.html"><h3 class="book-title">${esc(b.title) || 'Book Title'}</h3></a>`
-      : `<h3 class="book-title">${esc(b.title) || 'Book Title'}</h3>`;
-    const readMore = hasReview
-      ? `\n        <a href="reviews/${slug}.html" class="book-read-more">Full review &#8599;</a>` : '';
-    return `    <div class="book-item">
-      <span class="book-num">${nums[i] || (i+1)}</span>
-      <div>
-        ${titleEl}
-        <p class="book-author">${esc(b.author) || 'Author · Year'}</p>
-        <p class="book-review">${esc(b.review) || ''}</p>${readMore}
-      </div>
-      <div class="book-rating">${'&#9733;'.repeat(b.rating||0)}${'&#9734;'.repeat(5-(b.rating||0))}</div>
-    </div>`;
-  }).join('\n');
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book Reviews — Shree Solanki</title>
-<link rel="stylesheet" href="style.css">
-${sharedPageStyle()}
-</head>
-<body>
-<nav class="archive-nav">
-  <a href="index.html" class="archive-nav-back">← Home</a>
-  <span class="archive-nav-title">Book Reviews</span>
-</nav>
-<header class="archive-header">
-  <div class="archive-header-inner">
-    <p class="archive-kicker">Reading List</p>
-    <h1 class="archive-title">Book<br>Reviews</h1>
-    <p class="archive-sub">Arguments with authors I admire</p>
-  </div>
-</header>
-<div class="archive-body">
-  <section id="books" style="padding:0;border:none">
-    <div class="books-list">
-${items}
-    </div>
-  </section>
-</div>
-<footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
-</body></html>`;
+// Inject books data into books.html template
+function buildBooksArchiveHTML(booksHtmlTemplate) {
+  const data = books.map(b => ({
+    title:     b.title || '',
+    author:    b.author || '',
+    rating:    b.rating || 0,
+    review:    b.review || '',
+    slug:      b.slug || slugify(b.title),
+    genre:     b.genre || '',
+    hasReview: !!(b.body && b.body.trim() && (b.slug || slugify(b.title))),
+  }));
+  const dataScript = '<script>window.BOOKS = ' + JSON.stringify(data) + ';<\/script>';
+  // Inject before closing </body>
+  return booksHtmlTemplate.replace('</body>', dataScript + '\n</body>');
 }
 
-// archive page for ALL writing
-function buildWritingArchiveHTML(allEssays) {
-  // allEssays: array of {title, subtitle, tag, date, slug, mins}
-  const cards = allEssays.map(e => `    <a href="essays/${e.slug}.html" class="writing-card">
-      <span class="writing-arrow">&#8599;</span>
-      <p class="writing-tag">${esc(e.tag)}</p>
-      <h3 class="writing-title">${esc(e.title)}</h3>
-      <p class="writing-excerpt">${esc(e.subtitle)}</p>
-      <p class="writing-meta">${esc(e.date)} &nbsp;&middot;&nbsp; ${e.mins} min read</p>
-    </a>`).join('\n');
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Writing — Shree Solanki</title>
-<link rel="stylesheet" href="style.css">
-${sharedPageStyle()}
-</head>
-<body>
-<nav class="archive-nav">
-  <a href="index.html" class="archive-nav-back">← Home</a>
-  <span class="archive-nav-title">Writing</span>
-</nav>
-<header class="archive-header">
-  <div class="archive-header-inner">
-    <p class="archive-kicker">Essays & Opinions</p>
-    <h1 class="archive-title">All<br>Writing</h1>
-    <p class="archive-sub">Essays, opinions &amp; reflections</p>
-  </div>
-</header>
-<div class="archive-body">
-  <section id="writing" style="padding:0;border:none">
-    <div class="writing-grid">
-${cards}
-    </div>
-  </section>
-</div>
-<footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
-</body></html>`;
+// Inject essays data into writing.html template
+function buildWritingArchiveHTML(allEssays, writingHtmlTemplate) {
+  const dataScript = '<script>window.ESSAYS = ' + JSON.stringify(allEssays) + ';<\/script>';
+  return writingHtmlTemplate.replace('</body>', dataScript + '\n</body>');
 }
 
 function buildBooksIndexSection() {
@@ -882,13 +817,7 @@ async function fetchIndexHTML() {
   const data = await ghRequest(`contents/index.html?ref=${getBranch()}`, 'GET');
   return decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
 }
-async function fetchWritingArchive() {
-  // Try to fetch existing writing.html to extract essay list
-  try {
-    const data = await ghRequest(`contents/writing.html?ref=${getBranch()}`, 'GET');
-    return decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
-  } catch(e) { return null; }
-}
+
 
 // ── DEPLOY ──
 const deployBtn   = document.getElementById('deploy-btn');
@@ -961,24 +890,28 @@ deployBtn.addEventListener('click', async () => {
       await pushFile('index.html', indexHTML, 'Update writing card: ' + slug);
       log('  ✓ index.html updated', 'log-ok');
 
-      // Update writing.html archive — parse existing cards and add/replace this one
+      // Update writing.html — fetch template, extract existing essay list from window.ESSAYS, update
       log('  Updating writing.html archive…', 'log-info');
-      const existingWritingHTML = await fetchWritingArchive();
+      let writingTemplate = '';
       let allEssays = [];
-      if (existingWritingHTML) {
-        // Extract existing writing cards from the archive
-        const cardRe = /<a href="essays\/([^"]+)\.html" class="writing-card">[\s\S]*?<p class="writing-tag">([^<]*)<\/p>[\s\S]*?<h3 class="writing-title">([^<]*)<\/h3>[\s\S]*?<p class="writing-excerpt">([^<]*)<\/p>[\s\S]*?<p class="writing-meta">([^·]*?)&nbsp;·&nbsp;\s*(\d+) min read<\/p>[\s\S]*?<\/a>/g;
-        let m;
-        while ((m = cardRe.exec(existingWritingHTML)) !== null) {
-          if (m[1] !== slug) {
-            allEssays.push({ slug: m[1], tag: m[2], title: m[3], subtitle: m[4], date: m[5].trim(), mins: +m[6] });
-          }
+      try {
+        const wt = await ghRequest('contents/writing.html?ref=' + getBranch(), 'GET');
+        writingTemplate = decodeURIComponent(escape(atob(wt.content.replace(/\n/g,''))));
+        // Extract existing ESSAYS array from the page
+        const existingMatch = writingTemplate.match(/window\.ESSAYS\s*=\s*(\[[\s\S]*?\]);/);
+        if (existingMatch) {
+          try { allEssays = JSON.parse(existingMatch[1]); } catch(e) {}
         }
+      } catch(e) {
+        log('  ⚠ writing.html not found on GitHub — push writing.html first', 'log-err');
       }
-      // Add current essay at front
+      // Add/replace current essay
+      allEssays = allEssays.filter(e => e.slug !== slug);
       allEssays.unshift({ slug, title, subtitle: sub, tag, date, mins });
-      await pushFile('writing.html', buildWritingArchiveHTML(allEssays), 'Update writing archive');
-      log('  ✓ writing.html updated', 'log-ok');
+      if (writingTemplate) {
+        await pushFile('writing.html', buildWritingArchiveHTML(allEssays, writingTemplate), 'Update writing archive');
+        log('  ✓ writing.html updated', 'log-ok');
+      }
 
     } else if (tab === 'books') {
       log('  Fetching index.html…', 'log-info');
@@ -998,10 +931,18 @@ deployBtn.addEventListener('click', async () => {
       await pushFile('index.html', indexHTML, 'Update book reviews on index');
       log('  ✓ index.html updated', 'log-ok');
 
-      // Push books.html (full archive — all books)
-      log('  Pushing books.html…', 'log-info');
-      await pushFile('books.html', buildBooksArchiveHTML(), 'Update books archive');
-      log('  ✓ books.html pushed', 'log-ok');
+      // Push books.html — fetch template from GitHub then inject data
+      log('  Fetching books.html template…', 'log-info');
+      let booksTemplate = '';
+      try {
+        const bt = await ghRequest('contents/books.html?ref=' + getBranch(), 'GET');
+        booksTemplate = decodeURIComponent(escape(atob(bt.content.replace(/\n/g,''))));
+      } catch(e) { log('  ⚠ books.html not found on GitHub — push books.html first', 'log-err'); }
+      if (booksTemplate) {
+        log('  Pushing books.html…', 'log-info');
+        await pushFile('books.html', buildBooksArchiveHTML(booksTemplate), 'Update books archive');
+        log('  ✓ books.html pushed', 'log-ok');
+      }
 
       // Push individual full review pages
       for (const b of books) {

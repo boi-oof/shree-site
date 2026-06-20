@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing — Shree Solanki</title>
+<link rel="stylesheet" href="style.css">
+<style>
+a { color: inherit; text-decoration: none; }
+
+/* ── NAV ── */
+.arc-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: 48px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; background: var(--ink);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.arc-nav-back {
+  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(247,243,236,0.5);
+  text-decoration: none; transition: color 0.2s;
+}
+.arc-nav-back:hover { color: var(--paper); }
+.arc-nav-logo {
+  font-family: var(--sans); font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--paper);
+  text-decoration: none;
+}
+
+/* ── HEADER ── */
+.arc-header {
+  padding-top: 48px; background: var(--ink); color: var(--paper);
+}
+.arc-header-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 5rem 2.5rem 3.5rem;
+  border-bottom: 1px solid rgba(247,243,236,0.1);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+}
+.arc-kicker {
+  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--red); margin-bottom: 1rem;
+}
+.arc-title {
+  font-family: var(--disp); font-weight: 900;
+  font-size: clamp(3.5rem, 8vw, 7rem); line-height: 0.88;
+  letter-spacing: -0.02em; color: var(--paper);
+}
+.arc-title em { font-style: italic; color: rgba(247,243,236,0.35); display: block; }
+.arc-count {
+  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(247,243,236,0.3);
+  white-space: nowrap; padding-bottom: 0.5rem;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  background: var(--ink);
+  border-bottom: 1px solid rgba(247,243,236,0.08);
+  padding: 0 2.5rem;
+  display: flex; align-items: center; gap: 0;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: rgba(247,243,236,0.35);
+  background: transparent; border: none; border-bottom: 2px solid transparent;
+  padding: 0.9rem 1.1rem; cursor: pointer; white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.filter-btn:hover { color: rgba(247,243,236,0.7); }
+.filter-btn.active { color: var(--paper); border-bottom-color: var(--red); }
+
+.filter-divider {
+  width: 1px; height: 18px; background: rgba(247,243,236,0.1);
+  margin: 0 0.5rem; flex-shrink: 0;
+}
+
+.sort-btn {
+  font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: rgba(247,243,236,0.35);
+  background: transparent; border: none;
+  padding: 0.9rem 1.1rem; cursor: pointer; white-space: nowrap;
+  transition: color 0.15s; display: flex; align-items: center; gap: 0.4rem;
+  margin-left: auto;
+}
+.sort-btn:hover, .sort-btn.active { color: var(--paper); }
+.sort-arrow { font-size: 0.7rem; transition: transform 0.2s; }
+.sort-btn.asc .sort-arrow { transform: rotate(180deg); }
+
+/* ── GRID ── */
+.arc-body { max-width: 1100px; margin: 0 auto; padding: 3rem 2.5rem 7rem; }
+
+.writing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-left: 1px solid var(--faint); border-top: 1px solid var(--faint);
+}
+
+.writing-card {
+  padding: 2rem 1.75rem; border-right: 1px solid var(--faint);
+  border-bottom: 1px solid var(--faint); text-decoration: none;
+  color: var(--ink); display: flex; flex-direction: column;
+  transition: background 0.2s; position: relative;
+}
+.writing-card:hover { background: var(--cream); }
+.writing-card:hover .writing-arrow { opacity: 1; }
+
+.writing-arrow {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  font-size: 1rem; color: var(--red); opacity: 0; transition: opacity 0.2s;
+}
+.writing-tag {
+  font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--red); margin-bottom: 0.85rem;
+}
+.writing-title {
+  font-family: var(--disp); font-size: 1.15rem; font-weight: 700;
+  line-height: 1.25; margin-bottom: 0.85rem; flex: 1; color: var(--ink);
+}
+.writing-excerpt {
+  font-family: var(--serif); font-style: italic; font-size: 0.9rem;
+  font-weight: 300; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem;
+}
+.writing-meta {
+  font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.1em;
+  color: var(--muted); text-transform: uppercase; margin-top: auto; opacity: 0.6;
+}
+
+/* ── EMPTY STATE ── */
+.arc-empty {
+  grid-column: 1 / -1; padding: 5rem 2rem; text-align: center;
+  font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 1.1rem;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .arc-header-inner { flex-direction: column; align-items: flex-start; padding: 3rem 1.5rem 2rem; }
+  .filter-bar { padding: 0 1.5rem; }
+  .arc-body { padding: 2rem 1.5rem 5rem; }
+  .writing-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 500px) {
+  .arc-title { font-size: 3.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="arc-nav">
+  <a href="index.html" class="arc-nav-back">← Home</a>
+  <a href="index.html" class="arc-nav-logo">Shree Solanki</a>
+</nav>
+
+<header class="arc-header">
+  <div class="arc-header-inner">
+    <div>
+      <p class="arc-kicker">Essays &amp; Opinions</p>
+      <h1 class="arc-title">All<br><em>Writing</em></h1>
+    </div>
+    <span class="arc-count" id="essay-count">0 pieces</span>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="Essay">Essay</button>
+  <button class="filter-btn" data-filter="Reflection">Reflection</button>
+  <button class="filter-btn" data-filter="Opinion">Opinion</button>
+  <button class="filter-btn" data-filter="Analysis">Analysis</button>
+  <button class="filter-btn" data-filter="Tech">Tech</button>
+  <button class="filter-btn" data-filter="Management">Management</button>
+  <div class="filter-divider"></div>
+  <button class="sort-btn active" id="sort-btn" data-order="desc">
+    Newest first <span class="sort-arrow">↓</span>
+  </button>
+</div>
+
+<div class="arc-body">
+  <div class="writing-grid" id="essay-grid">
+    <p class="arc-empty">No essays yet.</p>
+  </div>
+</div>
+
+<footer style="border-top:1px solid var(--faint);padding:1.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:var(--ink);">
+  <p style="font-family:var(--sans);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(247,243,236,0.3);">&copy; 2025 Shree Solanki</p>
+  <p style="font-family:var(--sans);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(247,243,236,0.3);">VGSOM &nbsp;&middot;&nbsp; IIT Kharagpur</p>
+</footer>
+
+<script>
+// Essays are injected here by the admin panel as a JSON data block
+// FORMAT: window.ESSAYS = [{slug, title, subtitle, tag, date, dateSort, mins}, ...]
+// The admin generates this page with the data embedded.
+
+const essays = window.ESSAYS || [];
+
+let activeFilter = 'all';
+let sortOrder = 'desc'; // desc = newest first
+
+function parseDate(d) {
+  // Try to parse "June 2025", "12 June 2024", "2025", etc.
+  if (!d) return 0;
+  const parsed = new Date(d);
+  if (!isNaN(parsed)) return parsed.getTime();
+  // Month Year format
+  const months = {january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+  const parts = d.toLowerCase().split(/[\s,]+/);
+  const monthIdx = parts.findIndex(p => months[p] !== undefined);
+  if (monthIdx !== -1) {
+    const year = parts.find(p => /^\d{4}$/.test(p));
+    const day  = parts.find(p => /^\d{1,2}$/.test(p));
+    return new Date(+year || 2025, months[parts[monthIdx]], +day || 1).getTime();
+  }
+  return 0;
+}
+
+function render() {
+  const grid = document.getElementById('essay-grid');
+  let filtered = essays.filter(e => activeFilter === 'all' || e.tag === activeFilter);
+  filtered.sort((a, b) => {
+    const da = parseDate(a.date), db = parseDate(b.date);
+    return sortOrder === 'desc' ? db - da : da - db;
+  });
+
+  document.getElementById('essay-count').textContent =
+    filtered.length + ' piece' + (filtered.length !== 1 ? 's' : '');
+
+  if (!filtered.length) {
+    grid.innerHTML = '<p class="arc-empty">No essays in this category yet.</p>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(e => `
+    <a href="essays/${e.slug}.html" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
+      <p class="writing-tag">${e.tag}</p>
+      <h3 class="writing-title">${e.title}</h3>
+      <p class="writing-excerpt">${e.subtitle || ''}</p>
+      <p class="writing-meta">${e.date} &nbsp;&middot;&nbsp; ${e.mins} min read</p>
+    </a>`).join('');
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    render();
+  });
+});
+
+document.getElementById('sort-btn').addEventListener('click', () => {
+  sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+  const btn = document.getElementById('sort-btn');
+  btn.querySelector('.sort-arrow').textContent = sortOrder === 'desc' ? '↓' : '↑';
+  btn.firstChild.textContent = sortOrder === 'desc' ? 'Newest first ' : 'Oldest first ';
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
