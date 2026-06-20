@@ -652,3 +652,34 @@ footer p {
 @media (prefers-reduced-motion: reduce) {
   .hero-kicker, .hero-name, .hero-tagline, .hero-descriptor, .hero-cta { animation: none; }
 }
+/* ── BOOK READ MORE LINK ── */
+.book-read-more {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247,243,236,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.book-read-more:hover { color: var(--paper); }
+
+/* ── SEE ALL LINK (books + writing sections) ── */
+.section-see-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+#books .section-see-all { color: rgba(247,243,236,0.5); }
+#books .section-see-all:hover { color: var(--paper); gap: 0.75rem; }
+#writing .section-see-all { color: var(--muted); }
+#writing .section-see-all:hover { color: var(--red); gap: 0.75rem; }

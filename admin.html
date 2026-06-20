@@ -24,7 +24,6 @@
 
 /* ── ADMIN SHELL ── */
 #admin-panel { display: none; min-height: 100vh; padding-top: 48px; }
-
 .admin-nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 500;
   height: 48px; display: flex; align-items: center; justify-content: space-between;
@@ -32,7 +31,7 @@
 }
 .admin-nav-logo { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper); }
 .admin-nav-logo span { color: var(--red); }
-.admin-nav-tabs { display: flex; gap: 0; }
+.admin-nav-tabs { display: flex; }
 .tab-btn {
   font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: rgba(247,243,236,0.4); background: transparent; border: none;
@@ -41,14 +40,12 @@
 }
 .tab-btn:hover { color: var(--paper); }
 .tab-btn.active { color: var(--paper); border-bottom-color: var(--red); }
-
 .admin-nav-right { display: flex; align-items: center; gap: 0.75rem; }
 .admin-nav-right a {
   font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
   color: rgba(247,243,236,0.4); text-decoration: none; transition: color 0.2s;
 }
 .admin-nav-right a:hover { color: var(--paper); }
-
 #deploy-btn {
   font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
   background: var(--red); color: var(--paper); border: none; padding: 0.5rem 1.4rem;
@@ -67,15 +64,9 @@
 /* ── WRITING TAB ── */
 .editor-wrap { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 48px); }
 .editor-pane { display: flex; flex-direction: column; border-right: 1px solid var(--faint); }
-.pane-header {
-  padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--faint);
-  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
-}
+.pane-header { padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--faint); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
 .pane-label { font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-.meta-fields {
-  padding: 1rem 1.5rem; border-bottom: 1px solid var(--faint);
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; flex-shrink: 0;
-}
+.meta-fields { padding: 1rem 1.5rem; border-bottom: 1px solid var(--faint); display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; flex-shrink: 0; }
 .meta-field { display: flex; flex-direction: column; gap: 0.3rem; }
 .meta-field.full { grid-column: 1 / -1; }
 .meta-field label { font-family: var(--sans); font-size: 0.54rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
@@ -85,19 +76,10 @@
   padding: 0.3rem 0; outline: none; width: 100%; transition: border-color 0.2s; resize: none;
 }
 .meta-field input:focus, .meta-field select:focus, .meta-field textarea:focus { border-color: var(--ink); }
-.md-toolbar {
-  padding: 0.5rem 1.5rem; border-bottom: 1px solid var(--faint);
-  display: flex; gap: 0.4rem; flex-wrap: wrap; flex-shrink: 0;
-}
-.md-btn {
-  font-family: var(--sans); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 0.28rem 0.6rem; border: 1px solid var(--faint); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s;
-}
+.md-toolbar { padding: 0.5rem 1.5rem; border-bottom: 1px solid var(--faint); display: flex; gap: 0.4rem; flex-wrap: wrap; flex-shrink: 0; }
+.md-btn { font-family: var(--sans); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.28rem 0.6rem; border: 1px solid var(--faint); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
 .md-btn:hover { border-color: var(--ink); color: var(--ink); }
-#md-input {
-  flex: 1; padding: 1.25rem 1.5rem; font-family: var(--sans); font-size: 0.8rem;
-  line-height: 1.85; color: var(--ink); background: var(--paper); border: none; resize: none; outline: none; overflow-y: auto;
-}
+#md-input { flex: 1; padding: 1.25rem 1.5rem; font-family: var(--sans); font-size: 0.8rem; line-height: 1.85; color: var(--ink); background: var(--paper); border: none; resize: none; outline: none; overflow-y: auto; }
 .preview-pane { display: flex; flex-direction: column; overflow: hidden; }
 #preview-scroll { flex: 1; overflow-y: auto; padding: 2.5rem 3rem; background: var(--paper); }
 #preview-scroll .prev-tag { font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 0.85rem; }
@@ -118,100 +100,67 @@
 .entry-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 2.5rem; border-top: 1px solid var(--faint); }
 .entry-item { border-bottom: 1px solid var(--faint); padding: 1.5rem 0; }
 .entry-item-book { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
-.entry-field {
-  font-family: var(--serif); font-size: 0.95rem; color: var(--ink);
-  background: transparent; border: none; border-bottom: 1px solid transparent;
-  padding: 0.25rem 0; outline: none; width: 100%; transition: border-color 0.2s;
-}
+.entry-field { font-family: var(--serif); font-size: 0.95rem; color: var(--ink); background: transparent; border: none; border-bottom: 1px solid transparent; padding: 0.25rem 0; outline: none; width: 100%; transition: border-color 0.2s; }
 .entry-field:focus { border-bottom-color: var(--faint); }
 .entry-field.small { font-family: var(--sans); font-size: 0.7rem; }
 .entry-field.muted { color: var(--muted); font-style: italic; font-size: 0.9rem; }
 .entry-rating { display: flex; gap: 2px; }
 .star { font-size: 1rem; color: var(--faint); cursor: pointer; transition: color 0.1s; }
 .star.on { color: var(--red); }
-.remove-btn {
-  font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--faint); background: transparent; border: none; cursor: pointer; padding: 0.3rem;
-  transition: color 0.15s;
-}
+.remove-btn { font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); background: transparent; border: none; cursor: pointer; padding: 0.3rem; transition: color 0.15s; }
 .remove-btn:hover { color: var(--red); }
-.add-entry-btn {
-  font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--muted); background: transparent; border: 1px solid var(--faint);
-  padding: 0.65rem 1.5rem; cursor: pointer; transition: all 0.15s;
-}
+.add-entry-btn { font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); background: transparent; border: 1px solid var(--faint); padding: 0.65rem 1.5rem; cursor: pointer; transition: all 0.15s; }
 .add-entry-btn:hover { border-color: var(--ink); color: var(--ink); }
 .project-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 0.75rem; }
 .project-fields .meta-field.full { grid-column: 1 / -1; }
 
-/* ── GITHUB SETTINGS PANEL ── */
-#gh-settings-bar {
-  background: var(--cream); border-bottom: 1px solid var(--faint);
-  padding: 0.75rem 2rem; display: none; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+/* ── FEATURED TOGGLE ── */
+.featured-toggle {
+  display: flex; align-items: center; gap: 0.5rem; cursor: pointer;
+  font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  user-select: none;
 }
+.featured-toggle input[type="checkbox"] { display: none; }
+.toggle-pill {
+  width: 28px; height: 16px; background: var(--faint); border-radius: 8px;
+  position: relative; transition: background 0.2s; flex-shrink: 0;
+}
+.toggle-pill::after { content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; background: white; border-radius: 50%; transition: transform 0.2s; }
+.featured-toggle input:checked + .toggle-pill { background: var(--red); }
+.featured-toggle input:checked + .toggle-pill::after { transform: translateX(12px); }
+.featured-label { transition: color 0.2s; }
+.featured-toggle input:checked ~ .featured-label { color: var(--ink); }
+
+/* ── GITHUB SETTINGS PANEL ── */
+#gh-settings-bar { background: var(--cream); border-bottom: 1px solid var(--faint); padding: 0.75rem 2rem; display: none; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
 #gh-settings-bar.visible { display: flex; }
 #gh-settings-bar label { font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-right: 0.4rem; }
-#gh-settings-bar input {
-  font-family: var(--sans); font-size: 0.78rem; color: var(--ink);
-  background: transparent; border: none; border-bottom: 1px solid var(--faint);
-  padding: 0.2rem 0.4rem; outline: none; width: 220px; transition: border-color 0.2s;
-}
+#gh-settings-bar input { font-family: var(--sans); font-size: 0.78rem; color: var(--ink); background: transparent; border: none; border-bottom: 1px solid var(--faint); padding: 0.2rem 0.4rem; outline: none; width: 220px; transition: border-color 0.2s; }
 #gh-settings-bar input:focus { border-bottom-color: var(--ink); }
-#save-gh-btn {
-  font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
-  background: var(--ink); color: var(--paper); border: none; padding: 0.45rem 1rem; cursor: pointer;
-}
+#save-gh-btn { font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; background: var(--ink); color: var(--paper); border: none; padding: 0.45rem 1rem; cursor: pointer; }
 #gh-status { font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-left: auto; }
 #gh-status.ok { color: #4a9a4a; }
 #gh-status.err { color: var(--red); }
 
 /* ── DEPLOY LOG MODAL ── */
-#deploy-modal {
-  display: none; position: fixed; inset: 0;
-  background: rgba(14,11,7,0.88); z-index: 800; align-items: flex-end; justify-content: center; padding: 2rem;
-}
+#deploy-modal { display: none; position: fixed; inset: 0; background: rgba(14,11,7,0.88); z-index: 800; align-items: flex-end; justify-content: center; padding: 2rem; }
 #deploy-modal.open { display: flex; }
-.deploy-box {
-  background: var(--ink); color: var(--paper); width: 100%; max-width: 640px;
-  border: 1px solid rgba(255,255,255,0.1); padding: 0;
-  max-height: 70vh; display: flex; flex-direction: column;
-}
-.deploy-box-header {
-  padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);
-  display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
-}
+.deploy-box { background: var(--ink); color: var(--paper); width: 100%; max-width: 640px; border: 1px solid rgba(255,255,255,0.1); max-height: 70vh; display: flex; flex-direction: column; }
+.deploy-box-header { padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
 .deploy-box-title { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(247,243,236,0.5); }
-#deploy-close-btn {
-  font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(247,243,236,0.4); background: transparent; border: 1px solid rgba(247,243,236,0.15); padding: 0.35rem 0.8rem; cursor: pointer;
-}
-#deploy-log {
-  flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem;
-  font-family: var(--sans); font-size: 0.72rem; line-height: 1.9; color: rgba(247,243,236,0.7);
-  white-space: pre-wrap;
-}
+#deploy-close-btn { font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(247,243,236,0.4); background: transparent; border: 1px solid rgba(247,243,236,0.15); padding: 0.35rem 0.8rem; cursor: pointer; }
+#deploy-log { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; font-family: var(--sans); font-size: 0.72rem; line-height: 1.9; color: rgba(247,243,236,0.7); white-space: pre-wrap; }
 #deploy-log .log-ok   { color: #6fcf6f; }
 #deploy-log .log-err  { color: #e07070; }
 #deploy-log .log-info { color: rgba(247,243,236,0.4); }
 #deploy-log .log-head { color: var(--paper); font-weight: 600; }
-.deploy-box-footer {
-  padding: 0.85rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);
-  display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
-}
-#deploy-done-btn {
-  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
-  background: var(--red); color: var(--paper); border: none; padding: 0.5rem 1.4rem; cursor: pointer;
-}
+.deploy-box-footer { padding: 0.85rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+#deploy-done-btn { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; background: var(--red); color: var(--paper); border: none; padding: 0.5rem 1.4rem; cursor: pointer; }
 #vercel-link { font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(247,243,236,0.35); text-decoration: none; }
 #vercel-link:hover { color: var(--paper); }
 
 /* ── TOAST ── */
-#toast {
-  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px);
-  background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 0.58rem;
-  letter-spacing: 0.18em; text-transform: uppercase; padding: 0.65rem 1.75rem;
-  opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 1000;
-}
+#toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.65rem 1.75rem; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 1000; }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 @media (max-width: 800px) {
@@ -236,7 +185,6 @@
 
 <!-- ADMIN -->
 <div id="admin-panel">
-
   <nav class="admin-nav">
     <span class="admin-nav-logo">Shree Solanki <span>/ Admin</span></span>
     <div class="admin-nav-tabs">
@@ -251,7 +199,6 @@
     </div>
   </nav>
 
-  <!-- GitHub settings bar -->
   <div id="gh-settings-bar">
     <label>Token</label>
     <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
@@ -278,6 +225,13 @@
           </div>
           <div class="meta-field"><label>Date</label><input type="text" id="f-date" placeholder="June 2025"></div>
           <div class="meta-field full"><label>Slug (no spaces, no .html)</label><input type="text" id="f-slug" placeholder="why-we-decide-the-way-we-do"></div>
+          <div class="meta-field full" style="flex-direction:row;align-items:center;padding:0.5rem 0">
+            <label class="featured-toggle">
+              <input type="checkbox" id="f-featured" checked>
+              <span class="toggle-pill"></span>
+              <span class="featured-label">Show on homepage (max 6)</span>
+            </label>
+          </div>
         </div>
         <div class="md-toolbar">
           <button class="md-btn" data-wrap="**|**">Bold</button>
@@ -288,7 +242,7 @@
           <button class="md-btn" data-insert="---">Rule</button>
           <button class="md-btn" data-insert="![Caption](image.jpg)">Image</button>
         </div>
-        <textarea id="md-input" placeholder="Write in Markdown...&#10;&#10;**bold**, _italic_&#10;## Section heading&#10;&gt; Pull quote&#10;--- for section break"></textarea>
+        <textarea id="md-input" placeholder="Write in Markdown..."></textarea>
       </div>
       <div class="preview-pane">
         <div class="pane-header">
@@ -311,7 +265,7 @@
     <div class="section-admin">
       <div class="section-admin-header">
         <h2>Book Reviews</h2>
-        <p>Fill in the short review for the homepage. Add a full review body + slug to also generate a standalone review page at <span style="color:var(--red)">reviews/[slug].html</span></p>
+        <p>Toggle "Show on homepage" to curate up to 6 on the index. All books always appear on the full <span style="color:var(--red)">books.html</span> page. Add a review body + slug to generate a standalone review page.</p>
       </div>
       <div class="entry-list" id="books-list"></div>
       <button class="add-entry-btn" id="add-book-btn">+ Add book</button>
@@ -323,16 +277,15 @@
     <div class="section-admin">
       <div class="section-admin-header">
         <h2>Projects</h2>
-        <p>These entries populate the Projects section on the homepage.</p>
+        <p>Toggle "Show on homepage" to curate which projects appear on the index.</p>
       </div>
       <div class="entry-list" id="projects-list"></div>
       <button class="add-entry-btn" id="add-project-btn">+ Add project</button>
     </div>
   </div>
-
 </div>
 
-<!-- DEPLOY LOG MODAL -->
+<!-- DEPLOY MODAL -->
 <div id="deploy-modal">
   <div class="deploy-box">
     <div class="deploy-box-header">
@@ -350,17 +303,12 @@
 <div id="toast"></div>
 
 <script>
-// ─────────────────────────────────────────
-//  CONFIG
-// ─────────────────────────────────────────
 const REPO_OWNER = 'boi-oof';
 const REPO_NAME  = 'shree-site';
-const PASSWORD   = 'shree2025'; // ← change this
+const PASSWORD   = 'shree2025';
 const SECRET_WORD = 'opensesame';
 
-// ─────────────────────────────────────────
-//  LOCK SCREEN
-// ─────────────────────────────────────────
+// ── LOCK ──
 let typedBuffer = '';
 document.addEventListener('keydown', e => {
   if (document.getElementById('lock-screen').style.display === 'none') return;
@@ -386,9 +334,7 @@ document.getElementById('pw-input').addEventListener('keydown', e => {
   }
 });
 
-// ─────────────────────────────────────────
-//  TABS
-// ─────────────────────────────────────────
+// ── TABS ──
 let activeTab = 'writing';
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -400,9 +346,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// ─────────────────────────────────────────
-//  GITHUB SETTINGS
-// ─────────────────────────────────────────
+// ── GITHUB SETTINGS ──
 document.getElementById('gh-toggle-btn').addEventListener('click', e => {
   e.preventDefault();
   document.getElementById('gh-settings-bar').classList.toggle('visible');
@@ -411,7 +355,7 @@ document.getElementById('save-gh-btn').addEventListener('click', () => {
   const token  = document.getElementById('gh-token').value.trim();
   const branch = document.getElementById('gh-branch').value.trim() || 'main';
   if (!token) { showStatus('Token required', 'err'); return; }
-  localStorage.setItem('gh_token',  token);
+  localStorage.setItem('gh_token', token);
   localStorage.setItem('gh_branch', branch);
   showStatus('Saved ✓', 'ok');
   setTimeout(() => document.getElementById('gh-settings-bar').classList.remove('visible'), 800);
@@ -424,15 +368,12 @@ function loadGhSettings() {
 }
 function showStatus(msg, cls) {
   const el = document.getElementById('gh-status');
-  el.textContent = msg;
-  el.className = cls || '';
+  el.textContent = msg; el.className = cls || '';
 }
 function getToken()  { return localStorage.getItem('gh_token')  || ''; }
 function getBranch() { return localStorage.getItem('gh_branch') || 'main'; }
 
-// ─────────────────────────────────────────
-//  MARKDOWN PARSER
-// ─────────────────────────────────────────
+// ── MARKDOWN ──
 function parseMd(md) {
   let h = md
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
@@ -452,15 +393,10 @@ function parseMd(md) {
     return '<p>' + b.replace(/\n/g,' ') + '</p>';
   }).join('\n');
 }
-
-function slugify(s) {
-  return (s||'').toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
-}
+function slugify(s) { return (s||'').toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-'); }
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// ─────────────────────────────────────────
-//  WRITING PREVIEW
-// ─────────────────────────────────────────
+// ── WRITING PREVIEW ──
 function updatePreview() {
   const words = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
   const mins = Math.max(1, Math.round(words / 200));
@@ -483,12 +419,13 @@ document.getElementById('f-title').addEventListener('input', () => {
 document.getElementById('f-slug').addEventListener('input', () => {
   document.getElementById('f-slug').dataset.manual = '1'; saveToStorage();
 });
+document.getElementById('f-featured').addEventListener('change', saveToStorage);
 document.querySelectorAll('.md-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const ta = document.getElementById('md-input');
     const s = ta.selectionStart, e2 = ta.selectionEnd, sel = ta.value.substring(s,e2);
     let t = '';
-    if (btn.dataset.wrap)   { const [p,q]=btn.dataset.wrap.split('|'); t=p+(sel||'text')+q; }
+    if (btn.dataset.wrap) { const [p,q]=btn.dataset.wrap.split('|'); t=p+(sel||'text')+q; }
     else if (btn.dataset.prefix) t = btn.dataset.prefix+(sel||'text');
     else if (btn.dataset.insert) t = '\n'+btn.dataset.insert+'\n';
     ta.value = ta.value.substring(0,s)+t+ta.value.substring(e2);
@@ -497,9 +434,7 @@ document.querySelectorAll('.md-btn').forEach(btn => {
   });
 });
 
-// ─────────────────────────────────────────
-//  BOOKS
-// ─────────────────────────────────────────
+// ── BOOKS ──
 let books = [];
 function renderBooks() {
   const list = document.getElementById('books-list');
@@ -508,13 +443,21 @@ function renderBooks() {
     const row = document.createElement('div');
     row.className = 'entry-item entry-item-book';
     row.innerHTML = `
+      <div class="meta-field" style="grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between">
+        <label style="font-family:var(--sans);font-size:0.54rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted)">Book ${i+1}</label>
+        <label class="featured-toggle">
+          <input type="checkbox" class="b-featured" data-i="${i}" ${b.featured!==false?'checked':''}>
+          <span class="toggle-pill"></span>
+          <span class="featured-label">Show on homepage</span>
+        </label>
+      </div>
       <div class="meta-field" style="grid-column:1/-1">
         <label>Title</label>
-        <input class="entry-field" placeholder="Book title" value="${esc(b.title)}" data-i="${i}" data-key="title">
+        <input class="entry-field b-field" placeholder="Book title" value="${esc(b.title)}" data-i="${i}" data-key="title">
       </div>
       <div class="meta-field">
         <label>Author · Year</label>
-        <input class="entry-field small muted" placeholder="Author · Year" value="${esc(b.author)}" data-i="${i}" data-key="author">
+        <input class="entry-field small muted b-field" placeholder="Author · Year" value="${esc(b.author)}" data-i="${i}" data-key="author">
       </div>
       <div class="meta-field">
         <label>Rating</label>
@@ -523,37 +466,33 @@ function renderBooks() {
         </div>
       </div>
       <div class="meta-field" style="grid-column:1/-1">
-        <label>Short review — shown on homepage</label>
-        <textarea class="entry-field muted" rows="2" placeholder="Your honest 2–3 sentence take..." data-i="${i}" data-key="review">${esc(b.review)}</textarea>
+        <label>Short review — homepage & archive</label>
+        <textarea class="entry-field muted b-field" rows="2" data-i="${i}" data-key="review">${esc(b.review)}</textarea>
       </div>
       <div class="meta-field" style="grid-column:1/-1">
         <label>Full review body (Markdown) — leave blank to skip standalone page</label>
-        <textarea class="entry-field muted" rows="4" placeholder="Write your full review in Markdown here..." data-i="${i}" data-key="body">${esc(b.body||'')}</textarea>
+        <textarea class="entry-field muted b-field" rows="4" data-i="${i}" data-key="body">${esc(b.body||'')}</textarea>
       </div>
       <div class="meta-field">
-        <label>Slug (auto-generated from title)</label>
-        <input class="entry-field small muted" placeholder="thinking-fast-and-slow" value="${esc(b.slug||'')}" data-i="${i}" data-key="slug">
+        <label>Slug (auto from title)</label>
+        <input class="entry-field small muted b-field b-slug" placeholder="thinking-fast-and-slow" value="${esc(b.slug||'')}" data-i="${i}" data-key="slug">
       </div>
       <div style="grid-column:1/-1;display:flex;justify-content:flex-end;padding-top:0.5rem">
         <button class="remove-btn" data-i="${i}">Remove</button>
       </div>`;
     list.appendChild(row);
   });
-  list.querySelectorAll('.entry-field').forEach(el => el.addEventListener('input', e => {
+  list.querySelectorAll('.b-field').forEach(el => el.addEventListener('input', e => {
     books[+e.target.dataset.i][e.target.dataset.key] = e.target.value; saveToStorage();
   }));
-  // Auto-slug from title for books
   list.querySelectorAll('input[data-key="title"]').forEach(el => el.addEventListener('input', e => {
     const i = +e.target.dataset.i;
-    const slugEl = list.querySelectorAll('input[data-key="slug"]')[i];
-    if (slugEl && !slugEl.dataset.manual) {
-      slugEl.value = slugify(e.target.value);
-      books[i].slug = slugEl.value;
-      saveToStorage();
-    }
+    const slugEl = list.querySelectorAll('.b-slug')[i];
+    if (slugEl && !slugEl.dataset.manual) { slugEl.value = slugify(e.target.value); books[i].slug = slugEl.value; saveToStorage(); }
   }));
-  list.querySelectorAll('input[data-key="slug"]').forEach(el => el.addEventListener('input', e => {
-    e.target.dataset.manual = '1';
+  list.querySelectorAll('.b-slug').forEach(el => el.addEventListener('input', e => { e.target.dataset.manual = '1'; }));
+  list.querySelectorAll('.b-featured').forEach(el => el.addEventListener('change', e => {
+    books[+e.target.dataset.i].featured = e.target.checked; saveToStorage();
   }));
   list.querySelectorAll('.star').forEach(star => star.addEventListener('click', e => {
     const i = +e.target.closest('.entry-rating').dataset.i;
@@ -564,12 +503,10 @@ function renderBooks() {
   }));
 }
 document.getElementById('add-book-btn').addEventListener('click', () => {
-  books.push({ title:'', author:'', rating:4, review:'', body:'', slug:'' }); renderBooks();
+  books.push({ title:'', author:'', rating:4, review:'', body:'', slug:'', featured:true }); renderBooks();
 });
 
-// ─────────────────────────────────────────
-//  PROJECTS
-// ─────────────────────────────────────────
+// ── PROJECTS ──
 let projects = [];
 function renderProjects() {
   const list = document.getElementById('projects-list');
@@ -579,38 +516,48 @@ function renderProjects() {
     row.className = 'entry-item';
     row.style.display = 'block';
     row.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+        <span style="font-family:var(--sans);font-size:0.54rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted)">Project ${i+1}</span>
+        <label class="featured-toggle">
+          <input type="checkbox" class="p-featured" data-i="${i}" ${p.featured!==false?'checked':''}>
+          <span class="toggle-pill"></span>
+          <span class="featured-label">Show on homepage</span>
+        </label>
+      </div>
       <div class="project-fields">
-        <div class="meta-field"><label>Title</label><input class="entry-field" placeholder="Project title" value="${esc(p.title)}" data-i="${i}" data-key="title"></div>
-        <div class="meta-field"><label>Category (e.g. Strategy · Research)</label><input class="entry-field small muted" placeholder="Field · Subfield" value="${esc(p.category)}" data-i="${i}" data-key="category"></div>
-        <div class="meta-field full"><label>Description (2–3 lines)</label><textarea class="entry-field muted" rows="2" data-i="${i}" data-key="desc">${esc(p.desc)}</textarea></div>
-        <div class="meta-field full"><label>Tags (comma separated)</label><input class="entry-field small muted" placeholder="Excel, DCF Model" value="${esc(p.tags)}" data-i="${i}" data-key="tags"></div>
-        <div class="meta-field full"><label>Link URL (optional)</label><input class="entry-field small muted" placeholder="https://..." value="${esc(p.link)}" data-i="${i}" data-key="link"></div>
+        <div class="meta-field"><label>Title</label><input class="entry-field p-field" placeholder="Project title" value="${esc(p.title)}" data-i="${i}" data-key="title"></div>
+        <div class="meta-field"><label>Category</label><input class="entry-field small muted p-field" placeholder="Field · Subfield" value="${esc(p.category)}" data-i="${i}" data-key="category"></div>
+        <div class="meta-field full"><label>Description</label><textarea class="entry-field muted p-field" rows="2" data-i="${i}" data-key="desc">${esc(p.desc)}</textarea></div>
+        <div class="meta-field full"><label>Tags (comma separated)</label><input class="entry-field small muted p-field" placeholder="Excel, DCF Model" value="${esc(p.tags)}" data-i="${i}" data-key="tags"></div>
+        <div class="meta-field full"><label>Link URL (optional)</label><input class="entry-field small muted p-field" placeholder="https://..." value="${esc(p.link)}" data-i="${i}" data-key="link"></div>
       </div>
       <div style="display:flex;justify-content:flex-end"><button class="remove-btn" data-i="${i}">Remove</button></div>`;
     list.appendChild(row);
   });
-  list.querySelectorAll('.entry-field').forEach(el => el.addEventListener('input', e => {
+  list.querySelectorAll('.p-field').forEach(el => el.addEventListener('input', e => {
     projects[+e.target.dataset.i][e.target.dataset.key] = e.target.value; saveToStorage();
+  }));
+  list.querySelectorAll('.p-featured').forEach(el => el.addEventListener('change', e => {
+    projects[+e.target.dataset.i].featured = e.target.checked; saveToStorage();
   }));
   list.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', e => {
     projects.splice(+e.target.dataset.i, 1); saveToStorage(); renderProjects();
   }));
 }
 document.getElementById('add-project-btn').addEventListener('click', () => {
-  projects.push({ title:'', category:'', desc:'', tags:'', link:'' }); renderProjects();
+  projects.push({ title:'', category:'', desc:'', tags:'', link:'', featured:true }); renderProjects();
 });
 
-// ─────────────────────────────────────────
-//  STORAGE
-// ─────────────────────────────────────────
+// ── STORAGE ──
 function saveToStorage() {
   localStorage.setItem('shree_writing', JSON.stringify({
-    title:    document.getElementById('f-title').value,
+    title: document.getElementById('f-title').value,
     subtitle: document.getElementById('f-subtitle').value,
-    tag:      document.getElementById('f-tag').value,
-    date:     document.getElementById('f-date').value,
-    slug:     document.getElementById('f-slug').value,
-    body:     document.getElementById('md-input').value,
+    tag: document.getElementById('f-tag').value,
+    date: document.getElementById('f-date').value,
+    slug: document.getElementById('f-slug').value,
+    featured: document.getElementById('f-featured').checked,
+    body: document.getElementById('md-input').value,
   }));
   localStorage.setItem('shree_books',    JSON.stringify(books));
   localStorage.setItem('shree_projects', JSON.stringify(projects));
@@ -623,17 +570,31 @@ function loadFromStorage() {
     if (w.tag)      document.getElementById('f-tag').value      = w.tag;
     if (w.date)     document.getElementById('f-date').value     = w.date;
     if (w.slug)     { document.getElementById('f-slug').value   = w.slug; document.getElementById('f-slug').dataset.manual='1'; }
+    document.getElementById('f-featured').checked = w.featured !== false;
     if (w.body)     document.getElementById('md-input').value   = w.body;
     books    = JSON.parse(localStorage.getItem('shree_books')    || '[]');
     projects = JSON.parse(localStorage.getItem('shree_projects') || '[]');
   } catch(e) {}
-  loadGhSettings();
-  renderBooks(); renderProjects(); updatePreview();
+  loadGhSettings(); renderBooks(); renderProjects(); updatePreview();
 }
 
-// ─────────────────────────────────────────
-//  HTML BUILDERS
-// ─────────────────────────────────────────
+// ── HTML BUILDERS ──
+function sharedPageStyle() {
+  return `<style>
+a{color:inherit;text-decoration:none;}
+.archive-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:48px;background:var(--ink);border-bottom:1px solid rgba(247,243,236,0.1);}
+.archive-nav-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,243,236,0.5);text-decoration:none;transition:color .2s;}
+.archive-nav-back:hover{color:var(--paper);}
+.archive-nav-title{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,243,236,0.3);}
+.archive-header{padding-top:48px;background:var(--ink);color:var(--paper);}
+.archive-header-inner{max-width:900px;margin:0 auto;padding:4rem 2.5rem 3rem;border-bottom:1px solid rgba(247,243,236,0.1);}
+.archive-kicker{font-family:var(--sans);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;}
+.archive-title{font-family:var(--disp);font-weight:900;font-size:clamp(3rem,7vw,6rem);line-height:.9;color:var(--paper);}
+.archive-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.1rem;color:rgba(247,243,236,0.45);margin-top:1.25rem;}
+.archive-body{max-width:900px;margin:0 auto;padding:4rem 2.5rem 7rem;}
+</style>`;
+}
+
 function buildEssayHTML() {
   const title = document.getElementById('f-title').value || 'Untitled';
   const sub   = document.getElementById('f-subtitle').value;
@@ -649,6 +610,7 @@ function buildEssayHTML() {
 <title>${title} — Shree Solanki</title>
 <link rel="stylesheet" href="../style.css">
 <style>
+a{color:inherit;}
 .essay-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:48px;background:var(--ink);border-bottom:1px solid rgba(247,243,236,0.1);}
 .essay-nav-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,243,236,0.5);text-decoration:none;transition:color .2s;}
 .essay-nav-back:hover{color:var(--paper);}
@@ -665,10 +627,7 @@ function buildEssayHTML() {
 .essay-body h3{font-family:var(--disp);font-size:1.2rem;font-weight:700;line-height:1.3;margin:2.5rem 0 1rem;}
 .essay-body blockquote{margin:3rem 0;padding:0 0 0 2rem;border-left:3px solid var(--red);}
 .essay-body blockquote p{font-style:italic;font-size:1.2rem;line-height:1.6;margin:0;}
-.essay-body img{width:100%;height:auto;display:block;margin:2.5rem 0;}
-.essay-body figure{margin:3rem 0;}.essay-body figure img{margin:0;}
-.essay-body figcaption{font-family:var(--sans);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.75rem;text-align:center;}
-.essay-body hr{border:none;text-align:center;margin:3.5rem auto;color:var(--faint);font-size:1.5rem;letter-spacing:.5em;}
+.essay-body hr{border:none;text-align:center;margin:3.5rem auto;font-size:1.5rem;letter-spacing:.5em;}
 .essay-body hr::after{content:'· · ·';}
 .essay-footer-nav{max-width:640px;margin:0 auto 4rem;padding:3rem 2rem 0;border-top:1px solid var(--faint);display:flex;justify-content:space-between;align-items:center;}
 .efn-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
@@ -678,7 +637,7 @@ function buildEssayHTML() {
 </head>
 <body>
 <nav class="essay-nav">
-  <a href="../index.html#writing" class="essay-nav-back">← Writing</a>
+  <a href="../writing.html" class="essay-nav-back">← All Writing</a>
   <span class="essay-nav-title">${title}</span>
 </nav>
 <header class="essay-header">
@@ -689,11 +648,9 @@ function buildEssayHTML() {
     <p class="essay-meta">Shree Solanki &nbsp;·&nbsp; ${date} &nbsp;·&nbsp; ${mins} min read</p>
   </div>
 </header>
-<article class="essay-body">
-${body}
-</article>
+<article class="essay-body">${body}</article>
 <div class="essay-footer-nav">
-  <a href="../index.html#writing" class="efn-back">← All writing</a>
+  <a href="../writing.html" class="efn-back">← All writing</a>
   <span class="efn-label">Shree Solanki</span>
 </div>
 <footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
@@ -712,6 +669,7 @@ function buildReviewHTML(b) {
 <title>${title} — Shree Solanki</title>
 <link rel="stylesheet" href="../style.css">
 <style>
+a{color:inherit;}
 .review-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:48px;background:var(--ink);border-bottom:1px solid rgba(247,243,236,0.1);}
 .review-nav-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,243,236,0.5);text-decoration:none;transition:color .2s;}
 .review-nav-back:hover{color:var(--paper);}
@@ -725,10 +683,9 @@ function buildReviewHTML(b) {
 .review-body{max-width:640px;margin:0 auto;padding:5rem 2rem 7rem;}
 .review-body p{font-family:var(--serif);font-size:1.1rem;font-weight:300;line-height:2;color:var(--ink);margin-bottom:1.75rem;}
 .review-body h2{font-family:var(--disp);font-size:1.5rem;font-weight:700;margin:3rem 0 1rem;}
-.review-body h3{font-family:var(--disp);font-size:1.2rem;font-weight:700;margin:2rem 0 0.75rem;}
 .review-body blockquote{margin:3rem 0;padding:0 0 0 2rem;border-left:3px solid var(--red);}
 .review-body blockquote p{font-style:italic;font-size:1.2rem;line-height:1.6;margin:0;}
-.review-body hr{border:none;text-align:center;margin:3.5rem auto;color:var(--faint);font-size:1.5rem;letter-spacing:.5em;}
+.review-body hr{border:none;text-align:center;margin:3.5rem auto;font-size:1.5rem;letter-spacing:.5em;}
 .review-body hr::after{content:'· · ·';}
 .review-footer-nav{max-width:640px;margin:0 auto 4rem;padding:3rem 2rem 0;border-top:1px solid var(--faint);display:flex;justify-content:space-between;align-items:center;}
 .rfn-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
@@ -738,7 +695,7 @@ function buildReviewHTML(b) {
 </head>
 <body>
 <nav class="review-nav">
-  <a href="../index.html#books" class="review-nav-back">← Book Reviews</a>
+  <a href="../books.html" class="review-nav-back">← All Book Reviews</a>
   <span class="review-nav-title">${title}</span>
 </nav>
 <header class="review-header">
@@ -749,20 +706,112 @@ function buildReviewHTML(b) {
     <p class="review-stars">${stars}</p>
   </div>
 </header>
-<article class="review-body">
-${body}
-</article>
+<article class="review-body">${body}</article>
 <div class="review-footer-nav">
-  <a href="../index.html#books" class="rfn-back">← All book reviews</a>
+  <a href="../books.html" class="rfn-back">← All book reviews</a>
   <span class="rfn-label">Shree Solanki</span>
 </div>
 <footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
 </body></html>`;
 }
 
-function buildBooksSection() {
+// archive page for ALL books
+function buildBooksArchiveHTML() {
+  const nums = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20'];
+  const items = books.map((b, i) => {
+    const slug = b.slug || slugify(b.title);
+    const hasReview = b.body && b.body.trim() && slug;
+    const titleEl = hasReview
+      ? `<a href="reviews/${slug}.html"><h3 class="book-title">${esc(b.title) || 'Book Title'}</h3></a>`
+      : `<h3 class="book-title">${esc(b.title) || 'Book Title'}</h3>`;
+    const readMore = hasReview
+      ? `\n        <a href="reviews/${slug}.html" class="book-read-more">Full review &#8599;</a>` : '';
+    return `    <div class="book-item">
+      <span class="book-num">${nums[i] || (i+1)}</span>
+      <div>
+        ${titleEl}
+        <p class="book-author">${esc(b.author) || 'Author · Year'}</p>
+        <p class="book-review">${esc(b.review) || ''}</p>${readMore}
+      </div>
+      <div class="book-rating">${'&#9733;'.repeat(b.rating||0)}${'&#9734;'.repeat(5-(b.rating||0))}</div>
+    </div>`;
+  }).join('\n');
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Reviews — Shree Solanki</title>
+<link rel="stylesheet" href="style.css">
+${sharedPageStyle()}
+</head>
+<body>
+<nav class="archive-nav">
+  <a href="index.html" class="archive-nav-back">← Home</a>
+  <span class="archive-nav-title">Book Reviews</span>
+</nav>
+<header class="archive-header">
+  <div class="archive-header-inner">
+    <p class="archive-kicker">Reading List</p>
+    <h1 class="archive-title">Book<br>Reviews</h1>
+    <p class="archive-sub">Arguments with authors I admire</p>
+  </div>
+</header>
+<div class="archive-body">
+  <section id="books" style="padding:0;border:none">
+    <div class="books-list">
+${items}
+    </div>
+  </section>
+</div>
+<footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
+</body></html>`;
+}
+
+// archive page for ALL writing
+function buildWritingArchiveHTML(allEssays) {
+  // allEssays: array of {title, subtitle, tag, date, slug, mins}
+  const cards = allEssays.map(e => `    <a href="essays/${e.slug}.html" class="writing-card">
+      <span class="writing-arrow">&#8599;</span>
+      <p class="writing-tag">${esc(e.tag)}</p>
+      <h3 class="writing-title">${esc(e.title)}</h3>
+      <p class="writing-excerpt">${esc(e.subtitle)}</p>
+      <p class="writing-meta">${esc(e.date)} &nbsp;&middot;&nbsp; ${e.mins} min read</p>
+    </a>`).join('\n');
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing — Shree Solanki</title>
+<link rel="stylesheet" href="style.css">
+${sharedPageStyle()}
+</head>
+<body>
+<nav class="archive-nav">
+  <a href="index.html" class="archive-nav-back">← Home</a>
+  <span class="archive-nav-title">Writing</span>
+</nav>
+<header class="archive-header">
+  <div class="archive-header-inner">
+    <p class="archive-kicker">Essays & Opinions</p>
+    <h1 class="archive-title">All<br>Writing</h1>
+    <p class="archive-sub">Essays, opinions &amp; reflections</p>
+  </div>
+</header>
+<div class="archive-body">
+  <section id="writing" style="padding:0;border:none">
+    <div class="writing-grid">
+${cards}
+    </div>
+  </section>
+</div>
+<footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
+</body></html>`;
+}
+
+function buildBooksIndexSection() {
   const nums = ['01','02','03','04','05','06','07','08','09','10'];
-  return books.map((b, i) => {
+  const featured = books.filter(b => b.featured !== false).slice(0, 6);
+  return featured.map((b, i) => {
     const slug = b.slug || slugify(b.title);
     const readMore = (b.body && b.body.trim() && slug)
       ? `\n        <a href="reviews/${slug}.html" class="book-read-more">Full review &#8599;</a>` : '';
@@ -779,7 +828,8 @@ function buildBooksSection() {
 }
 
 function buildProjectsSection() {
-  return projects.map(p => {
+  const featured = projects.filter(p => p.featured !== false);
+  return featured.map(p => {
     const tags = (p.tags||'').split(',').map(t=>t.trim()).filter(Boolean)
       .map(t=>`        <span class="project-tag">${esc(t)}</span>`).join('\n');
     const href = p.link || '#';
@@ -795,84 +845,55 @@ ${tags}
   }).join('\n');
 }
 
-function buildWritingCard() {
-  const title = document.getElementById('f-title').value || 'Untitled';
-  const sub   = document.getElementById('f-subtitle').value || '';
-  const tag   = document.getElementById('f-tag').value;
-  const date  = document.getElementById('f-date').value;
-  const slug  = document.getElementById('f-slug').value || 'untitled';
-  const words = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
-  const mins  = Math.max(1, Math.round(words / 200));
-  return `    <a href="essays/${slug}.html" class="writing-card">
+function buildWritingCard(w) {
+  return `    <a href="essays/${w.slug}.html" class="writing-card">
       <span class="writing-arrow">&#8599;</span>
-      <p class="writing-tag">${tag}</p>
-      <h3 class="writing-title">${title}</h3>
-      <p class="writing-excerpt">${sub}</p>
-      <p class="writing-meta">${date} &nbsp;&middot;&nbsp; ${mins} min read</p>
+      <p class="writing-tag">${esc(w.tag)}</p>
+      <h3 class="writing-title">${esc(w.title)}</h3>
+      <p class="writing-excerpt">${esc(w.subtitle)}</p>
+      <p class="writing-meta">${esc(w.date)} &nbsp;&middot;&nbsp; ${w.mins} min read</p>
     </a>`;
 }
 
-// ─────────────────────────────────────────
-//  GITHUB API
-// ─────────────────────────────────────────
+// ── GITHUB API ──
 async function ghRequest(path, method, body) {
   const token = getToken();
-  if (!token) throw new Error('No GitHub token set. Click "GitHub ⚙" in the nav to add it.');
+  if (!token) throw new Error('No GitHub token. Click "GitHub ⚙" to add it.');
   const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/${path}`, {
     method,
-    headers: {
-      'Authorization': `token ${token}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
     body: body ? JSON.stringify(body) : undefined,
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || `GitHub error ${res.status}`);
   return data;
 }
-
 async function getFileSha(path) {
-  try {
-    const data = await ghRequest(`contents/${path}?ref=${getBranch()}`, 'GET');
-    return data.sha || null;
-  } catch (e) {
-    return null; // file doesn't exist yet
-  }
+  try { const d = await ghRequest(`contents/${path}?ref=${getBranch()}`, 'GET'); return d.sha || null; }
+  catch(e) { return null; }
 }
-
-async function pushFile(filePath, content, commitMsg) {
+async function pushFile(filePath, content, msg) {
   const sha = await getFileSha(filePath);
-  const encoded = btoa(unescape(encodeURIComponent(content)));
-  const payload = {
-    message: commitMsg,
-    content: encoded,
-    branch: getBranch(),
-  };
+  const payload = { message: msg, content: btoa(unescape(encodeURIComponent(content))), branch: getBranch() };
   if (sha) payload.sha = sha;
   await ghRequest(`contents/${filePath}`, 'PUT', payload);
 }
-
 async function fetchIndexHTML() {
   const data = await ghRequest(`contents/index.html?ref=${getBranch()}`, 'GET');
   return decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
 }
-
-function injectSection(html, startComment, endComment, newContent) {
-  const re = new RegExp(startComment + '[\\s\\S]*?' + endComment, 'g');
-  const replacement = startComment + '\n' + newContent + '\n  ' + endComment;
-  if (re.test(html)) return html.replace(re, replacement);
-  // fallback: couldn't find markers — return unchanged
-  console.warn('Could not find markers:', startComment);
-  return html;
+async function fetchWritingArchive() {
+  // Try to fetch existing writing.html to extract essay list
+  try {
+    const data = await ghRequest(`contents/writing.html?ref=${getBranch()}`, 'GET');
+    return decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+  } catch(e) { return null; }
 }
 
-// ─────────────────────────────────────────
-//  DEPLOY
-// ─────────────────────────────────────────
-const deployBtn  = document.getElementById('deploy-btn');
+// ── DEPLOY ──
+const deployBtn   = document.getElementById('deploy-btn');
 const deployModal = document.getElementById('deploy-modal');
-const deployLog  = document.getElementById('deploy-log');
+const deployLog   = document.getElementById('deploy-log');
 
 function log(msg, cls) {
   const span = document.createElement('span');
@@ -897,95 +918,122 @@ deployBtn.addEventListener('click', async () => {
 
   try {
     const tab = activeTab;
-    log(`▶ Starting deploy (tab: ${tab})`, 'log-head');
+    log('▶ Starting deploy (tab: ' + tab + ')', 'log-head');
 
     if (tab === 'writing') {
-      // 1. Push essay file
-      const slug = document.getElementById('f-slug').value || 'untitled';
-      const essayPath = `essays/${slug}.html`;
-      log(`  Fetching current index.html…`, 'log-info');
-      const indexHTML = await fetchIndexHTML();
-      log(`  ✓ Got index.html`, 'log-ok');
+      const slug    = document.getElementById('f-slug').value || 'untitled';
+      const title   = document.getElementById('f-title').value || 'Untitled';
+      const sub     = document.getElementById('f-subtitle').value || '';
+      const tag     = document.getElementById('f-tag').value;
+      const date    = document.getElementById('f-date').value;
+      const words   = document.getElementById('md-input').value.trim().split(/\s+/).filter(Boolean).length;
+      const mins    = Math.max(1, Math.round(words / 200));
+      const featured = document.getElementById('f-featured').checked;
 
-      // 2. Inject writing card into writing-grid
-      const card = buildWritingCard();
-      // Replace first placeholder card or append before closing div
-      let newIndex = indexHTML;
-      // Try to replace an existing card with the same slug first
-      const slugCardRe = new RegExp(`<a href="essays/${slug}\\.html"[^>]*class="writing-card">[\\s\\S]*?</a>`, 'g');
-      if (slugCardRe.test(newIndex)) {
-        newIndex = newIndex.replace(slugCardRe, card.trim());
-        log(`  Updated existing card for "${slug}"`, 'log-info');
-      } else {
-        // Insert before the first placeholder card (href="#")
-        const placeholderRe = /(<a href="#" class="writing-card">)/;
-        if (placeholderRe.test(newIndex)) {
-          newIndex = newIndex.replace(placeholderRe, card.trim() + '\n    $1');
-          log(`  Injected new card (replaced first placeholder)`, 'log-info');
+      // Push essay file
+      log('  Pushing essays/' + slug + '.html…', 'log-info');
+      await pushFile('essays/' + slug + '.html', buildEssayHTML(), 'Add essay: ' + title);
+      log('  ✓ essays/' + slug + '.html pushed', 'log-ok');
+
+      // Update index.html
+      log('  Fetching index.html…', 'log-info');
+      let indexHTML = await fetchIndexHTML();
+      log('  ✓ Got index.html', 'log-ok');
+
+      if (featured) {
+        const card = buildWritingCard({ slug, title, subtitle: sub, tag, date, mins });
+        const slugCardRe = new RegExp('<a href="essays/' + slug + '\\.html"[^>]*class="writing-card">[\\s\\S]*?<\\/a>');
+        if (slugCardRe.test(indexHTML)) {
+          indexHTML = indexHTML.replace(slugCardRe, card.trim());
+          log('  Updated existing homepage card', 'log-info');
         } else {
-          log(`  ⚠ Could not find placeholder card — card not injected into index.html`, 'log-err');
+          const placeholderRe = /(<a href="#" class="writing-card">)/;
+          if (placeholderRe.test(indexHTML)) {
+            indexHTML = indexHTML.replace(placeholderRe, card.trim() + '\n    $1');
+            log('  Injected new homepage card', 'log-info');
+          } else {
+            log('  ⚠ No placeholder card found — card not added to homepage', 'log-err');
+          }
         }
       }
 
-      log(`  Pushing essays/${slug}.html…`, 'log-info');
-      await pushFile(essayPath, buildEssayHTML(), `Add essay: ${document.getElementById('f-title').value || slug}`);
-      log(`  ✓ essays/${slug}.html pushed`, 'log-ok');
+      log('  Pushing index.html…', 'log-info');
+      await pushFile('index.html', indexHTML, 'Update writing card: ' + slug);
+      log('  ✓ index.html updated', 'log-ok');
 
-      log(`  Pushing index.html…`, 'log-info');
-      await pushFile('index.html', newIndex, `Update writing card: ${slug}`);
-      log(`  ✓ index.html updated`, 'log-ok');
+      // Update writing.html archive — parse existing cards and add/replace this one
+      log('  Updating writing.html archive…', 'log-info');
+      const existingWritingHTML = await fetchWritingArchive();
+      let allEssays = [];
+      if (existingWritingHTML) {
+        // Extract existing writing cards from the archive
+        const cardRe = /<a href="essays\/([^"]+)\.html" class="writing-card">[\s\S]*?<p class="writing-tag">([^<]*)<\/p>[\s\S]*?<h3 class="writing-title">([^<]*)<\/h3>[\s\S]*?<p class="writing-excerpt">([^<]*)<\/p>[\s\S]*?<p class="writing-meta">([^·]*?)&nbsp;·&nbsp;\s*(\d+) min read<\/p>[\s\S]*?<\/a>/g;
+        let m;
+        while ((m = cardRe.exec(existingWritingHTML)) !== null) {
+          if (m[1] !== slug) {
+            allEssays.push({ slug: m[1], tag: m[2], title: m[3], subtitle: m[4], date: m[5].trim(), mins: +m[6] });
+          }
+        }
+      }
+      // Add current essay at front
+      allEssays.unshift({ slug, title, subtitle: sub, tag, date, mins });
+      await pushFile('writing.html', buildWritingArchiveHTML(allEssays), 'Update writing archive');
+      log('  ✓ writing.html updated', 'log-ok');
 
     } else if (tab === 'books') {
-      log(`  Fetching current index.html…`, 'log-info');
-      const indexHTML = await fetchIndexHTML();
-      log(`  ✓ Got index.html`, 'log-ok');
+      log('  Fetching index.html…', 'log-info');
+      let indexHTML = await fetchIndexHTML();
+      log('  ✓ Got index.html', 'log-ok');
 
-      // Replace books-list contents
-      const booksContent = buildBooksSection();
-      const booksRe = new RegExp('(<div class="books-list">)[\\s\\S]*?(<\\/div>\\s*<\\/section>\\s*<!' + '-- PROJECTS --' + '>)');
-      const newIndex = indexHTML.replace(
-        booksRe,
-        '$1\n' + booksContent + '\n  </div>\n</section>\n\n<!' + '-- PROJECTS --' + '>'
-      );
+      // Replace books-list contents on index (featured only, max 6)
+      const booksRe = new RegExp('(<div class="books-list">)[\\s\\S]*?(<\\/div>[\\s\\S]*?<a href="books\\.html"[^>]*>[\\s\\S]*?<\\/a>[\\s\\S]*?<\\/section>[\\s\\S]*?<!' + '-- PROJECTS --' + '>)');
+      const booksContent = buildBooksIndexSection();
+      const seeAll = '\n  <a href="books.html" class="section-see-all">All book reviews &rarr;</a>\n</section>\n\n<!' + '-- PROJECTS --' + '>';
+      // Try replacing existing block
+      const booksRe2 = new RegExp('(<div class="books-list">)[\\s\\S]*?<!' + '-- PROJECTS --' + '>');
+      if (booksRe2.test(indexHTML)) {
+        indexHTML = indexHTML.replace(booksRe2, '$1\n' + booksContent + '\n  </div>' + seeAll);
+      }
+      log('  Pushing index.html…', 'log-info');
+      await pushFile('index.html', indexHTML, 'Update book reviews on index');
+      log('  ✓ index.html updated', 'log-ok');
 
-      log(`  Pushing index.html…`, 'log-info');
-      await pushFile('index.html', newIndex, 'Update book reviews');
-      log(`  ✓ index.html updated`, 'log-ok');
+      // Push books.html (full archive — all books)
+      log('  Pushing books.html…', 'log-info');
+      await pushFile('books.html', buildBooksArchiveHTML(), 'Update books archive');
+      log('  ✓ books.html pushed', 'log-ok');
 
-      // Push individual review pages
+      // Push individual full review pages
       for (const b of books) {
         if (b.body && b.body.trim()) {
           const slug = b.slug || slugify(b.title);
           if (!slug) continue;
-          log(`  Pushing reviews/${slug}.html…`, 'log-info');
-          await pushFile(`reviews/${slug}.html`, buildReviewHTML(b), `Add book review: ${b.title}`);
-          log(`  ✓ reviews/${slug}.html pushed`, 'log-ok');
+          log('  Pushing reviews/' + slug + '.html…', 'log-info');
+          await pushFile('reviews/' + slug + '.html', buildReviewHTML(b), 'Add review: ' + b.title);
+          log('  ✓ reviews/' + slug + '.html pushed', 'log-ok');
         }
       }
 
     } else if (tab === 'projects') {
-      log(`  Fetching current index.html…`, 'log-info');
-      const indexHTML = await fetchIndexHTML();
-      log(`  ✓ Got index.html`, 'log-ok');
+      log('  Fetching index.html…', 'log-info');
+      let indexHTML = await fetchIndexHTML();
+      log('  ✓ Got index.html', 'log-ok');
 
-      // Replace projects-grid contents
+      const projRe = new RegExp('(<div class="projects-grid">)[\\s\\S]*?<!' + '-- CONTACT --' + '>');
       const projContent = buildProjectsSection();
-      const projRe = new RegExp('(<div class="projects-grid">)[\\s\\S]*?(<\\/div>\\s*<\\/section>\\s*<!' + '-- CONTACT --' + '>)');
-      const newIndex = indexHTML.replace(
-        projRe,
-        '$1\n' + projContent + '\n  </div>\n</section>\n\n<!' + '-- CONTACT --' + '>'
-      );
-
-      log(`  Pushing index.html…`, 'log-info');
-      await pushFile('index.html', newIndex, 'Update projects');
-      log(`  ✓ index.html updated`, 'log-ok');
+      if (projRe.test(indexHTML)) {
+        indexHTML = indexHTML.replace(projRe, '$1\n' + projContent + '\n  </div>\n</section>\n\n<!' + '-- CONTACT --' + '>');
+      }
+      log('  Pushing index.html…', 'log-info');
+      await pushFile('index.html', indexHTML, 'Update projects');
+      log('  ✓ index.html updated', 'log-ok');
     }
 
-    log(`\n✓ Done! Vercel will deploy in ~30 seconds.`, 'log-ok');
+    log('\n✓ Done! Vercel will deploy in ~30 seconds.', 'log-ok');
 
-  } catch (err) {
-    log(`\n✗ Error: ${err.message}`, 'log-err');
-    log(`  Check your GitHub token has "repo" scope.`, 'log-info');
+  } catch(err) {
+    log('\n✗ Error: ' + err.message, 'log-err');
+    log('  Check your GitHub token has "repo" scope.', 'log-info');
   }
 
   deployBtn.disabled = false;
@@ -995,24 +1043,13 @@ deployBtn.addEventListener('click', async () => {
 
 document.getElementById('deploy-close-btn').addEventListener('click', () => deployModal.classList.remove('open'));
 document.getElementById('deploy-done-btn').addEventListener('click', () => deployModal.classList.remove('open'));
-document.getElementById('deploy-modal').addEventListener('click', e => {
-  if (e.target === deployModal) deployModal.classList.remove('open');
-});
+document.getElementById('deploy-modal').addEventListener('click', e => { if (e.target === deployModal) deployModal.classList.remove('open'); });
 
-// ─────────────────────────────────────────
-//  TOAST
-// ─────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
-
-// ─────────────────────────────────────────
-//  INIT
-// ─────────────────────────────────────────
-// (loadFromStorage is called after unlock)
 </script>
 </body>
 </html>
