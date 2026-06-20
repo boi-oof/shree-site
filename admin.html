@@ -724,25 +724,30 @@ a{color:inherit;}
 // Inject books data into books.html template
 function buildBooksArchiveHTML(booksHtmlTemplate) {
   const data = books.map(b => ({
-    title:     b.title || '',
-    author:    b.author || '',
-    rating:    b.rating || 0,
-    review:    b.review || '',
-    slug:      b.slug || slugify(b.title),
-    genre:     b.genre || '',
-    hasReview: !!(b.body && b.body.trim() && (b.slug || slugify(b.title))),
+    title: b.title||'', author: b.author||'', rating: b.rating||0,
+    review: b.review||'', slug: b.slug||slugify(b.title),
+    genre: b.genre||'', hasReview: !!(b.body&&b.body.trim()&&(b.slug||slugify(b.title))),
   }));
   const dataScript = '<script>window.BOOKS = ' + JSON.stringify(data) + ';<\/script>';
-  // Inject before closing </body>
-  const cleanB = booksHtmlTemplate.replace(/<script>window\.BOOKS[\s\S]*?<\/script>\n?/g, '');
-  return cleanB.replace('</body>', dataScript + '\n</body>');
+  const markerRe = new RegExp('<!' + '-- BOOKS_DATA -->[\\s\\S]*?<!' + '-- END_BOOKS_DATA -->');
+  if (markerRe.test(booksHtmlTemplate)) {
+    return booksHtmlTemplate.replace(markerRe, '<!-- BOOKS_DATA -->\n' + dataScript + '\n<!-- END_BOOKS_DATA -->');
+  }
+  const stripped = booksHtmlTemplate.replace(/<script>window\.BOOKS[\s\S]*?<\/script>\n?/g, '');
+  return stripped.replace('<script>\nconst books', dataScript + '\n<script>\nconst books');
 }
 
 // Inject essays data into writing.html template
 function buildWritingArchiveHTML(allEssays, writingHtmlTemplate) {
   const dataScript = '<script>window.ESSAYS = ' + JSON.stringify(allEssays) + ';<\/script>';
-  const cleanW = writingHtmlTemplate.replace(/<script>window\.ESSAYS[\s\S]*?<\/script>\n?/g, '');
-  return cleanW.replace('</body>', dataScript + '\n</body>');
+  // Replace between markers — this is the only reliable way
+  const markerRe = new RegExp('<!' + '-- ESSAYS_DATA -->[\\s\\S]*?<!' + '-- END_ESSAYS_DATA -->');
+  if (markerRe.test(writingHtmlTemplate)) {
+    return writingHtmlTemplate.replace(markerRe, '<!-- ESSAYS_DATA -->\n' + dataScript + '\n<!-- END_ESSAYS_DATA -->');
+  }
+  // Fallback: strip any existing window.ESSAYS and inject before render script
+  const stripped = writingHtmlTemplate.replace(/<script>window\.ESSAYS[\s\S]*?<\/script>\n?/g, '');
+  return stripped.replace('<script>\nconst essays', dataScript + '\n<script>\nconst essays');
 }
 
 function buildBooksIndexSection() {
