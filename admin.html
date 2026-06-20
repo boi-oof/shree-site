@@ -221,7 +221,7 @@
           <div class="meta-field full"><label>Subtitle / one-line description</label><input type="text" id="f-subtitle" placeholder="A brief framing of the piece"></div>
           <div class="meta-field">
             <label>Tag</label>
-            <select id="f-tag"><option>Essay</option><option>Opinion</option><option>Analysis</option><option>Reflection</option><option>Review</option></select>
+            <select id="f-tag"><option>Essay</option><option>Opinion</option><option>Analysis</option><option>Reflection</option><option>Review</option><option>Tech</option><option>Management</option></select>
           </div>
           <div class="meta-field"><label>Date</label><input type="text" id="f-date" placeholder="June 2025"></div>
           <div class="meta-field full"><label>Slug (no spaces, no .html)</label><input type="text" id="f-slug" placeholder="why-we-decide-the-way-we-do"></div>
@@ -383,7 +383,6 @@ function parseMd(md) {
     .replace(/^&gt; (.+)$/gm,'<blockquote><p>$1</p></blockquote>')
     .replace(/^---$/gm,'<hr>')
     .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(?!\*)(.+?)\*/g,'<em>$1</em>')
     .replace(/_(.+?)_/g,'<em>$1</em>')
     .replace(/^!\[(.+?)\]\((.+?)\)$/gm,(_,a,s)=>`<figure><img src="${s}" alt="${a}"><figcaption>${a}</figcaption></figure>`)
     .replace(/!\[(.+?)\]\((.+?)\)/g,'<img src="$2" alt="$1">')
