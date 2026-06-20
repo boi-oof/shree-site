@@ -1,44 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Good Life Is Deeply Inconvenient — Shree Solanki</title>
 <link rel="stylesheet" href="../style.css">
 <style>
-.essay-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 3rem;height:52px;background:var(--paper);border-bottom:1px solid var(--faint);}
-.essay-nav-back{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .2s;}
-.essay-nav-back:hover{color:var(--red);}
-.essay-nav-title{font-family:var(--serif);font-style:italic;font-size:.95rem;font-weight:300;color:var(--muted);max-width:40ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.essay-header{padding-top:52px;text-align:center;max-width:720px;margin:0 auto;padding-left:2rem;padding-right:2rem;}
-.essay-header-inner{padding:6rem 0 5rem;border-bottom:1px solid var(--faint);}
-.essay-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:1.5rem;}
-.essay-title{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;line-height:1.05;letter-spacing:-.015em;margin-bottom:1.5rem;}
-.essay-subtitle{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.2rem;color:var(--muted);line-height:1.5;max-width:48ch;margin:0 auto 2.5rem;}
-.essay-meta{display:flex;justify-content:center;align-items:center;gap:1.5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
-.essay-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--faint);}
+a{color:inherit;}
+.essay-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:48px;background:var(--ink);border-bottom:1px solid rgba(247,243,236,0.1);}
+.essay-nav-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,243,236,0.5);text-decoration:none;transition:color .2s;}
+.essay-nav-back:hover{color:var(--paper);}
+.essay-nav-title{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,243,236,0.3);max-width:40ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.essay-header{padding-top:48px;background:var(--ink);color:var(--paper);}
+.essay-header-inner{max-width:720px;margin:0 auto;padding:5rem 2rem 4rem;border-bottom:1px solid rgba(247,243,236,0.1);}
+.essay-tag{font-family:var(--sans);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:1.25rem;}
+.essay-title{font-family:var(--disp);font-weight:900;font-size:clamp(2rem,5vw,3.8rem);line-height:1;letter-spacing:-.01em;margin-bottom:.75rem;}
+.essay-subtitle{font-family:var(--serif);font-style:italic;font-weight:300;font-size:1.15rem;color:rgba(247,243,236,0.55);margin-bottom:2rem;}
+.essay-meta{font-family:var(--sans);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(247,243,236,0.35);}
 .essay-body{max-width:640px;margin:0 auto;padding:5rem 2rem 7rem;}
-.essay-body p{font-family:var(--serif);font-size:1.125rem;font-weight:300;line-height:2;color:var(--ink);margin-bottom:1.75rem;}
-.essay-body h2{font-family:var(--serif);font-size:1.6rem;font-weight:700;line-height:1.2;margin:3.5rem 0 1.25rem;}
-.essay-body h3{font-family:var(--serif);font-size:1.2rem;font-weight:600;line-height:1.3;margin:2.5rem 0 1rem;}
+.essay-body p{font-family:var(--serif);font-size:1.1rem;font-weight:300;line-height:2;color:var(--ink);margin-bottom:1.75rem;}
+.essay-body h2{font-family:var(--disp);font-size:1.6rem;font-weight:700;line-height:1.2;margin:3.5rem 0 1.25rem;}
+.essay-body h3{font-family:var(--disp);font-size:1.2rem;font-weight:700;line-height:1.3;margin:2.5rem 0 1rem;}
 .essay-body blockquote{margin:3rem 0;padding:0 0 0 2rem;border-left:3px solid var(--red);}
-.essay-body blockquote p{font-style:italic;font-size:1.3rem;line-height:1.6;margin:0;}
-.essay-body img{width:100%;height:auto;display:block;margin:2.5rem 0;}
-.essay-body figure{margin:3rem 0;}
-.essay-body figure img{margin:0;}
-.essay-body figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.75rem;text-align:center;}
-.essay-body hr{border:none;text-align:center;margin:3.5rem auto;color:var(--faint);font-size:1.5rem;letter-spacing:.5em;}
+.essay-body blockquote p{font-style:italic;font-size:1.2rem;line-height:1.6;margin:0;}
+.essay-body hr{border:none;text-align:center;margin:3.5rem auto;font-size:1.5rem;letter-spacing:.5em;}
 .essay-body hr::after{content:'· · ·';}
-.essay-end{display:flex;align-items:center;justify-content:center;gap:1rem;margin:4rem 0 3rem;}
 .essay-footer-nav{max-width:640px;margin:0 auto 4rem;padding:3rem 2rem 0;border-top:1px solid var(--faint);display:flex;justify-content:space-between;align-items:center;}
-.efn-back{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.efn-back{font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
 .efn-back:hover{color:var(--red);}
 .efn-label{font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--muted);}
 </style>
 </head>
 <body>
 <nav class="essay-nav">
-  <a href="../index.html#writing" class="essay-nav-back">&#8592; Writing</a>
+  <a href="../writing.html" class="essay-nav-back">← All Writing</a>
   <span class="essay-nav-title">A Good Life Is Deeply Inconvenient</span>
 </nav>
 <header class="essay-header">
@@ -46,19 +40,14 @@
     <p class="essay-tag">Reflection</p>
     <h1 class="essay-title">A Good Life Is Deeply Inconvenient</h1>
     <p class="essay-subtitle">My Father Knew This. I Spent Years Proving Him Wrong. He Was Right.</p>
-    <div class="essay-meta">
-      <span>Shree Solanki</span><span class="essay-meta-dot"></span>
-      <span>12 June 2024</span><span class="essay-meta-dot"></span>
-      <span>8 min read</span>
-    </div>
+    <p class="essay-meta">Shree Solanki &nbsp;·&nbsp; 12 June 2024 &nbsp;·&nbsp; 8 min read</p>
   </div>
 </header>
-<article class="essay-body">
-<p>There is a certain kind of person who will tell you, with great conviction, that they have optimized their life. They have removed friction. They have automated the annoying parts. They have, through a combination of apps and habits and a firm policy of never doing anything the hard way, constructed an existence that runs smoothly, efficiently, and (though they would not use this word) emptily.</p>
+<article class="essay-body"><p>There is a certain kind of person who will tell you, with great conviction, that they have optimized their life. They have removed friction. They have automated the annoying parts. They have, through a combination of apps and habits and a firm policy of never doing anything the hard way, constructed an existence that runs smoothly, efficiently, and (though they would not use this word) emptily.</p>
 <p>I was that person. And the years I spent being that person were, not coincidentally, the years I made the least progress, felt the least alive, and grew, in every meaningful sense, the least.</p>
 <p>It took me an embarrassingly long time to understand something that my father, a man who seemed to treat inconvenience as a personal hobby, had been demonstrating my entire life without ever explaining it. A good life is not a comfortable one. It is, in fact, reliably, structurally, almost defiantly uncomfortable. And the discomfort is <strong>not </strong> the price you pay for the good parts. <strong>The discomfort is the good parts.</strong></p>
 <h2>The Friction Removal Project</h2>
-<p>At some point convenience became the supreme value of my life. Not happiness. Not meaning. Not love or purpose or the kind of deep satisfaction that comes from doing something genuinely hard. Convenience. The minimization of effort. The shortest path between wanting something and having it.</p>
+<p>At some point — I couldn't tell you exactly when — convenience became the supreme value of my life. Not happiness. Not meaning. Not love or purpose or the kind of deep satisfaction that comes from doing something genuinely hard. Convenience. The minimization of effort. The shortest path between wanting something and having it.</p>
 <p>We built entire industries around this. Not just delivery apps and one-click purchases, but a whole philosophy of self-management organized around the question: how do I make this easier? How do I remove the step I don't want to do? How do I get the outcome without the process?</p>
 <p>And the answer, it turned out (to my utter disappointment), was: you can't. Not really. I mean you certainly can but not in any way that makes any sense in the long term.</p>
 <p>Because the process is not the obstacle to the outcome. The process is the point. The effort is not what you pay to get the thing. Nope. Effort is the thing, transformed into capability, into understanding, into the kind of person who can do the thing next time without needing to be dragged to it. Strip the effort out and you don't get a better outcome. You get the same outcome, minus yourself.</p>
@@ -84,18 +73,10 @@
 <p>My father didn't teach me this by lecturing me. He taught me by example, by the specific, observable fact of him moving toward difficulty rather than away from it, year after year, with what I now recognise as something very close to joy.</p>
 <p>I thought he was wrong for a long time. The evidence suggested otherwise and I ignored it. That is also a lesson, I suppose - about the inconvenience of being forced to admit that the person who seemed most out of step with the modern world was, in fact, most in step with the only things that actually matter. He was right. It's deeply annoying. I'm grateful for it.</p>
 <h3>A good life is not the one with the fewest problems. It is the one where you became, problem by problem, someone worth being.</h3>
-
-  <div class="essay-end orn">
-    <span class="orn-rule"></span><span class="orn-diamond"></span><span class="orn-rule"></span>
-  </div>
 </article>
 <div class="essay-footer-nav">
-  <a href="../index.html#writing" class="efn-back">&#8592; All writing</a>
+  <a href="../writing.html" class="efn-back">← All writing</a>
   <span class="efn-label">Shree Solanki</span>
 </div>
-<footer>
-  <div class="footer-orn"><span class="footer-rule"></span><span class="footer-diamond"></span><span class="footer-rule"></span></div>
-  <p>&copy; 2025 Shree Solanki</p>
-</footer>
-</body>
-</html>
+<footer><p>&copy; 2025 Shree Solanki</p><p>VGSOM &nbsp;·&nbsp; IIT Kharagpur</p></footer>
+</body></html>
