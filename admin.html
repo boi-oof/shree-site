@@ -383,6 +383,7 @@ function parseMd(md) {
     .replace(/^&gt; (.+)$/gm,'<blockquote><p>$1</p></blockquote>')
     .replace(/^---$/gm,'<hr>')
     .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(?!\*)(.+?)\*/g,'<em>$1</em>')
     .replace(/_(.+?)_/g,'<em>$1</em>')
     .replace(/^!\[(.+?)\]\((.+?)\)$/gm,(_,a,s)=>`<figure><img src="${s}" alt="${a}"><figcaption>${a}</figcaption></figure>`)
     .replace(/!\[(.+?)\]\((.+?)\)/g,'<img src="$2" alt="$1">')
@@ -734,14 +735,13 @@ function buildBooksArchiveHTML(booksHtmlTemplate) {
   }));
   const dataScript = '<script>window.BOOKS = ' + JSON.stringify(data) + ';<\/script>';
   // Inject before closing </body>
-  // Inject data BEFORE the render script, not after
-  return booksHtmlTemplate.replace('<script>\n// window.BOOKS', dataScript + '\n<script>\n// window.BOOKS');
+  return booksHtmlTemplate.replace('</body>', dataScript + '\n</body>');
 }
 
 // Inject essays data into writing.html template
 function buildWritingArchiveHTML(allEssays, writingHtmlTemplate) {
   const dataScript = '<script>window.ESSAYS = ' + JSON.stringify(allEssays) + ';<\/script>';
-  return writingHtmlTemplate.replace('<script>\n// Essays are injected', dataScript + '\n<script>\n// Essays are injected');
+  return writingHtmlTemplate.replace('</body>', dataScript + '\n</body>');
 }
 
 function buildBooksIndexSection() {
